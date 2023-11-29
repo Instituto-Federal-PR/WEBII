@@ -7,6 +7,12 @@ showHelp() {
 	echo "Parâmetro (funcionalidade):"
 	echo "   [help ] - Apresentar Help (bash load.sh help)"
 	echo "   [run  ] - Executar todos os containers (bash load.sh run)"
+	echo "          => [php    ] - Ambiente PHP puro"
+	echo "          	+ [Terminal/Exec] - service apache2 restart"
+	echo "          => [laravel] - Ambiente Framework Laravel"
+	echo "          	+ [Terminal/Exec] - service apache2 restart"
+	echo "          	+ [Terminal/Exec] - cd /var/www/html/start-project"
+	echo "          	+ [Terminal/Exec] - php artisan serve --host 0.0.0.0"
 	echo "   [stop ] - Parar a execução de todos os containers (bash load.sh stop)"
 	echo "   [list ] - Listar todos os containers em execução (bash load.sh stop)"
 	echo "   [ip ci] - Obter o endereço IP do container com ID=ci (bash run.sh ip container_id)"
@@ -25,8 +31,15 @@ runAll() {
 	docker run --name phpmyadmin -d --link mysql:db -p 8090:80 phpmyadmin
 	echo "   phpMyAdmin Container Loaded! [USER: root / PASSWORD: root]"
 	echo "-----------------------------"
-	echo "3) Starting Apache2 + PHP 8.2 Container [PORT: 8080]..."
-	docker run -it --rm --name server -p 8080:8000 -v ${PWD}:/var/www/html/ laravel bash
+	if [[ $1 -eq 0 ]]
+	then
+		echo "3) (PHP) Starting Apache2 + PHP 8.2 Container [PORT: 8080]..."
+		docker run -dit --name server -p 8080:80 -v ${PWD}:/var/www/html/ laravel
+	else
+		echo "3) (LARAVEL) Starting Apache2 + PHP 8.2 Container [PORT: 8080]..."
+		docker run -it --rm --name server -p 8080:8000 -v ${PWD}:/var/www/html/ laravel bash
+	fi
+	
 	echo "   Apache2 + PHP 8.2 Container Loaded!"
 	echo "-----------------------------"
 	echo "[OK] All Containers have been loaded..."	
@@ -48,7 +61,21 @@ then
 
 elif [ $1 = "run" ]
 then
-	runAll
+	if [ $# -lt 2 ]
+	then
+		showHelp	
+		
+	elif [ $2 = "php" ]
+	then
+		runAll 0
+		
+	elif [ $2 = "laravel" ]
+	then
+		runAll 1
+		
+	else 
+		showHelp
+	fi
 	
 elif [ $1 = "stop" ]
 then
