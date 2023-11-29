@@ -24,20 +24,20 @@ runAll() {
 	echo "LOADING ALL DOCKER CONTAINERS"
 	echo "-----------------------------"
 	echo "1) Starting MySQL Container..."
-	docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+	docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -d gileduardo/mysql:v1
 	echo "   MySQL Container Loaded! $id"
 	echo "-----------------------------"
 	echo "2) Starting PhpMyAdmin Container [PORT: 8090]..."
-	docker run --name phpmyadmin -d --link mysql:db -p 8090:80 phpmyadmin
+	docker run --name phpmyadmin -d --link mysql:db -p 8090:80 gileduardo/phpmyadmin:v1
 	echo "   phpMyAdmin Container Loaded! [USER: root / PASSWORD: root]"
 	echo "-----------------------------"
 	if [[ $1 -eq 0 ]]
 	then
 		echo "3) (PHP) Starting Apache2 + PHP 8.2 Container [PORT: 8080]..."
-		docker run -dit --name server -p 8080:80 -v ${PWD}:/var/www/html/ laravel
+		docker run -it --name server -p 8080:80 -v ${PWD}:/var/www/html/ gileduardo/apache:v1 bash
 	else
 		echo "3) (LARAVEL) Starting Apache2 + PHP 8.2 Container [PORT: 8080]..."
-		docker run -it --rm --name server -p 8080:8000 -v ${PWD}:/var/www/html/ laravel bash
+		docker run -it --rm --name server -p 8080:8000 -v ${PWD}:/var/www/html/ gileduardo/apache:v1 bash
 	fi
 	
 	echo "   Apache2 + PHP 8.2 Container Loaded!"
