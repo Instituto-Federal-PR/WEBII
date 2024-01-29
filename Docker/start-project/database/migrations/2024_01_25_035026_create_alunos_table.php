@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('turma_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('turma_id')->references('id')->on('turmas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

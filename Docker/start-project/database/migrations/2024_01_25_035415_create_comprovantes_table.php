@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->foreign('aluno_id')->references('id')->on('alunos');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

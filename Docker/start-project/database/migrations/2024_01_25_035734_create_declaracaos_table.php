@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('comprovante_id');
             $table->foreign('aluno_id')->references('id')->on('alunos');
             $table->foreign('comprovante_id')->references('id')->on('comprovantes');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

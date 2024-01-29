@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Repositories\EixoRepository;
+use App\Models\Eixo;
+
+class EixoController extends Controller {
+    
+    protected $repository;
+   
+    public function __construct(){
+       $this->repository = new EixoRepository();
+    }
+
+    public function index() {
+        $data = $this->repository->selectAll();
+        return $data;
+    }
+
+    public function create() {
+        // retorna, para o usuário, a view de criação de Eixo
+    }
+
+    public function store(Request $request) {
+        $objEixo = new Eixo();
+        $objEixo->nome = mb_strtoupper($request->nome, 'UTF-8');
+        $this->repository->save($objEixo);
+        return "<h1>Store - OK!</h1>";
+    }
+
+    public function show(string $id) {
+        $data = $this->repository->findById($id);
+        return $data;
+    }   
+
+    public function edit(string $id) {
+        // $data = $this->repository->findById($id);
+        // retorna, para o usuário, a view de edição de Eixo - passa objeto $data
+    }
+
+    public function update(Request $request, string $id) {
+        $objEixo = $this->repository->findById($id);
+        if(isset($objEixo)) {
+            $objEixo->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $this->repository->save($objEixo);
+            return "<h1>Upate - OK!</h1>";
+        }
+
+        return "<h1>Upate - Not found Eixo!</h1>";
+    }
+
+    public function destroy(string $id) {
+        if($this->repository->delete($id))  {
+            return "<h1>Delete - OK!</h1>";
+        }
+        
+        return "<h1>Delete - Not found Eixo!</h1>";
+    }
+}

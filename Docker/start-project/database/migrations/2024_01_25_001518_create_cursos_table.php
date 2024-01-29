@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('eixo_id');
             $table->foreign('nivel_id')->references('id')->on('niveis');
             $table->foreign('eixo_id')->references('id')->on('eixos');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

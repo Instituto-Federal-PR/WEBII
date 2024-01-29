@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('maximo_horas');
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
