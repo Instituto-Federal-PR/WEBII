@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
+Route::resource('/nivel', 'App\Http\Controllers\NivelController');
 
 
 
