@@ -16,9 +16,21 @@ class Repository {
     public function selectAll() {
         return $this->model->all();
     }
+
+    public function selectAllWith(array $orm) {
+        return $this->model::with($orm)->get();
+    }
    
     public function findById(int $id) {
         return $this->model->find($id);
+    }
+                    
+    public function findByCompositeId($keys, $ids) {
+        return $this->model::where($this->createRule($keys, $ids))->first();
+    }
+
+    public function findByCompositeIdWith($keys, $ids, $orm) {
+        return $this->model::with($orm)->where($this->createRule($keys, $ids))->first();
     }
 
     public function findDeletedById(int $id) {
@@ -57,6 +69,18 @@ class Repository {
         return -1;
     }
 
+    public function updateCompositeId($keys, $ids, $table, $values) {
+
+        try {        
+            DB::table($table)
+                ->where($this->createRule($keys, $ids))
+                ->update($values);
+            return true;
+        } catch(Exception $e) { dd($e); }
+    
+        return false;
+    }
+
     public function delete($id) {
 
         $obj = $this->findById($id);
@@ -66,6 +90,16 @@ class Repository {
                 return true;
             } catch(Exception $e) { dd($e); }
         }
+        return false;
+    }
+
+    public function deleteCompositeId($keys, $ids, $table) {
+
+        try {        
+            DB::table($table)->where($this->createRule($keys, $ids))->delete();
+            return true;
+        } catch(Exception $e) { dd($e); }
+    
         return false;
     }
 
@@ -79,5 +113,13 @@ class Repository {
             } catch(Exception $e) { dd($e); }
         }
         return false;
+    }
+
+    public function createRule($keys, $ids) {
+        $arr = array();
+        for($pos=0; $pos<count($ids); $pos++) { 
+            $arr[$pos] = [ $keys[$pos], (integer) $ids[$pos] ];
+        }
+        return $arr;
     }
 }
