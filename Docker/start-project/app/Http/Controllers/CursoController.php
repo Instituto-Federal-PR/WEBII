@@ -78,6 +78,6 @@ class CursoController extends Controller {
             return "<h1>Delete - OK!</h1>";
         }
         
-        return "<h1>Delete - Not found Eixo!</h1>";
+        return "<h1>Delete - Not found Curso!</h1>";
     }
 }

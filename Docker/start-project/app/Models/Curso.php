@@ -18,4 +18,12 @@ class Curso extends Model {
     public function nivel() {
         return $this->belongsTo('\App\Models\Nivel'); 
     }
+
+    public function turma() {
+        return $this->hasManyTo('\App\Models\Turma'); 
+    }
+
+    public function categoria() {
+        return $this->hasManyTo('\App\Models\Categoria'); 
+    }
 }

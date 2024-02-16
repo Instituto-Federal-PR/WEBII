@@ -18,10 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/eixo', 'App\Http\Controllers\EixoController');
-Route::resource('/nivel', 'App\Http\Controllers\NivelController');
+Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
+Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
 Route::resource('/curso', 'App\Http\Controllers\CursoController');
+Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/permission', 'App\Http\Controllers\PermissionController');
+Route::resource('/nivel', 'App\Http\Controllers\NivelController');
+Route::resource('/turma', 'App\Http\Controllers\TurmaController');
 
 
 

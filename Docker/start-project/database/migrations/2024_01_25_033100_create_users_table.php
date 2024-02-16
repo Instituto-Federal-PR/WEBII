@@ -20,6 +20,8 @@ return new class extends Migration
             $table->boolean('status');
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->unsignedBigInteger('curso_id');
+            $table->foreign('curso_id')->references('id')->on('cursos');
             $table->rememberToken();
             $table->timestamps();
         });
