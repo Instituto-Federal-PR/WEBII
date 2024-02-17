@@ -14,4 +14,8 @@ class Categoria extends Model
     public function curso() {
         return $this->belongsTo('\App\Models\Curso');
     }
+
+    public function comprovante() {
+        return $this->hasManyTo('App\Models\Comprovante');
+    }
 }

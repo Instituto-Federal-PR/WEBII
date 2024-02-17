@@ -47,7 +47,7 @@ class CategoriaController extends Controller {
 
     public function edit(string $id) {
         // $data = $this->repository->findById($id);
-        // retorna, para o usuário, a view de edição de Turma - passa objeto $data
+        // retorna, para o usuário, a view de edição de Categoria - passa objeto $data
     }
 
     public function update(Request $request, string $id) {

@@ -16,7 +16,19 @@ class Aluno extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function curso() {
+        return $this->belongsTo('App\Models\Curso');
+    }
+
     public function turma() {
         return $this->belongsTo('App\Models\Turma');
+    }
+
+    public function comprovante() {
+        return $this->hasMany('App\Models\Comprovante');
+    }
+
+    public function declaracao() {
+        return $this->hasMany('App\Models\Declaracao');
     }
 }
