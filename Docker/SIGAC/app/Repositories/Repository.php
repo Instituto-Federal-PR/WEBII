@@ -46,7 +46,7 @@ class Repository {
     }
 
     public function findFirstByColumn($column, $value) {
-        return $this->model->where($column, $value)->get()->first();
+        return $this->model->where($column, $value)->first();
     }
 
     public function save($obj) {

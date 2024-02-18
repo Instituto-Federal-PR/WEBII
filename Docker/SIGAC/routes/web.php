@@ -15,8 +15,12 @@ use \Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
 
 Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
 Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
