@@ -23,10 +23,13 @@ class AlunoController extends Controller {
     }
 
     public function create() {
-        // retorna, para o usuário, a view de criação de Aluno
+        $cursos = (new CursoRepository())->selectAll();
+        return view('aluno.create', compact(['cursos']));
     }
 
     public function store(Request $request) {
+
+        $this->validateRows($request);
 
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
@@ -83,5 +86,25 @@ class AlunoController extends Controller {
         }
         
         return "<h1>Delete - Not found Aluno!</h1>";
+    }
+
+    public function validateRows(Request $request) {
+        
+        $regras = [
+            'nome' => 'required|min:10|max:200',
+            'cpf' => 'required|min:11|max:11',
+            'email' => 'required|min:8|max:200|unique:alunos',
+            'senha' => 'required|min:6|max:20',
+            'confirmacao' => 'required|same:senha'
+        ];
+        $msgs = [
+            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+            "unique" => "Já existe um endereço cadastrado com esse [:attribute]!",
+            "same" => "O campo [:attribute] deve ter o mesmo conteúdo do campo anterior!"
+        ];
+        
+        $request->validate($regras, $msgs);
     }
 }
