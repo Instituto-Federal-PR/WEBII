@@ -21,7 +21,7 @@ class Repository {
         return $this->model::with($orm)->get();
     }
    
-    public function findById(int $id) {
+    public function findById($id) {
         return $this->model->find($id);
     }
                     
@@ -33,11 +33,11 @@ class Repository {
         return $this->model::with($orm)->where($this->createRule($keys, $ids))->first();
     }
 
-    public function findDeletedById(int $id) {
+    public function findDeletedById($id) {
         return $this->model->onlyTrashed()->find($id);
     }
 
-    public function findFirstById(int $id) {
+    public function findFirstById($id) {
         return $this->model->find($id)->first();
     }
 

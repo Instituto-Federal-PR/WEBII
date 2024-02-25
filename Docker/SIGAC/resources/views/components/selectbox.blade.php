@@ -5,12 +5,15 @@
                 <span class="input-group-text bg-{{$color}} text-white">{{$label}}</span>
                 <select 
                     name="{{$name}}"
+                    id="{{$name}}"
                     class="form-select"
                     class="form-control @if($errors->has($name)) is-invalid @endif" 
+                    @if($disabled == "true") disabled @endif 
                 >
+                    <option selected="true" disabled></option>
                     @foreach ($data as $item)
                         <option value="{{$item->id}}" @if($item->id == old($name)) selected="true" @endif>
-                            {{ $item->nome }}
+                            {{ $item->$field }}
                         </option>
                     @endforeach
                 </select>

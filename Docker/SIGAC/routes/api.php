@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// Turmas por Curso
+Route::get('turma/{curso_id}', 'App\Http\Controllers\TurmaController@getTurmasByCurso');

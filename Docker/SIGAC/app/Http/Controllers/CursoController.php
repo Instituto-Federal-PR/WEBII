@@ -18,11 +18,13 @@ class CursoController extends Controller {
 
     public function index() {
         $data = $this->repository->selectAllWith(['eixo', 'nivel']);
-        return $data;
+        return view('curso.index', compact('data'));
+        // return $data;
     }
 
     public function create() {
-        // retorna, para o usuário, a view de criação de Curso
+        $eixos = (new EixoRepository())->selectAll();
+        return view('curso.create', compact('eixos'));
     }
 
     public function store(Request $request) {

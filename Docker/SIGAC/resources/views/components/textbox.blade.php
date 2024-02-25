@@ -6,6 +6,7 @@
                     type="{{$type}}"
                     class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}"
                     name="{{ $name }}"
+                    id="{{ $name }}"
                     placeholder="Número"
                     value="{{old($name)}}"
                 />

@@ -24,12 +24,13 @@ class AlunoController extends Controller {
 
     public function create() {
         $cursos = (new CursoRepository())->selectAll();
-        return view('aluno.create', compact(['cursos']));
+        $turmas = (new TurmaRepository())->selectAll();
+        return view('aluno.create', compact(['cursos', 'turmas']));
     }
 
     public function store(Request $request) {
 
-        $this->validateRows($request);
+        // $this->validateRows($request);
 
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
@@ -92,9 +93,11 @@ class AlunoController extends Controller {
         
         $regras = [
             'nome' => 'required|min:10|max:200',
-            'cpf' => 'required|min:11|max:11',
+            'cpf' => 'required|min:11|max:11|unique:alunos',
             'email' => 'required|min:8|max:200|unique:alunos',
             'senha' => 'required|min:6|max:20',
+            'curso' => 'required',
+            'turma' => 'required',
             'confirmacao' => 'required|same:senha'
         ];
         $msgs = [

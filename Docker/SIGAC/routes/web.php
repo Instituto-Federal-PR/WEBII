@@ -40,7 +40,6 @@ Route::resource('/usuario', 'App\Http\Controllers\UserController');
 
 
 
-
 /*
     ======================================================================
     ======== ROTAS - EXEMPLOS DE AULA - NÃO UTILIZADAS NO SISTEMA ========
