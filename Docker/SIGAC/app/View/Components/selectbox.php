@@ -14,15 +14,16 @@ class selectbox extends Component {
     public $data;
     public $field;
     public $disabled;
-    public $event;
+    public $select;
 
-    public function __construct($name, $label, $color, $data, $field, $disabled) {
+    public function __construct($name, $label, $color, $data, $field, $disabled, $select) {
         $this->name = $name;
         $this->label = $label;
         $this->color = $color;
         $this->data = $data;
         $this->field = $field;
         $this->disabled = $disabled;
+        $this->select = $select;
     }
 
     public function render() {

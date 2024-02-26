@@ -16,7 +16,7 @@ use \Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('site');
 
 Route::get('/home', function () {
     return view('home');
@@ -33,7 +33,8 @@ Route::resource('/nivel', 'App\Http\Controllers\NivelController');
 Route::resource('/turma', 'App\Http\Controllers\TurmaController');
 Route::resource('/usuario', 'App\Http\Controllers\UserController');
 
-
+Route::get('/site/register', 'App\Http\Controllers\AlunoController@register')->name('site.register');
+Route::post('/site/success', 'App\Http\Controllers\AlunoController@storeRegister')->name('site.submit');
 
 
 

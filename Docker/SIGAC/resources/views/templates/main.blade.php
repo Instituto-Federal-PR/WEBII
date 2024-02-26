@@ -7,8 +7,12 @@
 		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
 		<link rel="stylesheet" href="{{asset('css/all.min.css')}}"/> 
 		<link rel="stylesheet" href="{{asset('css/style.css')}}"/> 
+		<style> 
+			.input-group-text { 
+				min-width: 100px;
+			}
+		</style>
 	</head> 
-
 	<body> 
 		<div class="container-fluid p-0 d-flex h-100"> 
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-success text-white offcanvas-md offcanvas-start" id="sidebar"> 

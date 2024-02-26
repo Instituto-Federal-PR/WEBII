@@ -12,7 +12,7 @@
                 >
                     <option selected="true" disabled></option>
                     @foreach ($data as $item)
-                        <option value="{{$item->id}}" @if($item->id == old($name)) selected="true" @endif>
+                        <option value="{{$item->id}}" @if($item->id == $select) selected="true" @endif>
                             {{ $item->$field }}
                         </option>
                     @endforeach

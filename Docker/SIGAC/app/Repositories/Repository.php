@@ -24,6 +24,10 @@ class Repository {
     public function findById($id) {
         return $this->model->find($id);
     }
+
+    public function findByIdWith(array $orm, $id) {
+        return $this->model::with($orm)->find($id);
+    }
                     
     public function findByCompositeId($keys, $ids) {
         return $this->model::where($this->createRule($keys, $ids))->first();

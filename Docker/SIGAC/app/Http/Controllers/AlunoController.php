@@ -22,6 +22,44 @@ class AlunoController extends Controller {
         return $data;    
     }
 
+    public function register() {
+        
+        $cursos = (new CursoRepository())->selectAll();
+        $turmas = (new TurmaRepository())->selectAll();
+        return view('aluno.register', compact(['cursos', 'turmas']));
+    }
+
+    public function storeRegister(Request $request) {
+        
+        $objCurso = (new CursoRepository())->findById($request->curso_id);
+        $objTurma = (new TurmaRepository())->findById($request->turma_id);
+        
+        if(isset($objCurso) && isset($objTurma)) {
+            $obj = new Aluno();
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $obj->cpf = $request->cpf;
+            $obj->email = mb_strtolower($request->email, 'UTF-8');
+            $obj->password = Hash::make($request->password); 
+            $obj->curso()->associate($objCurso);
+            $obj->turma()->associate($objTurma);
+            $this->repository->save($obj);
+
+            return view('message')
+                    ->with('template', "site")
+                    ->with('type', "success")
+                    ->with('titulo', "")
+                    ->with('message', "[OK] Registro efetuado com sucesso!")
+                    ->with('link', "site");
+        }
+        
+        return view('message')
+                    ->with('template', "site")
+                    ->with('type', "danger")
+                    ->with('titulo', "")
+                    ->with('message', "Não foi possível efetuar o registro!")
+                    ->with('link', "site");
+    }
+
     public function create() {
         $cursos = (new CursoRepository())->selectAll();
         $turmas = (new TurmaRepository())->selectAll();

@@ -11,11 +11,13 @@ class button extends Component {
     public $label;
     public $type;
     public $route;
+    public $color;
 
-    public function __construct($label, $type, $route) {
+    public function __construct($label, $type, $route, $color) {
         $this->label = $label;
         $this->type = $type;
         $this->route = $route;
+        $this->color = $color;
     }
 
     public function render() {

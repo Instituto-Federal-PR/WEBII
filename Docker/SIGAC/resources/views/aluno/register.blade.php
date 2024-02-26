@@ -2,17 +2,19 @@
 
 @section('conteudo')
 
-    <form action="{{ route('aluno.store') }}" method="POST">
+    <form action="{{ route('site.submit') }}" method="POST">
         @csrf
         <h2 class="text-success fw-bold">REGISTRO DO ALUNO</h2>
-        <x-textbox name="nome" label="Nome" type="text"/>
-        <x-textbox name="cpf" label="CPF" type="number"/>
-        <x-textbox name="email" label="E-mail" type="email"/>
-        <x-textbox name="senha" label="Senha" type="password"/>
-        <x-textbox name="confirmacao" label="Confirmar" type="password"/>
-        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false"/>
-        <x-selectbox name="turma_id" label="Turma" color="success" :data="$turmas" field="ano" disabled="true"/>
-        <x-button label="Registrar" type="submit" route=""/>
+        <x-textbox name="nome" label="Nome" type="text" value="null" disabled="false"/>
+        <x-textbox name="cpf" label="CPF" type="number" value="null" disabled="false"/>
+        <x-textbox name="email" label="E-mail" type="email" value="null" disabled="false"/>
+        <x-textbox name="senha" label="Senha" type="password" value="null" disabled="false"/>
+        <x-textbox name="confirmacao" label="Confirmar" type="password" value="null" disabled="false"/>
+        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" select="-1"/>
+        <x-selectbox name="turma_id" label="Turma" color="success" :data="$turmas" field="ano" disabled="true" select="-1"/>
+        <div class="d-flex justify-content-end">
+            <x-button label="Registrar" type="submit" route="" color="success"/>
+        </div>
     </form>
 
 @endsection

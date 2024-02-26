@@ -11,11 +11,15 @@ class textbox extends Component {
     public $name;
     public $label;
     public $type;
+    public $value;
+    public $disabled;
     
-    public function __construct($name, $label, $type) {
+    public function __construct($name, $label, $type, $value, $disabled) {
         $this->name = $name;
         $this->label = $label;
         $this->type = $type;
+        $this->value = $value;
+        $this->disabled = $disabled;
     }
 
     public function render() {

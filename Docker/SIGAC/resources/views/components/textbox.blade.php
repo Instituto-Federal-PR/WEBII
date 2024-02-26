@@ -8,7 +8,8 @@
                     name="{{ $name }}"
                     id="{{ $name }}"
                     placeholder="Número"
-                    value="{{old($name)}}"
+                    @if($value == "null") value="{{old($name)}}" @else value="{{$value}}" @endif 
+                    @if($disabled == "true") disabled @endif 
                 />
                 @if($errors->has($name))
                     <div class='invalid-feedback'>
