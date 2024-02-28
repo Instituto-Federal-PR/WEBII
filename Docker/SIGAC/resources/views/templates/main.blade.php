@@ -7,11 +7,6 @@
 		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
 		<link rel="stylesheet" href="{{asset('css/all.min.css')}}"/> 
 		<link rel="stylesheet" href="{{asset('css/style.css')}}"/> 
-		<style> 
-			.input-group-text { 
-				min-width: 100px;
-			}
-		</style>
 	</head> 
 	<body> 
 		<div class="container-fluid p-0 d-flex h-100"> 

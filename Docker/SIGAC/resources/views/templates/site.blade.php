@@ -7,11 +7,6 @@
 		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
 		<link rel="stylesheet" href="{{asset('css/all.min.css')}}"/> 
 		<link rel="stylesheet" href="{{asset('css/style.css')}}"/> 
-		<style> 
-			.input-group-text { 
-				min-width: 100px;
-			}
-		</style>
 	</head> 
 	<body> 
 		<nav class="navbar navbar-expand-lg bg-body-tertiary">
