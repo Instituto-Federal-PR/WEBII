@@ -17,7 +17,7 @@ class EixoController extends Controller
 
     public function index() {
         
-        $data = $this->repository->SelectAll();
+        $data = $this->repository->selectAllWith(['curso']);
         return $data;
     }
 

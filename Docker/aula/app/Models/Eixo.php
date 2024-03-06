@@ -19,4 +19,8 @@ class Eixo extends Model
         ataques "mass assignment". Só irá inserir no banco de dados 
         os valores das colunas especificadas no atributo "$fillable".
     */
+
+    public function curso() {
+        return $this->hasMany('\App\Models\Curso');
+    }
 }

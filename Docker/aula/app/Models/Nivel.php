@@ -9,4 +9,8 @@ class Nivel extends Model
 {
     use HasFactory;
     protected $table = "niveis";
+
+    public function curso() {
+        return $this->hasMany('\App\Models\Curso');
+    }
 }
