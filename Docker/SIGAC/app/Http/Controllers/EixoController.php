@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\EixoRepository;
 use App\Models\Eixo;
+use App\Repositories\CursoRepository;
 
 class EixoController extends Controller {
     
@@ -15,29 +16,46 @@ class EixoController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAll();
+        $data = $this->repository->selectAllWith(['curso']);
+        return view('eixo.index')->with('data', $data);
         return $data;
     }
 
     public function create() {
-        // retorna, para o usuário, a view de criação de Eixo
+        return view('eixo.create');
     }
 
     public function store(Request $request) {
         $obj = new Eixo();
         $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
         $this->repository->save($obj);
-        return "<h1>Store - OK!</h1>";
+        return redirect()->route('eixo.index');
     }
 
     public function show(string $id) {
-        $data = $this->repository->findById($id);
-        return $data;
+        $data = $this->repository->findByIdWith(['curso'], $id);
+        if(isset($data)) 
+            return view('eixo.show', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }   
 
     public function edit(string $id) {
-        // $data = $this->repository->findById($id);
-        // retorna, para o usuário, a view de edição de Eixo - passa objeto $data
+        $data = $this->repository->findById($id);
+        if(isset($data))
+            return view('eixo.edit', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
     public function update(Request $request, string $id) {
@@ -45,17 +63,27 @@ class EixoController extends Controller {
         if(isset($obj)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $this->repository->save($obj);
-            return "<h1>Upate - OK!</h1>";
+            return redirect()->route('eixo.index');
         }
 
-        return "<h1>Upate - Not found Eixo!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
     public function destroy(string $id) {
         if($this->repository->delete($id))  {
-            return "<h1>Delete - OK!</h1>";
+            return redirect()->route('eixo.index');
         }
         
-        return "<h1>Delete - Not found Eixo!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 }

@@ -39,7 +39,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{route('curso.index')}}" class="sidebar-link"> 
+								<a href="{{route('eixo.index')}}" class="sidebar-link">
 									<span class="ms-3">Eixos</span> 
 								</a> 
 							</li>

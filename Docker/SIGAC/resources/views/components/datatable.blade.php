@@ -1,7 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-2">
-        </div>
+        <div class="col-2"></div>
         <div class="col-8 text-center">
             <span class="fs-4 text-secondary"><b>{{ mb_strtoupper($title, 'UTF-8') }}</b></span>
         </div>
@@ -17,17 +16,17 @@
     </div>
     <table class="table align-middle caption-top table-striped">
         <thead>
-        <tr>
-            @php $cont=0; @endphp
-            @foreach ($header as $item)
-                @if($hide[$cont])
-                    <th scope="col" class="d-none d-md-table-cell">{{ mb_strtoupper($item, 'UTF-8') }}</th>
-                @else
-                    <th scope="col">{{ mb_strtoupper($item, 'UTF-8') }}</th>
-                @endif
-                @php $cont++; @endphp
-            @endforeach
-        </tr>
+            <tr>
+                @php $cont=0; @endphp
+                @foreach ($header as $item)
+                    @if($hide[$cont])
+                        <th scope="col" class="d-none d-md-table-cell">{{ mb_strtoupper($item, 'UTF-8') }}</th>
+                    @else
+                        <th scope="col">{{ mb_strtoupper($item, 'UTF-8') }}</th>
+                    @endif
+                    @php $cont++; @endphp
+                @endforeach
+            </tr>
         </thead>
         <tbody>
             @php $data=$data->toArray(); @endphp

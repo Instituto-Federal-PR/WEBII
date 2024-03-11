@@ -6,8 +6,7 @@
                 <select 
                     name="{{$name}}"
                     id="{{$name}}"
-                    class="form-select"
-                    class="form-control @if($errors->has($name)) is-invalid @endif" 
+                    class="form-select form-control @if($errors->has($name)) is-invalid @endif" 
                     @if($disabled == "true") disabled @endif 
                 >
                     <option selected="true" disabled></option>

@@ -13,6 +13,6 @@ class Nivel extends Model {
     protected $table = "niveis";
 
     public function curso() {
-        $this->hasMany('\App\Models\Curso');
+        return $this->hasMany('\App\Models\Curso');
     }
 }

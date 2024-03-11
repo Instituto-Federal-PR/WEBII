@@ -18,6 +18,5 @@
         <a href="{{route($route)}}" class="btn btn-{{$color}} btn-block align-content-center">
             <span class="fw-bold">{{$label}}</span>
         </a>
-    </a>
     @endif
 </div>

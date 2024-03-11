@@ -16,7 +16,8 @@ class NivelController extends Controller {
 
     public function index() {
         $data = $this->repository->selectAll();
-        return $data;
+        return view('nivel.index', compact('data'));
+        // return $data;
     }
 
     public function create() {

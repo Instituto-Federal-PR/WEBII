@@ -19,7 +19,7 @@ class CursoController extends Controller {
     public function index() {
         $data = $this->repository->selectAllWith(['eixo', 'nivel']);
         return view('curso.index', compact('data'));
-        // return $data;
+        return $data;
     }
 
     public function create() {
@@ -49,21 +49,37 @@ class CursoController extends Controller {
                     ->with('template', "main")
                     ->with('type', "danger")
                     ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                    ->with('message', "Não foi possível efetuar o registro!")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
                     ->with('link', "curso.index");
     }
 
     public function show(string $id) {
         $data = $this->repository->findByIdWith(['eixo', 'nivel'], $id);
-        return view('curso.show', compact('data'));
-        // return $data;
+        if(isset($data))
+            return view('curso.show', compact('data'));
+
+        return view('message')
+                    ->with('template', "main")
+                    ->with('type', "danger")
+                    ->with('titulo', "OPERAÇÃO INVÁLIDA")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
+                    ->with('link', "curso.index");
     }   
 
     public function edit(string $id) {
         $data = $this->repository->findById($id);
-        $eixos = (new EixoRepository())->selectAll();
-        $niveis = (new NivelRepository())->selectAll();
-        return view('curso.edit', compact(['data', 'eixos', 'niveis']));
+        if(isset($data)) {
+            $eixos = (new EixoRepository())->selectAll();
+            $niveis = (new NivelRepository())->selectAll();
+            return view('curso.edit', compact(['data', 'eixos', 'niveis']));
+        }
+
+        return view('message')
+                    ->with('template', "main")
+                    ->with('type', "danger")
+                    ->with('titulo', "OPERAÇÃO INVÁLIDA")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
+                    ->with('link', "curso.index");
     }
 
     public function update(Request $request, string $id) {
@@ -86,7 +102,7 @@ class CursoController extends Controller {
                     ->with('template', "main")
                     ->with('type', "danger")
                     ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                    ->with('message', "Não foi possível efetuar o registro!")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
                     ->with('link', "curso.index");
     }
 
@@ -99,7 +115,7 @@ class CursoController extends Controller {
                     ->with('template', "main")
                     ->with('type', "danger")
                     ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                    ->with('message', "Não foi possível efetuar o registro!")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
                     ->with('link', "curso.index");
     }
 }
