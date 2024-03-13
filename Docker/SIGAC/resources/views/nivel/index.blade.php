@@ -10,7 +10,8 @@
         :fields="['id', 'nome']" 
         :hide="[true, false, false]"
         remove="nome"
-        add="true" 
+        create="nivel.create"
+        id="" 
     /> 
     
 @endsection

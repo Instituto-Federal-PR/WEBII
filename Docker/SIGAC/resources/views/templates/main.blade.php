@@ -29,7 +29,7 @@
 						</a> 
 						<ul id="admin" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="" class="sidebar-link"> 
+								<a href="{{ route('users.role', 'COORDENADOR') }}" class="sidebar-link"> 
 									<span class="ms-3">Coordenadores</span> 
 								</a> 
 							</li> 

@@ -13,6 +13,15 @@ class UserSeeder extends Seeder {
         
         $data = [
             [
+                // ADMINISTRADOR
+                "name" => "MARCUS VINÍCIUS OLIVEIRA", 
+                "email" => "admin.admin@ifpr.edu.br", 
+                "password" => Hash::make('123admin123'), 
+                "role_id" => 1,
+                "curso_id" => 1,
+            ],
+            [
+                // COORDENADOR
                 "name" => "GIL EDUARDO DE ANDRADE", 
                 "email" => "gil.andrade@ifpr.edu.br", 
                 "password" => Hash::make('123gil123'), 
@@ -20,6 +29,15 @@ class UserSeeder extends Seeder {
                 "curso_id" => 1,
             ],
             [
+                // PROFESSOR
+                "name" => "ORIOSVALDO NASCIMENTO TORRES", 
+                "email" => "oriosvaldo.torres@ifpr.edu.br", 
+                "password" => Hash::make('123admin123'), 
+                "role_id" => 1,
+                "curso_id" => 1,
+            ],
+            [
+                // ALUNO
                 "name" => "LÚCIA EDUARDA SILVA ALVES", 
                 "email" => "lucia.alves@gmail.com", 
                 "password" => Hash::make('123lucia123'), 

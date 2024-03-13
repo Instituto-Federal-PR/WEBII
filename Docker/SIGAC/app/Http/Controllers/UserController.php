@@ -39,10 +39,15 @@ class UserController extends Controller {
             $obj->curso()->associate($objCurso);
             $obj->role()->associate($objRole);
             $this->repository->save($obj);
-            return "<h1>Store - OK!</h1>";
+            return redirect()->route('users.role', 'COORDENADOR');
         }
         
-        return "<h1>Store - Not found Curso or User!</h1>";
+        return view('message')
+                    ->with('template', "main")
+                    ->with('type', "danger")
+                    ->with('titulo', "OPERAÇÃO INVÁLIDA")
+                    ->with('message', "Não foi possível efetuar o procedimento!")
+                    ->with('link', "home");
     }
 
     public function show(string $id ){
@@ -80,5 +85,24 @@ class UserController extends Controller {
         }
         
         return "<h1>Delete - Not found User!</h1>";
+    }
+
+    public function getUsersByRole($role) {
+
+        $role = mb_strtoupper($role, 'UTF-8');
+        $objRole = (new RoleRepository())->findFirstByColumn("nome", $role);
+        $data = $this->repository->findByColumn('role_id', $objRole->id);
+        $route = "users.role.create";
+        $id = $objRole->id;
+        // return $data;
+        return view('user.index', compact('data', 'role', 'route', 'id'));
+    }
+
+    public function createUsersByRole($role_id) {
+
+        $cursos = (new CursoRepository())->selectAll();
+        $nome = (new RoleRepository())->findById($role_id)->nome;
+        $roles = (new RoleRepository())->selectAll();
+        return view('user.create', compact(['cursos', 'roles', 'role_id', 'nome']));
     }
 }

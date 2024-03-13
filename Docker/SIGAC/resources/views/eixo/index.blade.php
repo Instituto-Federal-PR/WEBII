@@ -10,6 +10,7 @@
         :fields="['id', 'nome']" 
         :hide="[true, false, false]"
         remove="nome"
-        add="true" 
+        create="eixo.create" 
+        id=""
     /> 
 @endsection
