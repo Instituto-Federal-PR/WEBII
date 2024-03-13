@@ -71,7 +71,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{route('categoria.index')}}" class="sidebar-link"> 
 									<span class="ms-3">Categorias</span> 
 								</a> 
 							</li> 
@@ -86,7 +86,7 @@
 								</a> 
 							</li>
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{ route('users.role', 'PROFESSOR') }}" class="sidebar-link"> 
 									<span class="ms-3">Professores</span> 
 								</a> 
 							</li>
