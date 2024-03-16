@@ -19,7 +19,7 @@ class AlunoSeeder extends Seeder {
                 "password" => Hash::make('123lucia123'), 
                 "user_id" => 2,
                 "curso_id" => 2,
-                "turma_id" => 6,
+                "turma_id" => 4,
             ],
         ];
         DB::table('alunos')->insert($data);

@@ -18,5 +18,6 @@ class AppServiceProvider extends ServiceProvider {
         Blade::component('components.selectbox', 'selectbox');
         Blade::component('components.datatable', 'datatable');
         Blade::component('components.listbox', 'listbox');
+        Blade::component('components.tablist', 'tablist');
     }
 }

@@ -61,7 +61,7 @@
 						</a> 
 						<ul id="coord" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{route('aluno.index')}}" class="sidebar-link"> 
 									<span class="ms-3">Alunos</span> 
 								</a> 
 							</li> 
@@ -96,7 +96,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{ route('turma.index') }}" class="sidebar-link"> 
 									<span class="ms-3">Turmas</span> 
 								</a> 
 							</li> 

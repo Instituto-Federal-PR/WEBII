@@ -19,14 +19,6 @@ class TurmaSeeder extends Seeder {
                 "ano" => 2022,
                 "curso_id" => 1,
             ],
-            [
-                "ano" => 2023,
-                "curso_id" => 1,
-            ],
-            [
-                "ano" => 2024,
-                "curso_id" => 1,
-            ],
             // TECNÓLOGO EM ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
             [
                 "ano" => 2022,
@@ -34,10 +26,6 @@ class TurmaSeeder extends Seeder {
             ],
             [
                 "ano" => 2023,
-                "curso_id" => 2,
-            ],
-            [
-                "ano" => 2024,
                 "curso_id" => 2,
             ],
         ];

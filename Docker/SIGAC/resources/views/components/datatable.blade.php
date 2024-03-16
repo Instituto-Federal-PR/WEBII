@@ -33,7 +33,9 @@
             </tr>
         </thead>
         <tbody>
-            @php $data=$data->toArray(); @endphp
+            @if(!is_array($data)) 
+                @php $data=$data->toArray(); @endphp
+            @endif
             @foreach ($data as $item)
                 <tr>
                     @php $cont=0; @endphp
