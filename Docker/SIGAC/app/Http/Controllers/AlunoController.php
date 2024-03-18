@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
+use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\AlunoRepository;
 use App\Repositories\CursoRepository;
@@ -21,7 +25,6 @@ class AlunoController extends Controller {
 
         $data = $this->repository->selectAllByTurmas();
         return view('aluno.index', compact('data'));
-        // return $data;    
     }
 
     public function register() {
@@ -71,11 +74,20 @@ class AlunoController extends Controller {
     public function store(Request $request) {
 
         // $this->validateRows($request);
-
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
+        $objRole = (new RoleRepository())->findFirstByColumn('nome', 'ALUNO');
         
-        if(isset($objCurso) && isset($objTurma)) {
+        if(isset($objCurso) && isset($objTurma) && isset($objRole)) {
+            // Create User
+            $objUser = new User();
+            $objUser->name = mb_strtoupper($request->nome, 'UTF-8');
+            $objUser->email = mb_strtolower($request->email, 'UTF-8');
+            $objUser->password = Hash::make($request->password); 
+            $objUser->curso()->associate($objCurso);
+            $objUser->role()->associate($objRole);
+            (new UserRepository())->save($objUser);
+            // Create Aluno
             $obj = new Aluno();
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->cpf = $request->cpf;
@@ -83,21 +95,50 @@ class AlunoController extends Controller {
             $obj->password = Hash::make($request->password); 
             $obj->curso()->associate($objCurso);
             $obj->turma()->associate($objTurma);
+            $obj->user()->associate($objUser);
             $this->repository->save($obj);
-            return "<h1>Store - OK!</h1>";
+            return redirect()->route('aluno.index');
         }
         
-        return "<h1>Store - Not found Curso or Turma!</h1>";
+        return view('message')
+                ->with('template', "main")
+                ->with('type', "danger")
+                ->with('titulo', "OPERAÇÃO INVÁLIDA")
+                ->with('message', "Não foi possível efetuar o procedimento!")
+                ->with('link', "aluno.index");
     }
 
     public function show(string $id) {
-        $data = $this->repository->findById($id);
-        return $data;
+        $data = $this->repository->findByIdWith(['curso', 'turma'], $id);
+
+        if(isset($data)) {
+            return view('aluno.show', compact('data'));
+        }
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "aluno.index");
+        
     }
 
     public function edit(string $id) {
-        // $data = $this->repository->findById($id);
-        // retorna, para o usuário, a view de edição de Aluno - passa objeto $data
+        $cursos = (new CursoRepository())->selectAll();
+        $turmas = (new TurmaRepository())->selectAll();
+        $data = $this->repository->findById($id);
+
+        if(isset($cursos) && isset($turmas) && isset($data)) {
+            return view('aluno.edit', compact(['data', 'cursos', 'turmas']));
+        }
+        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "aluno.index");
     }
 
     public function update(Request $request, string $id) {
@@ -109,24 +150,32 @@ class AlunoController extends Controller {
         if(isset($obj) && isset($objCurso) && isset($objTurma)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->cpf = $request->cpf;
-            $obj->email = mb_strtolower($request->email, 'UTF-8');
-            $obj->password = Hash::make($request->password); 
             $obj->curso()->associate($objCurso);
             $obj->turma()->associate($objTurma);
             $this->repository->save($obj);
-            return "<h1>Update- OK!</h1>";
+            return redirect()->route('aluno.index');
         }
         
-        return "<h1>Store - Not found Curso or Turma!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "aluno.index");
     }
 
     public function destroy(string $id){
         
         if($this->repository->delete($id))  {
-            return "<h1>Delete - OK!</h1>";
+            return redirect()->route('aluno.index');;
         }
         
-        return "<h1>Delete - Not found Aluno!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "aluno.index");
     }
 
     public function validateRows(Request $request) {

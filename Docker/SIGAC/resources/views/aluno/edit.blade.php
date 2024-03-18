@@ -1,22 +1,20 @@
-@extends('templates/main', ['titulo'=>"NOVO ALUNO"])
+@extends('templates/main', ['titulo'=>"ALTERAR ALUNO"])
 
 @section('conteudo')
 
-    <form action="{{ route('aluno.store') }}" method="POST">
+    <form action="{{ route('aluno.update', $data->id) }}" method="POST">
         @csrf
-        <x-textbox name="nome" label="Nome" type="text" value="null" disabled="false"/>
-        <x-textbox name="cpf" label="CPF" type="number" value="null" disabled="false"/>
-        <x-textbox name="email" label="E-mail" type="email" value="null" disabled="false"/>
-        <x-textbox name="senha" label="Senha" type="password" value="null" disabled="false"/>
-        <x-textbox name="confirmacao" label="Confirmar" type="password" value="null" disabled="false"/>
-        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" select="-1"/>
-        <x-selectbox name="turma_id" label="Turma" color="success" :data="$turmas" field="ano" disabled="true" select="-1"/>
+        @method('PUT')
+        <x-textbox name="nome" label="Nome" type="text" :value="$data->nome" disabled="false"/>
+        <x-textbox name="cpf" label="CPF" type="number" :value="$data->cpf" disabled="false"/>
+        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" :select="$data->curso_id"/>
+        <x-selectbox name="turma_id" label="Turma" color="success" :data="$turmas" field="ano" disabled="true" :select="$data->turma_id"/>
         <div class="row">
             <div class="col text-start">
                 <x-button label="Voltar" type="link" route="aluno.index" color="secondary"/>
             </div>
             <div class="col text-end">
-                <x-button label="Cadastar" type="submit" route="" color="success"/>
+                <x-button label="Alterar" type="submit" route="" color="success"/>
             </div>
         </div>
     </form>
