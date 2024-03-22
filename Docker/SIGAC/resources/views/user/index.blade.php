@@ -12,6 +12,7 @@
         remove="name"
         :create="$route" 
         :id="$id"
+        modal=""
     /> 
     
 @endsection

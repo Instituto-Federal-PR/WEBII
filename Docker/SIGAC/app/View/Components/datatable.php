@@ -17,8 +17,9 @@ class datatable extends Component {
     public $remove;
     public $create;
     public $id;
+    public $modal;
 
-    public function __construct($title, $header, $crud, $data, $fields, $hide, $remove, $create, $id) {
+    public function __construct($title, $header, $crud, $data, $fields, $hide, $remove, $create, $id, $modal) {
         $this->title = $title;
         $this->header = $header;
         $this->crud = $crud;
@@ -28,6 +29,7 @@ class datatable extends Component {
         $this->remove = $remove;
         $this->create = $create;
         $this->id = $id;
+        $this->modal = $modal;
     }
 
     public function render() {

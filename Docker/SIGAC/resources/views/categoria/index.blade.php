@@ -12,5 +12,6 @@
         remove="nome"
         create="categoria.create" 
         id=""
+        modal=""
     /> 
 @endsection

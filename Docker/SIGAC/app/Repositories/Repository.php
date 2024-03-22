@@ -49,6 +49,10 @@ class Repository {
         return $this->model->where($column, $value)->get();
     }
 
+    public function findByColumnWith($column, $value, $orm) {
+        return $this->model::with($orm)->where($column, $value)->get();
+    }
+
     public function findFirstByColumn($column, $value) {
         return $this->model->where($column, $value)->first();
     }

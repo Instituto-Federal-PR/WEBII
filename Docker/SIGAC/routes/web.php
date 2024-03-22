@@ -18,6 +18,7 @@ use \Illuminate\Http\Request;
     php artisan cache:clear
     php artisan view:clear
     php artisan config:clear
+    php artisan storage:link
 */
 
 Route::get('/', function () {
@@ -32,6 +33,7 @@ Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
 Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
 Route::resource('/comprovante', 'App\Http\Controllers\ComprovanteController');
 Route::resource('/declaracao', 'App\Http\Controllers\DeclaracaoController');
+Route::resource('/documento', 'App\Http\Controllers\DocumentoController');
 Route::resource('/curso', 'App\Http\Controllers\CursoController');
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/permission', 'App\Http\Controllers\PermissionController');
@@ -39,9 +41,10 @@ Route::resource('/nivel', 'App\Http\Controllers\NivelController');
 Route::resource('/turma', 'App\Http\Controllers\TurmaController');
 Route::resource('/usuario', 'App\Http\Controllers\UserController');
 
+// Registro de Alunos - Site (Visitante)
 Route::get('/site/register', 'App\Http\Controllers\AlunoController@register')->name('site.register');
 Route::post('/site/success', 'App\Http\Controllers\AlunoController@storeRegister')->name('site.submit');
-
+// Inserção de Coordenador / Professor (Admin / Coordenador)
 Route::get('/users/{role}', 'App\Http\Controllers\UserController@getUsersByRole')->name('users.role');
 Route::get('/users/create/{role_id}', 'App\Http\Controllers\UserController@createUsersByRole')->name('users.role.create');
 

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->float('horas_in');
             $table->string('status');      // SOLICITADO / DEFERIDO / INDEFERIDO
-            $table->string('comentario');
-            $table->float('horas_out');
+            $table->string('comentario')->nullable();
+            $table->float('horas_out')->nullable();
             $table->unsignedBigInteger('categoria_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('categoria_id')->references('id')->on('categorias');

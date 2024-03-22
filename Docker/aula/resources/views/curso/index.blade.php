@@ -1,18 +1,15 @@
-@extends('templates/main', ['titulo'=>"NÍVEL"])
+@extends('templates/main', ['titulo'=>"CURSO"])
 
 @section('conteudo')
 
     <x-datatable 
-        title="Tabela de Níveis de Ensino" 
+        title="Tabela de Cursos" 
         :header="['ID', 'Nome', 'Ações']" 
-        crud="nivel" 
+        crud="curso" 
         :data="$data"
         :fields="['id', 'nome']" 
         :hide="[true, false, false]"
         remove="nome"
-        create="nivel.create"
-        id="" 
-        modal=""
+        add="true" 
     /> 
-    
 @endsection

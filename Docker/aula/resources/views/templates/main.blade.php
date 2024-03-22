@@ -29,7 +29,7 @@
 						</a> 
 						<ul id="admin" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="{{ route('users.role', 'COORDENADOR') }}" class="sidebar-link"> 
+								<a href="" class="sidebar-link"> 
 									<span class="ms-3">Coordenadores</span> 
 								</a> 
 							</li> 
@@ -39,7 +39,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{route('eixo.index')}}" class="sidebar-link">
+								<a href="{{route('curso.index')}}" class="sidebar-link"> 
 									<span class="ms-3">Eixos</span> 
 								</a> 
 							</li>
@@ -61,7 +61,7 @@
 						</a> 
 						<ul id="coord" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="{{route('aluno.index')}}" class="sidebar-link"> 
+								<a href="#" class="sidebar-link"> 
 									<span class="ms-3">Alunos</span> 
 								</a> 
 							</li> 
@@ -71,7 +71,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{route('categoria.index')}}" class="sidebar-link"> 
+								<a href="#" class="sidebar-link"> 
 									<span class="ms-3">Categorias</span> 
 								</a> 
 							</li> 
@@ -86,7 +86,7 @@
 								</a> 
 							</li>
 							<li class="sidebar-item"> 
-								<a href="{{ route('users.role', 'PROFESSOR') }}" class="sidebar-link"> 
+								<a href="#" class="sidebar-link"> 
 									<span class="ms-3">Professores</span> 
 								</a> 
 							</li>
@@ -96,7 +96,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{ route('turma.index') }}" class="sidebar-link"> 
+								<a href="#" class="sidebar-link"> 
 									<span class="ms-3">Turmas</span> 
 								</a> 
 							</li> 
@@ -133,7 +133,7 @@
 						</a> 
 						<ul id="aluno" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="{{route('documento.index')}}" class="sidebar-link"> 
+								<a href="#" class="sidebar-link"> 
 									<span class="ms-3">Solicitar Horas</span> 
 								</a> 
 							</li> 

@@ -23,7 +23,7 @@
         @endforeach
     </ul>
     <div class="tab-content" id="tab{{$tab[$id]}}Content">
-        @php $flag = true; @endphp
+        @php $flag = true; $cont=1; @endphp
         @foreach($tabs as $tab)
             <div 
                 class="tab-pane fade @if($flag) show active @endif mt-2" 
@@ -41,9 +41,10 @@
                     :remove="$fielddata"
                     :create="$create" 
                     id=""
+                    :modal="$cont"
                 /> 
             </div>
-            @php $flag = false; @endphp
+            @php $flag = false; $cont++; @endphp
         @endforeach
     </div>
 </div>

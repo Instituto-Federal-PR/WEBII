@@ -12,6 +12,7 @@
         remove="turma"
         create="turma.create"
         id="" 
+        modal=""
     /> 
     
 @endsection

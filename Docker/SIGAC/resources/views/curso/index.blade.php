@@ -12,5 +12,6 @@
         remove="nome"
         create="curso.create" 
         id=""
+        modal=""
     /> 
 @endsection

@@ -44,6 +44,14 @@ class UserSeeder extends Seeder {
                 "role_id" => 4,
                 "curso_id" => 2,
             ],
+            [
+                // ALUNO
+                "name" => "FABÍOLA NASCIMENTO SOUSA", 
+                "email" => "fabiola.sousa@gmail.com", 
+                "password" => Hash::make('123fabi123'), 
+                "role_id" => 4,
+                "curso_id" => 1,
+            ],
         ];
         DB::table('users')->insert($data);
     }
