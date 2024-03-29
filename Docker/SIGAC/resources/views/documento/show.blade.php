@@ -2,12 +2,16 @@
 
 @section('conteudo')
 
-    <x-textbox name="nome" label="Nome" type="text" :value="$data->nome" disabled="true"/>
-    <x-textbox name="maximo_horas" label="Máximo de Horas" type="number" :value="$data->maximo_horas" disabled="true"/>
-    <x-textbox name="curso" label="Curso" type="text" :value="$data->curso->nome" disabled="true"/>
+    <x-textbox name="descricao" label="Descrição" type="text" :value="$data->descricao" disabled="true"/>
+    <x-textbox name="horas" label="Total de Horas" type="number" :value="$data->horas_in" disabled="true"/>
+    
+    <x-selectbox name="categoria_id" label="Categoria" color="success" :data="$categorias" field="nome" disabled="true" :select="$data->categoria_id"/>
     <div class="row">
         <div class="col text-start">
-            <x-button label="Voltar" type="link" route="categoria.index" color="secondary"/>
+            <x-button label="Voltar" type="link" route="documento.index" color="secondary"/>
+        </div>
+        <div class="col text-end">
+            <x-button label="Documento" type="document" :route="asset('storage/'.$data->url)" color="primary"/>
         </div>
     </div>
     
