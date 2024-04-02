@@ -47,7 +47,9 @@ Route::post('/site/success', 'App\Http\Controllers\AlunoController@storeRegister
 // Inserção de Coordenador / Professor (Admin / Coordenador)
 Route::get('/users/{role}', 'App\Http\Controllers\UserController@getUsersByRole')->name('users.role');
 Route::get('/users/create/{role_id}', 'App\Http\Controllers\UserController@createUsersByRole')->name('users.role.create');
-
+// Avaliação das Solicitações de Horas Afins
+Route::get('/assess', 'App\Http\Controllers\DocumentoController@list')->name('assess.list');
+Route::put('/assess/{documento_id}', 'App\Http\Controllers\DocumentoController@finish')->name('assess.finish');
 
 
 

@@ -10,7 +10,7 @@
         <x-textbox name="documento" label="Documento" type="file" value="null" disabled="false"/>
         <div class="row">
             <div class="col text-start">
-                <x-button label="Voltar" type="link" route="home" color="secondary"/>
+                <x-button label="Voltar" type="link" route="documento.index" color="secondary"/>
             </div>
             <div class="col text-end">
                 <x-button label="Solicitar" type="submit" route="" color="success"/>

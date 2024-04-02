@@ -99,11 +99,11 @@ class CursoController extends Controller {
         }
 
         return view('message')
-                    ->with('template', "main")
-                    ->with('type', "danger")
-                    ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                    ->with('message', "Não foi possível efetuar o procedimento!")
-                    ->with('link', "curso.index");
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "curso.index");
     }
 
     public function destroy(string $id) {

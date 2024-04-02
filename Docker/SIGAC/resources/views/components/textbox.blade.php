@@ -17,6 +17,8 @@
                         placeholder="{{ $label }}"
                         @if($value == "null") value="{{old($name)}}" @else value="{{$value}}" @endif 
                         @if($disabled == "true") disabled @endif 
+                    @else
+                        accept="application/pdf, image/gif, image/jpeg"
                     @endif
                 />
                 @if($type != "file") <label for="{{$name}}">{{$label}}</label> @endif

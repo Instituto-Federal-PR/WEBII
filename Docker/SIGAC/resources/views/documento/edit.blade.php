@@ -1,16 +1,18 @@
-@extends('templates/main', ['titulo'=>"ALTERAR CATEGORIA"])
+@extends('templates/main', ['titulo'=>"ALTERAR SOLICITAÇÃO"])
 
 @section('conteudo')
 
-    <form action="{{ route('categoria.update', $data->id) }}" method="POST">
+    <form action="{{ route('documento.update', $data->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <x-textbox name="nome" label="Nome" type="text" :value="$data->nome" disabled="false"/>
-        <x-textbox name="maximo_horas" label="Máximo de Horas" type="number" :value="$data->maximo_horas" disabled="false"/>
-        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" :select="$data->curso_id"/>
+        <x-textbox name="descricao" label="Descrição" type="text" :value="$data->descricao" disabled="false"/>
+        <x-textbox name="horas" label="Total de Horas" type="number" :value="$data->horas_in" disabled="false"/>
+        <x-textbox name="status" label="Andamento" type="text" :value="$data->status" disabled="true"/>
+        <x-selectbox name="categoria_id" label="Categoria" color="success" :data="$categorias" field="nome" disabled="false" :select="$data->categoria_id"/>
+        <x-textbox name="documento" label="Documento" type="file" value="null" disabled="false"/>
         <div class="row">
             <div class="col text-start">
-                <x-button label="Voltar" type="link" route="categoria.index" color="secondary"/>
+                <x-button label="Voltar" type="link" route="documento.index" color="secondary"/>
             </div>
             <div class="col text-end">
                 <x-button label="Alterar" type="submit" route="" color="success"/>

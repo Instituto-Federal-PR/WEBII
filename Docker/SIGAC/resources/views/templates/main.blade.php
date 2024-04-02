@@ -66,7 +66,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{ route('assess.list') }}" class="sidebar-link"> 
 									<span class="ms-3">Avaliar Horas</span> 
 								</a> 
 							</li> 

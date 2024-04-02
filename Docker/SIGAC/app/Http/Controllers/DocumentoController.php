@@ -14,14 +14,13 @@ class DocumentoController extends Controller {
     private $user_id = 5;
     private $curso_id = 1;
     private $path = "documentos/alunos";
-    private $andamento = [ [-1 => 'Recusado'], [0 => 'Solicitado'], [1 => 'Aceito'] ];
 
     public function __construct(){
         $this->repository = new DocumentoRepository();
     }
     
     public function index() {
-        $data = $this->repository->findByColumnWith('user_id',$this->user_id, ['categoria']);
+        $data = $this->repository->findByColumnWith('user_id', $this->user_id, ['categoria']);
         return view('documento.index', compact('data'));
     }
 
@@ -54,21 +53,21 @@ class DocumentoController extends Controller {
         }
 
         return view('message')
-                ->with('template', "main")
-                ->with('type', "danger")
-                ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                ->with('message', "Não foi possível efetuar o procedimento!")
-                ->with('link', "home");
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "documento.index");
     }
 
     public function show(string $id)
     {
         $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
-        $data = $this->repository->findById($id);
-        $array = $this->andamento;
-
+        $data = $this->repository->findByIdWith(['categoria'], $id);
+        $data = $this->repository->mapStatus($data);
+        
         if(isset($data) && isset($categorias)) {
-            return view('documento.show', compact(['categorias', 'data', 'array']));
+            return view('documento.show', compact(['categorias', 'data']));
         }
 
         return view('message')
@@ -76,30 +75,83 @@ class DocumentoController extends Controller {
             ->with('type', "danger")
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
-            ->with('link', "home");
+            ->with('link', "documento.index");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function edit(string $id) {
+
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        $data = $this->repository->findById($id);
+
+        // Permite alteração apenas para status solicitado
+        if(isset($data) && isset($categorias) && $data->status == 0) {
+            $data = $this->repository->mapStatus($data);
+            return view('documento.edit', compact(['categorias', 'data']));
+        }
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "documento.index");
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, string $id) {
+        
+        $obj = $this->repository->findById($id);
+        $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
+        
+        if($request->hasFile('documento') && isset($obj) && isset($objCategoria)) {
+            $obj->descricao = mb_strtoupper($request->descricao, 'UTF-8');
+            $obj->horas_in = $request->horas;
+            $obj->status = 0;
+            $obj->categoria()->associate($objCategoria);
+            $id = $this->repository->saveAndReturnId($obj);    
+            // Efetua o Upload do Documento
+            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+            $nome_arq = $id.'_'.time().'.'.$extensao_arq;
+            $request->file('documento')->storeAs("public/$this->path", $nome_arq);
+            $obj->url = $this->path."/".$nome_arq;
+            $this->repository->save($obj);
+            return redirect()->route('documento.index');    
+        }
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "documento.index");
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(string $id) {
+        
+        $data = $this->repository->findById($id);
+
+        // Permite a remoção apenas para status solicitado
+        if($data->status == 0) {
+            if($this->repository->delete($id))  {
+                return redirect()->route('documento.index');
+            }
+        }
+        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "documento.index");
+    }
+
+    public function list() {
+
+        $data = $this->repository->getDocumentsToAssess($this->curso_id);
+        return $data;
+    }
+
+    public function finish() {
+
     }
 }

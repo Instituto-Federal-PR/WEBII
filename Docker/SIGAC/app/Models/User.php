@@ -56,6 +56,10 @@ class User extends Authenticatable
     }
 
     public function comprovante() {
-        return $this->hasManyTo('App\Models\Comprovante');
+        return $this->hasMany('App\Models\Comprovante');
+    }
+
+    public function documento() {
+        return $this->hasMany('App\Models\Documento');
     }
 }
