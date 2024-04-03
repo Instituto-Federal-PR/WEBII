@@ -11,7 +11,7 @@ use App\Repositories\DocumentoRepository;
 class DocumentoController extends Controller {
     
     protected $repository;
-    private $user_id = 5;
+    private $user_id = 4;
     private $curso_id = 1;
     private $path = "documentos/alunos";
 
@@ -148,7 +148,8 @@ class DocumentoController extends Controller {
     public function list() {
 
         $data = $this->repository->getDocumentsToAssess($this->curso_id);
-        return $data;
+        // return $data;
+        return view('documento.list', compact(['data']));
     }
 
     public function finish() {
