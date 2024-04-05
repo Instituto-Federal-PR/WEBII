@@ -31,7 +31,7 @@ class DocumentoRepository extends Repository {
         foreach($categorias as $c) array_push($arr, $c->id);
         
         $data = Documento::with(['categoria', 'user'])->whereIn('categoria_id', $arr)
-            ->orderBy('created_at')->get();
+            ->where('status', 0)->orderBy('created_at')->get();
 
         return $data;
     }

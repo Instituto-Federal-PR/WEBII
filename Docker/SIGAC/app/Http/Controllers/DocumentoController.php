@@ -11,8 +11,8 @@ use App\Repositories\DocumentoRepository;
 class DocumentoController extends Controller {
     
     protected $repository;
-    private $user_id = 4;
-    private $curso_id = 1;
+    private $user_id = 5;
+    private $curso_id = 2;
     private $path = "documentos/alunos";
 
     public function __construct(){
@@ -152,7 +152,26 @@ class DocumentoController extends Controller {
         return view('documento.list', compact(['data']));
     }
 
-    public function finish() {
+    public function finish(Request $request, string $id) {
 
+        // dd($request);
+        $obj = $this->repository->findById($id);
+        $horas_out = $request->input('horas_out_'.$id);
+
+        if(isset($obj)) {
+            $obj->status = $request->input('status_'.$id);
+            if($obj->status == -1) $horas_out = 0;
+            $obj->horas_out = $horas_out;
+            $obj->comentario = $request->input('comment_'.$id);
+            $this->repository->save($obj);
+            return redirect()->route('assess.list');  
+        }
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "assess.list");
     }
 }
