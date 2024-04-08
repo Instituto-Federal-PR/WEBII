@@ -1,4 +1,4 @@
-@extends('templates/main', ['titulo'=>"ALUNOS"])
+@extends('templates/main', ['titulo'=>"RELATÓRIO (PDF) DE HORAS"])
 
 @section('conteudo')
 
@@ -11,8 +11,9 @@
         :header="['ID', 'Nome', 'Ações']" 
         :fields="['id', 'nome']"
         :hide="[true, false, false]" 
-        crud="aluno"
-        create="aluno.create"
-        contentype="datatable"
+        crud="report.class"
+        create="report.student"
+        contentype="listitem"
     />
+
 @endsection

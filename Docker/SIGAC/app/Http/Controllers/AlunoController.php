@@ -16,6 +16,7 @@ use App\Repositories\TurmaRepository;
 class AlunoController extends Controller {
     
     protected $repository;
+    private $curso_id = 2;
 
     public function __construct(){
         $this->repository = new AlunoRepository();
@@ -23,7 +24,7 @@ class AlunoController extends Controller {
 
     public function index() {
 
-        $data = $this->repository->selectAllByTurmas();
+        $data = $this->repository->selectAllByTurmas($this->curso_id);
         return view('aluno.index', compact('data'));
     }
 

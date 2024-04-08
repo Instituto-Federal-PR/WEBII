@@ -16,7 +16,7 @@
                     aria-controls="{{$tab[$id]}}" 
                     aria-selected="@if($flag) true @endif"
                 >
-                    {{ $tab[$fieldtab] }}
+                    <b>{{ $tab[$fieldtab] }}</b>
                 </button>
             </li>
             @php $flag = false; @endphp
@@ -31,18 +31,29 @@
                 role="tabpanel" 
                 aria-labelledby="{{$tab[$id]}}-tab"
             >
-                <x-datatable 
-                    title="" 
-                    :header="$header" 
-                    :crud="$crud" 
-                    :data="$tab[$data]"
-                    :fields="$fields" 
-                    :hide="$hide"
-                    :remove="$fielddata"
-                    :create="$create" 
-                    id=""
-                    :modal="$cont"
-                /> 
+                @if($contentype == "datatable")
+                    <x-datatable 
+                        title="" 
+                        :header="$header" 
+                        :crud="$crud" 
+                        :data="$tab[$data]"
+                        :fields="$fields" 
+                        :hide="$hide"
+                        :remove="$fielddata"
+                        :create="$create" 
+                        id=""
+                        :modal="$cont"
+                    /> 
+                @elseif($contentype == "listitem") 
+                    <x-listitem 
+                        :data="$tab[$data]"
+                        field="nome"
+                        :primaryroute="$crud"
+                        :secondaryroute="$create"
+                        id="{{$tab[$id]}}"
+                        :label="$data"
+                    />
+                @endif
             </div>
             @php $flag = false; $cont++; @endphp
         @endforeach
