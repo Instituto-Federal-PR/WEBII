@@ -48,7 +48,55 @@ class UserSeeder extends Seeder {
                 // ALUNO
                 "name" => "FABÍOLA NASCIMENTO SOUSA", 
                 "email" => "fabiola.sousa@gmail.com", 
-                "password" => Hash::make('123fabi123'), 
+                "password" => Hash::make('123fabiola123'), 
+                "role_id" => 4,
+                "curso_id" => 1,
+            ],
+            [   
+                // ALUNO
+                "name" => "MATHEUS NOGUEIRA SILVA", 
+                "email" => "matheus.silva@gmail.com", 
+                "password" => Hash::make('123matheus123'), 
+                "role_id" => 4,
+                "curso_id" => 1,
+            ],
+            [   
+                // ALUNO
+                "name" => "CARLOS HENRIQUE DIAS",
+                "email" => "carlos.dias@gmail.com", 
+                "password" => Hash::make('123carlos123'), 
+                "role_id" => 4,
+                "curso_id" => 2,
+            ],
+            [   
+                // ALUNO
+                "name" => "LARISSA MAIA",
+                "email" => "larissa.maia@gmail.com", 
+                "password" => Hash::make('123larissa123'), 
+                "role_id" => 4,
+                "curso_id" => 2,
+            ],
+            [   
+                // ALUNO
+                "name" => "OLIVIA NEVES SANTOS",
+                "email" => "olivia.santos@gmail.com", 
+                "password" => Hash::make('123olivia123'), 
+                "role_id" => 4,
+                "curso_id" => 2,
+            ],
+            [   
+                // ALUNO
+                "name" => "RODRIGO CARDOSO TAY",
+                "email" => "rodrigo.tay@gmail.com", 
+                "password" => Hash::make('123rodrigo123'), 
+                "role_id" => 4,
+                "curso_id" => 2,
+            ],
+            [   
+                // ALUNO
+                "name" => "MARINA GAVAS TORRES",
+                "email" => "marina.torres@gmail.com", 
+                "password" => Hash::make('123marina123'), 
                 "role_id" => 4,
                 "curso_id" => 1,
             ],

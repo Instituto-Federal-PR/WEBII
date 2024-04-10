@@ -19,7 +19,7 @@ class DocumentoRepository extends Repository {
             $data->status = $this->map[$data->status]; 
         else 
             for($a=0; $a<count($data); $a++)
-                $data[$a]['status'] = $this->map[$data[$a]['status']];
+                $data[$a]['status'] = $this->getMapStatus($data[$a]['status']);
 
         return $data;
     }
@@ -34,5 +34,17 @@ class DocumentoRepository extends Repository {
             ->where('status', 0)->orderBy('created_at')->get();
 
         return $data;
+    }
+
+    public function getTotalHoursByStudent($user_id) {
+
+        return Documento::Where('user_id', $user_id)
+                ->selectRaw("SUM(horas_in) as total_in")
+                ->selectRaw("SUM(horas_out) as total_out")
+                ->first();
+    }
+
+    public function getMapStatus($status) {
+        return $this->map[$status];
     }
 }

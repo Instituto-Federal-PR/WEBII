@@ -26,19 +26,24 @@ class RelatorioController extends Controller {
     public function reportClass($turma_id) {
         
         $data = (new AlunoRepository())->selectHoursByClass($turma_id);
-        // return $data;
-
+        
         // Carrega o HTML da View
         $this->dompdf->loadHtml(view('relatorio.pdf.turma', compact('data')));
-        
         // Converte o HTML em PDF
         $this->dompdf->render();
-
         // Serializa o PDF para Abertura em uma Nova Aba
         $this->dompdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
     }
 
     public function reportStudent($aluno_id) {
         
+        $data = (new AlunoRepository())->selectHoursByStudent($aluno_id);
+
+        // Carrega o HTML da View
+        $this->dompdf->loadHtml(view('relatorio.pdf.aluno', compact('data')));
+        // Converte o HTML em PDF
+        $this->dompdf->render();
+        // Serializa o PDF para Abertura em uma Nova Aba
+        $this->dompdf->stream("relatorio-horas-aluno.pdf", array("Attachment" => false));
     }
 }

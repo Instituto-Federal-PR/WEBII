@@ -6,7 +6,6 @@ html, body {
 .gfg { 
 	height: 50px; 
 	width: 50px; 
-
 } 
 
 .mynav { 
@@ -47,4 +46,3 @@ html, body {
 .input-group-text { 
 	min-width: 100px;
 }
-

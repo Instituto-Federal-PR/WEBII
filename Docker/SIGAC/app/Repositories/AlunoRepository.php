@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Aluno;
 use App\Models\Documento;
+use App\Models\Declaracao;
+use App\Repositories\DocumentoRepository;
 
 class AlunoRepository extends Repository { 
 
@@ -39,21 +41,17 @@ class AlunoRepository extends Repository {
         $cont = 0;
         foreach($alunos as $item) {
 
-            $hours = Documento::Where('user_id', $item->user_id)
-                ->selectRaw("SUM(horas_in) as total_in")
-                ->selectRaw("SUM(horas_out) as total_out")
-                ->first();
-
-            if(isset($hours)) {
-                if($hours->total_in == NULL) $hours->total_in = 0;
-                if($hours->total_out == NULL) $hours->total_out = 0;
-            }
+            // Solicitados pelo aluno
+            $hours = (new DocumentoRepository())->getTotalHoursByStudent($item->user_id);
+            
+            // Lançados pelos professores
+            $total_entry = (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
 
             $aux[$cont] = (Object) [
-                "id" => $item->id,
                 "nome" => $item->nome,
                 "solicitado" => $hours->total_in,
-                "validado" => $hours->total_out
+                "validado" => $hours->total_out,
+                "lancado" => $total_entry
             ];
             $cont++;
         }
@@ -62,5 +60,58 @@ class AlunoRepository extends Repository {
         $data["aluno"] = $aux;
 
         return $data;
+    }
+
+    public function selectHoursByStudent($aluno_id) {
+
+        // Aluno
+        $aluno = $this->findByIdWith(['curso', 'turma', 'user'], $aluno_id);
+        // Horas Solicitadas pelo aluno
+        $horas_solicitadas = (new DocumentoRepository())->findByColumnWith('user_id', $aluno->user->id, ['categoria']);
+        // Horas Lançadas para o aluno
+        $horas_lancadas = (new ComprovanteRepository())->getHoursByStudent($aluno->id);
+
+        $data = collect();
+        $data["aluno"] = $aluno->nome;
+        $data["curso"] = $aluno->curso->nome;
+        $data["turma"] = $aluno->curso->sigla . "-" . $aluno->turma->ano;
+        $data["total"] = (new DocumentoRepository())->getTotalHoursByStudent($aluno->user->id)->total_out + 
+            (new ComprovanteRepository())->getTotalHoursByStudent($aluno->id);
+
+        $pedidos = array();
+        $cont = 0;
+        
+        foreach($horas_solicitadas as $item) {
+
+            $pedidos[$cont] = (Object) [
+                "descricao" => $item->descricao,
+                "horas_in" => $item->horas_in,
+                "status" => (new DocumentoRepository())->getMapStatus($item->status),
+                "horas_out" => $item->horas_out,
+                "categoria" => $item->total_in,
+            ];
+            $cont++;
+        } 
+        $data["pedidos"] = $pedidos;
+
+        $lancados = array();
+        $cont = 0;
+        foreach($horas_lancadas as $item) {
+
+            $lancados[$cont] = (Object) [
+                "nome" => $item->atividade,
+                "horas" => $item->horas,
+                "categoria" => $item->categoria->nome,
+                "servidor" => $item->user->name
+            ];
+            $cont++;
+        } 
+        $data["lancados"] = $lancados;
+
+        return $data;
+    }
+
+    public function sumHoursStudent($aluno_id) {
+        return  (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
     }
 }
