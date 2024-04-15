@@ -50,11 +50,12 @@ Route::get('/users/create/{role_id}', 'App\Http\Controllers\UserController@creat
 // Avaliação das Solicitações de Horas Afins
 Route::get('/assess', 'App\Http\Controllers\DocumentoController@list')->name('assess.list');
 Route::put('/assess/{documento_id}', 'App\Http\Controllers\DocumentoController@finish')->name('assess.finish');
-// Relatórios PDF e Gráfico
+// Relatórios PDF
 Route::get('/report', 'App\Http\Controllers\RelatorioController@index')->name('report.index');
 Route::get('/report/class/{turma_id}', 'App\Http\Controllers\RelatorioController@reportClass')->name('report.class');
 Route::get('/report/student/{aluno_id}', 'App\Http\Controllers\RelatorioController@reportStudent')->name('report.student');
-// Route::get('/graphic', 'App\Http\Controllers\DocumentoController@list')->name('graphic.index');
+// Relatório Gráfico
+Route::get('/graph', 'App\Http\Controllers\GraficoController@test')->name('graph.index');
 
 
 /*

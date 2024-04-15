@@ -14,5 +14,7 @@
         crud="aluno"
         create="aluno.create"
         contentype="datatable"
+        primaryroute=""
+        secondaryroute=""
     />
 @endsection

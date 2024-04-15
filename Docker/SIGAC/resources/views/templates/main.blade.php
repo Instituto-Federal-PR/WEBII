@@ -76,7 +76,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{route('graph.index')}}" class="sidebar-link"> 
 									<span class="ms-3">Gráfico Alunos</span> 
 								</a> 
 							</li>
@@ -198,6 +198,8 @@
 
 	<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>  
 	<script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>  
+	<!-- Google Chart / Arquivo Local -->
+	<script type="text/javascript" src="{{asset('js/google-chart-loader.js')}}"></script>	
 	
 	@yield('script')
 

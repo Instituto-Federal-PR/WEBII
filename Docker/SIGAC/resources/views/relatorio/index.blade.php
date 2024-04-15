@@ -11,8 +11,8 @@
         :header="['ID', 'Nome', 'Ações']" 
         :fields="['id', 'nome']"
         :hide="[true, false, false]" 
-        crud="report.class"
-        create="report.student"
+        primaryroute="report.class"
+        secondaryroute="report.student"
         contentype="listitem"
     />
 

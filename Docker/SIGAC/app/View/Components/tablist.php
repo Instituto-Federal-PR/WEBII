@@ -17,10 +17,12 @@ class tablist extends Component {
     public $fields;
     public $hide;
     public $crud;
-    public $create;
-    public $contentype;
+    public $create;             
+    public $contentype;         
+    public $primaryroute;       // only listitem component 
+    public $secondaryroute;     // only listitem component
 
-    public function __construct($tabs, $fieldtab, $id, $data, $fielddata, $header, $fields, $hide, $crud, $create, $contentype) {
+    public function __construct($tabs, $fieldtab, $id, $data, $fielddata, $header, $fields, $hide, $crud, $create, $contentype, $primaryroute, $secondaryroute) {
         $this->tabs = $tabs; 
         $this->fieldtab = $fieldtab;
         $this->id = $id;
@@ -32,6 +34,8 @@ class tablist extends Component {
         $this->crud = $crud; 
         $this->create = $create; 
         $this->$contentype = $contentype;
+        $this->primaryroute = $primaryroute;
+        $this->secondaryroute = $secondaryroute;
     }
 
     public function render() { 
