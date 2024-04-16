@@ -49,9 +49,9 @@ class AlunoRepository extends Repository {
 
             $aux[$cont] = (Object) [
                 "nome" => $item->nome,
-                "solicitado" => $hours->total_in,
-                "validado" => $hours->total_out,
-                "lancado" => $total_entry
+                "solicitado" => $this->convertNullToZero($hours->total_in),
+                "validado" => $this->convertNullToZero($hours->total_out),
+                "lancado" => $this->convertNullToZero($total_entry),
             ];
             $cont++;
         }
@@ -110,8 +110,13 @@ class AlunoRepository extends Repository {
 
         return $data;
     }
+    
+    public function convertNullToZero($value) {
+        if(is_null($value)) return 0;
+        return $value;
+    }
 
     public function sumHoursStudent($aluno_id) {
-        return  (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
+        return  (new ComprovanteRepository())->getTotalHoursByStudent($aluno_id);
     }
 }

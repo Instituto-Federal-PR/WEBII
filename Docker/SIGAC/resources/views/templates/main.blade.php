@@ -76,7 +76,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{route('graph.index')}}" class="sidebar-link"> 
+								<a href="{{route('graph.turma')}}" class="sidebar-link"> 
 									<span class="ms-3">Gráfico Alunos</span> 
 								</a> 
 							</li>

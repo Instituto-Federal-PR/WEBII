@@ -55,7 +55,8 @@ Route::get('/report', 'App\Http\Controllers\RelatorioController@index')->name('r
 Route::get('/report/class/{turma_id}', 'App\Http\Controllers\RelatorioController@reportClass')->name('report.class');
 Route::get('/report/student/{aluno_id}', 'App\Http\Controllers\RelatorioController@reportStudent')->name('report.student');
 // Relatório Gráfico
-Route::get('/graph', 'App\Http\Controllers\GraficoController@test')->name('graph.index');
+Route::get('/graph/turma', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.turma');
+Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
 
 
 /*

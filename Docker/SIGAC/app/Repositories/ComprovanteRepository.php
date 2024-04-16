@@ -15,6 +15,6 @@ class ComprovanteRepository extends Repository {
     }
 
     public function getHoursByStudent($aluno_id) {
-        return $this->findByColumnWith('aluno_id', $aluno_id,['categoria', 'user']);
+        return $this->findByColumnWith('aluno_id', $aluno_id, ['categoria', 'user']);
     }
 }
