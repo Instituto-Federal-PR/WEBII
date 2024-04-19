@@ -56,6 +56,20 @@ class ComprovanteSeeder extends Seeder
                 "aluno_id" => 7,
                 "user_id" => 3,
             ],
+            [   
+                "horas" => 80,
+                "atividade" => "ORGANIZAÇÃO DA SEMANA ACADÊMICA",
+                "categoria_id" => 2,
+                "aluno_id" => 9,
+                "user_id" => 12,
+            ],
+            [   
+                "horas" => 90,
+                "atividade" => "MATERIAL DIDÁTICO - DESENVOLVIMENTO WEB",
+                "categoria_id" => 3,
+                "aluno_id" => 10,
+                "user_id" => 13,
+            ],
         ];
         DB::table('comprovantes')->insert($data);
     }

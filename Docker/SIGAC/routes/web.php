@@ -54,8 +54,10 @@ Route::put('/assess/{documento_id}', 'App\Http\Controllers\DocumentoController@f
 Route::get('/report', 'App\Http\Controllers\RelatorioController@index')->name('report.index');
 Route::get('/report/class/{turma_id}', 'App\Http\Controllers\RelatorioController@reportClass')->name('report.class');
 Route::get('/report/student/{aluno_id}', 'App\Http\Controllers\RelatorioController@reportStudent')->name('report.student');
+Route::get('/report/test', 'App\Http\Controllers\RelatorioController@test')->name('report.test');
 // Relatório Gráfico
-Route::get('/graph/turma', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.turma');
+Route::get('/graph/class', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.class');
+Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->name('graph.hour');
 Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
 
 

@@ -51,7 +51,6 @@
                         :primaryroute="$primaryroute"
                         :secondaryroute="$secondaryroute"
                         id="{{$tab[$id]}}"
-                        :label="$data"
                     />
                 @endif
             </div>

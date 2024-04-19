@@ -9,7 +9,7 @@ use App\Repositories\DocumentoRepository;
 
 class GraficoController extends Controller {
 
-    private $curso_id = 2;
+    private $curso_id = 2;      //temporário, até implementar autenticação
 
     public function graphClass() {
 
@@ -25,8 +25,23 @@ class GraficoController extends Controller {
         // return $data;
         return view('grafico.aluno', compact('data'));
     }
+
+    public function graphHour() {
+
+        $turmas = (new TurmaRepository())->findByColumn('curso_id', $this->curso_id);
+        
+        $data = array();
+        $cont = 0;
+        foreach($turmas as $turma) {
+            $data[$cont] = (new AlunoRepository())->getFulfillStudentsByClass($turma);
+            $cont++;
+        }
+        
+        // return $data;
+        return view('grafico.hora', compact('data'));
+    }
     
-    // Apenas Exemplo - Material de Aula
+    // Apenas Exemplo - Material de Aula (método pode ser removido)
     public function test() {
 
         $data =  json_encode([

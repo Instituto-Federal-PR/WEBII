@@ -10,7 +10,7 @@ use Dompdf\Dompdf;
 class RelatorioController extends Controller {
     
     private $dompdf;
-    private $curso_id = 2;
+    private $curso_id = 2;  //temporário, até implementar autenticação
     
     public function __construct() {
         $this->dompdf = new Dompdf();
@@ -45,5 +45,19 @@ class RelatorioController extends Controller {
         $this->dompdf->render();
         // Serializa o PDF para Abertura em uma Nova Aba
         $this->dompdf->stream("relatorio-horas-aluno.pdf", array("Attachment" => false));
+    }
+
+    // Apenas Exemplo - Material de Aula (método pode ser removido)
+    public function test() {
+        // Instancia um Objeto da Classe Dompdf
+        $dompdf = new Dompdf();
+        // Carrega o HTML
+        $dompdf->loadHtml('hello world');
+        // (Opcional) Configura o Tamanho e Orientação da Página
+        $dompdf->setPaper('A4', 'landscape');
+        // Converte o HTML em PDF
+        $dompdf->render();
+        // Serializa o PDF para Navegador
+        $dompdf->stream();
     }
 }

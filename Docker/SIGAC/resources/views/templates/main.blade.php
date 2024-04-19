@@ -76,12 +76,12 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="{{route('graph.turma')}}" class="sidebar-link"> 
+								<a href="{{route('graph.class')}}" class="sidebar-link"> 
 									<span class="ms-3">Gráfico Alunos</span> 
 								</a> 
 							</li>
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{route('graph.hour')}}" class="sidebar-link"> 
 									<span class="ms-3">Gráfico Horas</span> 
 								</a> 
 							</li>

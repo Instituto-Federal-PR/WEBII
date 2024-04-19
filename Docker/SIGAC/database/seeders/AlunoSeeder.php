@@ -84,6 +84,24 @@ class AlunoSeeder extends Seeder {
                 "curso_id" => 1,
                 "turma_id" => 1,
             ],
+            [   
+                "nome" => "RAFAELA AMORIM",
+                "cpf" => "00000000009",
+                "email" => "rafaela.amorim@gmail.com", 
+                "password" => Hash::make('123samira123'), 
+                "user_id" => 12,
+                "curso_id" => 2,
+                "turma_id" => 3,
+            ],
+            [   
+                "nome" => "SAMIRA MALOUF ATA",
+                "cpf" => "00000000009",
+                "email" => "samira.ata@gmail.com", 
+                "password" => Hash::make('123samira123'), 
+                "user_id" => 13,
+                "curso_id" => 2,
+                "turma_id" => 4,
+            ],
         ];
         DB::table('alunos')->insert($data);
     }

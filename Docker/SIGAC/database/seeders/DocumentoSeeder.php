@@ -92,6 +92,28 @@ class DocumentoSeeder extends Seeder {
                 "user_id" => 10,
                 "created_at" => $dateNow
             ],
+            [   
+                "url" => "documentos/alunos/9_1712771455.pdf",
+                "descricao" => "CURSO DE INGLÊS - WIZARD",
+                "horas_in" => 100,
+                "status" => 1,
+                "comentario" => "DEFERIDO",
+                "horas_out" => 100,
+                "categoria_id" => 5,
+                "user_id" => 12,
+                "created_at" => $dateNow
+            ],
+            [   
+                "url" => "documentos/alunos/10_1712771455.pdf",
+                "descricao" => "CURSO DE ALEMÃO - WIZARD",
+                "horas_in" => 130,
+                "status" => 1,
+                "comentario" => "DEFERIDO",
+                "horas_out" => 130,
+                "categoria_id" => 5,
+                "user_id" => 13,
+                "created_at" => $dateNow
+            ],
         ];
 
         DB::table('documentos')->insert($data);

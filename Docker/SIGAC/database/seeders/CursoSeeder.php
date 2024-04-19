@@ -24,7 +24,7 @@ class CursoSeeder extends Seeder
             [
                 "nome" => "TECNÓLOGO EM ANÁLISE E DESENVOLVIMENTO DE SISTEMAS",
                 "sigla" => "TADS",
-                "total_horas" => 200,
+                "total_horas" => 150,
                 "eixo_id" => 1,
                 "nivel_id" => 2,
             ],

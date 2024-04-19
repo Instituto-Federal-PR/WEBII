@@ -1,4 +1,4 @@
-@extends('templates/main', ['titulo'=>"GRÁFICO DE HORAS / TURMA"])
+@extends('templates/main', ['titulo'=>"GRÁFICO DE HORAS / ALUNOS"])
 
 @section('conteudo')
     <div class="d-flex flex-row">
@@ -23,20 +23,17 @@
     
 @endsection
 
-
 @section('script')
 
     <script type="text/javascript">
 
-        var data_graph = [
-            ['Aluno', 'Solicitado', 'Lançado', 'Validado', { role: 'annotation' }]
-        ]
-
         function selectClass(turma) {
-            
-            let cont = 1
 
-            // alert(turma.aluno[0].nome)
+            let cont = 1
+            let data_graph = [
+                ['Aluno', 'Solicitado', 'Lançado', 'Validado', { role: 'annotation' }]
+            ]
+
             turma.aluno.forEach((element) => {
                 data_graph[cont] = [
                     element.nome,
@@ -48,19 +45,11 @@
                 cont++ 
             })
 
-            /*data_graph = [
-                ['Aluno', 'Solicitado', 'Lançado', 'Validado', { role: 'annotation' } ],
-                ['2010', 10, 24, 20, ''],
-                ['2020', 16, 22, 23, ''],
-                ['2030', 28, 19, 29, '']
-            ];*/
-
-            // alert(turma.aluno[0].nome)
             google.charts.load('current', {'packages':['corechart']})
-            google.charts.setOnLoadCallback(drawChart); 
+            google.charts.setOnLoadCallback(drawChart(data_graph)); 
         }
 
-        function drawChart() {
+        function drawChart(data_graph) {
 
             let data = google.visualization.arrayToDataTable(data_graph);
 

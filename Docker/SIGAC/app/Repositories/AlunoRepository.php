@@ -110,6 +110,24 @@ class AlunoRepository extends Repository {
 
         return $data;
     }
+
+    public function getFulfillStudentsByClass($turma) {
+
+        $total_horas_curso = ((new CursoRepository())->findById($turma->curso_id))->total_horas;
+        $alunos_turma = $this->selectHoursByClass($turma->id);
+        
+        $total_alunos = count($alunos_turma["aluno"]);
+        $total_cumpriu = 0;
+        foreach($alunos_turma["aluno"] as $aluno) {
+            if(($aluno->validado + $aluno->lancado) >= $total_horas_curso) $total_cumpriu++;
+        }
+
+        $data = collect();
+        $data["turma"] = $alunos_turma["turma"];
+        $data["grafico"] = ["total_sim" => $total_cumpriu, "total_nao" => $total_alunos - $total_cumpriu];
+
+        return $data;
+    }
     
     public function convertNullToZero($value) {
         if(is_null($value)) return 0;
