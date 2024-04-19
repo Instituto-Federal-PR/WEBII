@@ -44,7 +44,7 @@ class GraficoController extends Controller {
     // Apenas Exemplo - Material de Aula (método pode ser removido)
     public function test() {
 
-        $data =  json_encode([
+        $data = json_encode([
             ["NOME", "TOTAL DE HORAS"],
             ["MARIA", 150],
             ["CARLOS", 90],

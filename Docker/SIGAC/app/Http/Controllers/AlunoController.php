@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\AlunoRepository;
 use App\Repositories\CursoRepository;
 use App\Repositories\TurmaRepository;
+use App\Repositories\DocumentoRepository;
+use App\Repositories\ComprovanteRepository;
 
 class AlunoController extends Controller {
     
     protected $repository;
-    private $curso_id = 2;
+    private $curso_id = 2;      //temporário, até implementar autenticação
+    private $user_id = 12;      //temporário, até implementar autenticação
+    private $aluno_id = 9;      //temporário, até implementar autenticação
 
     public function __construct(){
         $this->repository = new AlunoRepository();
@@ -177,6 +181,23 @@ class AlunoController extends Controller {
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
             ->with('link', "aluno.index");
+    }
+
+    public function listStudentHours() {
+
+        $solicitadas = (new DocumentoRepository())->getTotalHoursByStudent($this->user_id);
+        $lancadas = (new ComprovanteRepository())->getTotalHoursByStudent($this->aluno_id);
+        $necessarias = ((new CursoRepository())->findById($this->curso_id))->total_horas;
+
+        $data = (Object) [
+            "necessario" => $necessarias,
+            "solicitado" => $solicitadas->total_in,
+            "validado" => $solicitadas->total_out,
+            "lancado" => $lancadas,
+            "total" => $solicitadas->total_out + $lancadas,
+        ];
+
+        return view('aluno.listhours', compact('data'));
     }
 
     public function validateRows(Request $request) {

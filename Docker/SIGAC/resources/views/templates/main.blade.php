@@ -138,7 +138,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{route('student.listhours')}}" class="sidebar-link"> 
 									<span class="ms-3">Gerar Declaração</span> 
 								</a> 
 							</li> 

@@ -59,6 +59,8 @@ Route::get('/report/test', 'App\Http\Controllers\RelatorioController@test')->nam
 Route::get('/graph/class', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.class');
 Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->name('graph.hour');
 Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
+// Aluno - Gerar Declaração de Cumprimento das Horas Afins
+Route::get('/student/declaration', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
 
 
 /*
