@@ -190,6 +190,7 @@ class AlunoController extends Controller {
         $necessarias = ((new CursoRepository())->findById($this->curso_id))->total_horas;
 
         $data = (Object) [
+            "id" => $this->aluno_id,
             "necessario" => $necessarias,
             "solicitado" => $solicitadas->total_in,
             "validado" => $solicitadas->total_out,

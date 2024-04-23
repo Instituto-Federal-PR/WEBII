@@ -9,4 +9,8 @@ class DeclaracaoRepository extends Repository {
     public function __construct() {
         parent::__construct(new Declaracao());
     }   
+
+    public function isExists($aluno_id) {
+        return Declaracao::where('aluno_id', $aluno_id)->whereNull('comprovante_id')->first();
+    }
 }

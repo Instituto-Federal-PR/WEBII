@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('hash');
             $table->date('data');
             $table->unsignedBigInteger('aluno_id');
-            $table->unsignedBigInteger('comprovante_id');
+            $table->unsignedBigInteger('comprovante_id')->nullable();
             $table->foreign('aluno_id')->references('id')->on('alunos');
             $table->foreign('comprovante_id')->references('id')->on('comprovantes');
             $table->softDeletes();

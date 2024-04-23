@@ -20,7 +20,7 @@
         @if($data->total < $data->necessario)
             <p class="card-text text-white">Ainda é necessário cumprir {{$data->necessario - $data->total}} horas!</p>
         @else
-            <x-button label="Gerar Declração" type="document" route="#" color="success"/>
+            <x-button label="Gerar Declração" type="document" route="{{route('student.declaration', [$data->total, $data->id])}}" color="success"/>
         @endif
     </div>
 </div>
