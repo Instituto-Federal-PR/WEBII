@@ -2,35 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
+use App\Models\Comprovante;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\AlunoRepository;
+use App\Repositories\CursoRepository;
+use App\Repositories\TurmaRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\ComprovanteRepository;
-use App\Models\Comprovante;
 
 class ComprovanteController extends Controller {
 
     protected $repository;
+    private $curso_id = 2;      //temporário, até implementar autenticação
+    private $user_id = 2;       //temporário, até implementar autenticação
 
     public function __construct(){
         $this->repository = new ComprovanteRepository();
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['aluno', 'categoria', 'user']);
-        return $data;    
+        $data = $this->repository->findByColumnWith('user_id', $this->user_id, ['aluno', 'categoria', 'user']);
+        return view('comprovante.index', compact('data'));
     }
 
     public function create() {
-        // retorna, para o usuário, a view de criação de Comprovante
+        
+        $cursos = (new CursoRepository())->selectAll();
+        $categorias = [];
+        $turmas = [];
+        $alunos = [];
+
+        return view('comprovante.create', compact(['categorias', 'cursos', 'turmas', 'alunos']));
     }
 
     public function store(Request $request) {
 
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objAluno = (new AlunoRepository())->findById($request->aluno_id);
-        $objUser = (new UserRepository())->findById($request->user_id);
+        $objUser = (new UserRepository())->findById($this->user_id);
         
         if(isset($objCategoria) && isset($objAluno) && isset($objUser)) {
             $obj = new Comprovante();
@@ -40,48 +51,63 @@ class ComprovanteController extends Controller {
             $obj->aluno()->associate($objAluno);
             $obj->user()->associate($objUser);
             $this->repository->save($obj);
-            return "<h1>Store - OK!</h1>";
+            return redirect()->route('comprovante.index');
         }
         
-        return "<h1>Store - Not found Categoria or Aluno or User!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "comprovante.index");
     }
 
     public function show(string $id) {
-        $data = $this->repository->findById($id);
-        return $data;
+        $data = $this->repository->findByIdWith(['aluno', 'categoria', 'user'], $id);
+        $curso = (new CursoRepository())->findById($data->aluno->curso_id);
+        return view('comprovante.show', compact(['data', 'curso']));
     }
 
     public function edit(string $id) {
-        // $data = $this->repository->findById($id);
-        // retorna, para o usuário, a view de edição de Comprovante - passa objeto $data
+        
+        $data = $this->repository->findByIdWith(['aluno'], $id);
+        $cursos = (new CursoRepository())->selectAll();
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        return view('comprovante.edit', compact(['data', 'cursos', 'categorias']));
     }
 
     public function update(Request $request, string $id) {
         
         $obj = $this->repository->findById($id);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
-        $objAluno = (new AlunoRepository())->findById($request->aluno_id);
-        $objUser = (new UserRepository())->findById($request->user_id);
         
-        if(isset($obj) && isset($objCategoria) && isset($objAluno) && isset($objUser)) {
+        if(isset($obj) && isset($objCategoria)) {
             $obj->horas = $request->horas;
             $obj->atividade = mb_strtoupper($request->atividade, 'UTF-8');
             $obj->categoria()->associate($objCategoria);
-            $obj->aluno()->associate($objAluno);
-            $obj->user()->associate($objUser);
             $this->repository->save($obj);
-            return "<h1>Update - OK!</h1>";
+            return redirect()->route('comprovante.index');
         }
         
-        return "<h1>Store - Not found Categoria or Aluno or User!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "comprovante.index");
     }
 
     public function destroy(string $id) {
         
         if($this->repository->delete($id))  {
-            return "<h1>Delete - OK!</h1>";
+            return redirect()->route('comprovante.index');
         }
         
-        return "<h1>Delete - Not found Aluno!</h1>";
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "comprovante.index");
     }
 }

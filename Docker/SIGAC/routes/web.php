@@ -61,7 +61,10 @@ Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->n
 Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
 // Aluno - Gerar Declaração de Cumprimento das Horas Afins
 Route::get('/student/declaration', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
-Route::get('/student/declaration/{total}/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
+Route::get('/student/declaration/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
+// Validação dos Cadastros de Novos Alunos
+Route::get('/validate', 'App\Http\Controllers\AlunoController@listValidate')->name('validate.list');
+Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@finishValidate')->name('validate.finish');
 
 
 /*

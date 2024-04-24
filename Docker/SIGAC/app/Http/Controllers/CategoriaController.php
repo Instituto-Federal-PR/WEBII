@@ -111,4 +111,9 @@ class CategoriaController extends Controller {
                 ->with('message', "Não foi possível efetuar o procedimento!")
                 ->with('link', "categoria.index");
     }
+
+    public function getCategoriesByCourse($value) {
+        $data = $this->repository->findByColumn('curso_id', $value);
+        return json_encode($data);
+    }
 }

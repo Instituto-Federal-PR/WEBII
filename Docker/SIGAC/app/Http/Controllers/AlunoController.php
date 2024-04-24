@@ -201,6 +201,56 @@ class AlunoController extends Controller {
         return view('aluno.listhours', compact('data'));
     }
 
+    public function getStudentsByClass($value) {
+        $data = $this->repository->findByColumn('turma_id', $value);
+        return json_encode($data);
+    }
+
+    public function listValidate() {
+        $data = $this->repository->selectAllAdapted(false, $this->curso_id, ['curso', 'turma']);
+        // return $data;
+        return view('aluno.validate', compact('data'));
+    }
+
+    public function finishValidate(Request $request, $id) {
+        
+        $aluno = $this->repository->findById($id);
+
+        if(isset($aluno)) {
+
+            $response = $request->input('status_'.$id);
+            $role_id = Role::getRoleId("ALUNO");
+            
+            // Accept - create and bid user
+            if($response == 1) {
+                // Create
+                $user = new User();
+                $user->name = mb_strtoupper($aluno->nome, 'UTF-8');
+                $user->email = mb_strtolower($aluno->email, 'UTF-8');
+                $user->password = $aluno->password; 
+                $user->curso()->associate((new CursoRepository())->findById($aluno->curso_id));
+                $user->role()->associate((new RoleRepository())->findById($role_id));
+                (new UserRepository())->save($user);
+                // Bind
+                $aluno->user()->associate($user);
+                $this->repository->save($aluno);
+            }
+            // Refuse - remove register
+            else {
+                $this->destroy($id);
+            }
+
+            return redirect()->route('validate.list');
+        }
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "validate.list");        
+    }
+
     public function validateRows(Request $request) {
         
         $regras = [

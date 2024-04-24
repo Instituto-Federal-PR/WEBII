@@ -50,13 +50,16 @@ class RelatorioController extends Controller {
         $this->dompdf->stream("relatorio-horas-aluno.pdf", array("Attachment" => false));
     }
 
-    public function declaration($total, $id) {
+    public function declaration($aluno_id) {
 
         // Dados do Aluno
-        $aluno = (new AlunoRepository())->findByIdWith(['curso'], $id);
+        $aluno = (new AlunoRepository())->findByIdWith(['curso', 'user'], $aluno_id);
+        
+        // Total de Horas Validadas
+        $total = (new AlunoRepository())->getTotalValidatedHoursByStudent($aluno);
 
         if(isset($aluno)) {
-            if(((int)$total) >= $aluno->curso->total_horas) {
+            if($total >= $aluno->curso->total_horas) {
                 $hoje = date('d/m/Y');
                 $data = (Object)[
                     "nome" => $aluno->nome,
@@ -67,7 +70,7 @@ class RelatorioController extends Controller {
                     "dia" => substr($hoje, 0, 2),
                     "mes" => $this->meses[(int)substr($hoje, 3, 2)],
                     "ano" => substr($hoje, 6, 4),
-                    "hash" => $this->registerDeclaration($id, null),
+                    "hash" => $this->registerDeclaration($aluno_id, null),
                 ];
 
                 // Carrega o HTML da View

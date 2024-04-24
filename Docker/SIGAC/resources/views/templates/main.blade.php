@@ -101,7 +101,7 @@
 								</a> 
 							</li> 
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{ route('validate.list') }}" class="sidebar-link"> 
 									<span class="ms-3">Validar Cadastro</span> 
 								</a> 
 							</li>  
@@ -117,7 +117,7 @@
 						</a> 
 						<ul id="prof" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
-								<a href="#" class="sidebar-link"> 
+								<a href="{{ route('comprovante.index') }}" class="sidebar-link"> 
 									<span class="ms-3">Cadastrar Horas</span> 
 								</a> 
 							</li> 

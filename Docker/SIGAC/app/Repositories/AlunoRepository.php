@@ -13,6 +13,17 @@ class AlunoRepository extends Repository {
         parent::__construct(new Aluno());
     }   
 
+    public function selectAllAdapted($flag, $curso_id, $orm) {
+
+        // user_id -> NULL
+        if($flag) $data = Aluno::whereNotNull('user_id');
+        else $data = Aluno::whereNull('user_id');
+        // ORM
+        if(count($orm) > 0) $data->with($orm);        
+
+        return $data->where('curso_id', $curso_id)->get();
+    }
+
     public function selectAllByTurmas($curso_id) {
 
         $turmas = (new TurmaRepository())->findByColumnWith('curso_id', $curso_id, ['curso']);
@@ -75,8 +86,7 @@ class AlunoRepository extends Repository {
         $data["aluno"] = $aluno->nome;
         $data["curso"] = $aluno->curso->nome;
         $data["turma"] = $aluno->curso->sigla . "-" . $aluno->turma->ano;
-        $data["total"] = (new DocumentoRepository())->getTotalHoursByStudent($aluno->user->id)->total_out + 
-            (new ComprovanteRepository())->getTotalHoursByStudent($aluno->id);
+        $data["total"] = $this->getTotalValidatedHoursByStudent($aluno);
 
         $pedidos = array();
         $cont = 0;
@@ -109,6 +119,13 @@ class AlunoRepository extends Repository {
         $data["lancados"] = $lancados;
 
         return $data;
+    }
+
+    public function getTotalValidatedHoursByStudent($aluno) {
+
+        return  (new DocumentoRepository())->getTotalHoursByStudent($aluno->user->id)->total_out 
+                + 
+                (new ComprovanteRepository())->getTotalHoursByStudent($aluno->id);
     }
 
     public function getFulfillStudentsByClass($turma) {

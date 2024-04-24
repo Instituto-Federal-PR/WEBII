@@ -95,7 +95,7 @@ class AlunoSeeder extends Seeder {
             ],
             [   
                 "nome" => "SAMIRA MALOUF ATA",
-                "cpf" => "00000000009",
+                "cpf" => "00000000010",
                 "email" => "samira.ata@gmail.com", 
                 "password" => Hash::make('123samira123'), 
                 "user_id" => 13,
