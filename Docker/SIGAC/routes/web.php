@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use \Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,99 +27,61 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return view('home');
-})->name('home');
-
-Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
-Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
-Route::resource('/comprovante', 'App\Http\Controllers\ComprovanteController');
-Route::resource('/declaracao', 'App\Http\Controllers\DeclaracaoController');
-Route::resource('/documento', 'App\Http\Controllers\DocumentoController');
-Route::resource('/curso', 'App\Http\Controllers\CursoController');
-Route::resource('/eixo', 'App\Http\Controllers\EixoController');
-Route::resource('/permission', 'App\Http\Controllers\PermissionController');
-Route::resource('/nivel', 'App\Http\Controllers\NivelController');
-Route::resource('/turma', 'App\Http\Controllers\TurmaController');
-Route::resource('/usuario', 'App\Http\Controllers\UserController');
+})->name('home')->middleware(['auth']);
 
 // Registro de Alunos - Site (Visitante)
 Route::get('/site/register', 'App\Http\Controllers\AlunoController@register')->name('site.register');
 Route::post('/site/success', 'App\Http\Controllers\AlunoController@storeRegister')->name('site.submit');
-// Inserção de Coordenador / Professor (Admin / Coordenador)
-Route::get('/users/{role}', 'App\Http\Controllers\UserController@getUsersByRole')->name('users.role');
-Route::get('/users/create/{role_id}', 'App\Http\Controllers\UserController@createUsersByRole')->name('users.role.create');
-// Avaliação das Solicitações de Horas Afins
-Route::get('/assess', 'App\Http\Controllers\DocumentoController@list')->name('assess.list');
-Route::put('/assess/{documento_id}', 'App\Http\Controllers\DocumentoController@finish')->name('assess.finish');
-// Relatórios PDF
-Route::get('/report', 'App\Http\Controllers\RelatorioController@index')->name('report.index');
-Route::get('/report/class/{turma_id}', 'App\Http\Controllers\RelatorioController@reportClass')->name('report.class');
-Route::get('/report/student/{aluno_id}', 'App\Http\Controllers\RelatorioController@reportStudent')->name('report.student');
-Route::get('/report/test', 'App\Http\Controllers\RelatorioController@test')->name('report.test');
-// Relatório Gráfico
-Route::get('/graph/class', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.class');
-Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->name('graph.hour');
-Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
-// Aluno - Gerar Declaração de Cumprimento das Horas Afins
-Route::get('/student/declaration', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
-Route::get('/student/declaration/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
-// Validação dos Cadastros de Novos Alunos
-Route::get('/validate', 'App\Http\Controllers\AlunoController@listValidate')->name('validate.list');
-Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@finishValidate')->name('validate.finish');
 
-
-/*
-    ======================================================================
-    ======== ROTAS - EXEMPLOS DE AULA - NÃO UTILIZADAS NO SISTEMA ========
-    ======================================================================
-
-    Route::get('/simples', function () {
-        return "<h1>Rota Simples</h1>";
-    });
-
-    Route::get('/parametro/{a}', function ($a) {
-        return "<h1>Parâmetro recebido: $a</h1>";
-    });
-
-    Route::get('/parametros/{a}/{b}/{c}', function ($a, $b, $c) {
-        return "<h1>Parâmetros recebidos: $a / $b / $c</h1>";
-    });
-
-    Route::get('/opcionais/{a}/{b}/{c?}', function ($a, $b, $c=0) {
-        return "<h1>Parâmetros recebidos: $a / $b / $c</h1>";
-    });
-
-    Route::get('/regras/{a}/{b}', function ($a, $b) {
-        return "<h1>Parâmetros recebidos: $a / $b</h1>";
-    })->where('a', '[0-9]+')->where('b', '[A-Za-z]+');
-
-    Route::prefix('/agrupamento')->group(function() {
-
-        Route::get('/', function() {
-            return "<h1>Agrupamento: rota raiz</h1>";
-        })->name('agrupamento');
-
-        Route::get('/um', function() {
-            return "<h1>Agrupamento: rota um</h1>";
-        })->name('agrupamento.um');
-
-        Route::get('/dois', function() {
-            return "<h1>Agrupamento: rota dois</h1>";
-        })->name('agrupamento.dois');
-    });
-
-    Route::get('/redirecionar', function () {
-        return redirect()->route('agrupamento');
-    });
-
-    Route::post('/add', function (Request $request) {
-        return "<h1>Requisição POST</h1>";
-    });
-
-    Route::post('/add/car', function (Request $request) {
-        return "<h1>Requisição POST</h1>";
-    });
-
+Route::middleware('auth')->group(function () {
+    // CRUDs
+    Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
+    Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
+    Route::resource('/comprovante', 'App\Http\Controllers\ComprovanteController');
+    Route::resource('/declaracao', 'App\Http\Controllers\DeclaracaoController');
+    Route::resource('/documento', 'App\Http\Controllers\DocumentoController');
+    Route::resource('/curso', 'App\Http\Controllers\CursoController');
     Route::resource('/eixo', 'App\Http\Controllers\EixoController');
+    Route::resource('/permission', 'App\Http\Controllers\PermissionController');
+    Route::resource('/nivel', 'App\Http\Controllers\NivelController');
+    Route::resource('/turma', 'App\Http\Controllers\TurmaController');
+    Route::resource('/usuario', 'App\Http\Controllers\UserController');
+    // Inserção de Coordenador / Professor (Admin / Coordenador)
+    Route::get('/users/{role}', 'App\Http\Controllers\UserController@getUsersByRole')->name('users.role');
+    Route::get('/users/create/{role_id}', 'App\Http\Controllers\UserController@createUsersByRole')->name('users.role.create');
+    // Avaliação das Solicitações de Horas Afins
+    Route::get('/assess', 'App\Http\Controllers\DocumentoController@list')->name('assess.list');
+    Route::put('/assess/{documento_id}', 'App\Http\Controllers\DocumentoController@finish')->name('assess.finish');
+    // Relatórios PDF
+    Route::get('/report', 'App\Http\Controllers\RelatorioController@index')->name('report.index');
+    Route::get('/report/class/{turma_id}', 'App\Http\Controllers\RelatorioController@reportClass')->name('report.class');
+    Route::get('/report/student/{aluno_id}', 'App\Http\Controllers\RelatorioController@reportStudent')->name('report.student');
+    Route::get('/report/test', 'App\Http\Controllers\RelatorioController@test')->name('report.test');
+    // Relatório Gráfico
+    Route::get('/graph/class', 'App\Http\Controllers\GraficoController@graphClass')->name('graph.class');
+    Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->name('graph.hour');
+    Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
+    // Aluno - Gerar Declaração de Cumprimento das Horas Afins
+    Route::get('/student/declaration', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
+    Route::get('/student/declaration/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
+    // Validação dos Cadastros de Novos Alunos
+    Route::get('/validate', 'App\Http\Controllers\AlunoController@listValidate')->name('validate.list');
+    Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@finishValidate')->name('validate.finish');
+});
 
-    ========================================================================
-*/
+// ========================================================================= //
+// ========================================================================= //
+// ========================================================================= //
+// ========================================================================= //
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
