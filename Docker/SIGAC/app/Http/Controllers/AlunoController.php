@@ -8,6 +8,7 @@ use App\Models\Aluno;
 use Illuminate\Http\Request;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\AlunoRepository;
 use App\Repositories\CursoRepository;
@@ -18,9 +19,6 @@ use App\Repositories\ComprovanteRepository;
 class AlunoController extends Controller {
     
     protected $repository;
-    private $curso_id = 2;      //temporário, até implementar autenticação
-    private $user_id = 12;      //temporário, até implementar autenticação
-    private $aluno_id = 9;      //temporário, até implementar autenticação
 
     public function __construct(){
         $this->repository = new AlunoRepository();
@@ -28,7 +26,7 @@ class AlunoController extends Controller {
 
     public function index() {
 
-        $data = $this->repository->selectAllByTurmas($this->curso_id);
+        $data = $this->repository->selectAllByTurmas(Auth::user()->curso_id);
         return view('aluno.index', compact('data'));
     }
 
@@ -185,12 +183,14 @@ class AlunoController extends Controller {
 
     public function listStudentHours() {
 
-        $solicitadas = (new DocumentoRepository())->getTotalHoursByStudent($this->user_id);
-        $lancadas = (new ComprovanteRepository())->getTotalHoursByStudent($this->aluno_id);
-        $necessarias = ((new CursoRepository())->findById($this->curso_id))->total_horas;
+        $aluno_id = ((new AlunoRepository())->findFirstByColumn('user_id', Auth::user()->id))->id;
+
+        $solicitadas = (new DocumentoRepository())->getTotalHoursByStudent(Auth::user()->id);
+        $lancadas = (new ComprovanteRepository())->getTotalHoursByStudent($aluno_id);
+        $necessarias = ((new CursoRepository())->findById(Auth::user()->curso_id))->total_horas;
 
         $data = (Object) [
-            "id" => $this->aluno_id,
+            "id" => $aluno_id,
             "necessario" => $necessarias,
             "solicitado" => $solicitadas->total_in,
             "validado" => $solicitadas->total_out,
@@ -207,7 +207,7 @@ class AlunoController extends Controller {
     }
 
     public function listValidate() {
-        $data = $this->repository->selectAllAdapted(false, $this->curso_id, ['curso', 'turma']);
+        $data = $this->repository->selectAllAdapted(false, Auth::user()->curso_id, ['curso', 'turma']);
         // return $data;
         return view('aluno.validate', compact('data'));
     }

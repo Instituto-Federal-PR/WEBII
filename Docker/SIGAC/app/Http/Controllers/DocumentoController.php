@@ -5,34 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Documento;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\DocumentoRepository;
 
 class DocumentoController extends Controller {
     
     protected $repository;
-    private $user_id = 5;
-    private $curso_id = 2;
     private $path = "documentos/alunos";
-
+    
     public function __construct(){
         $this->repository = new DocumentoRepository();
     }
     
     public function index() {
-        $data = $this->repository->findByColumnWith('user_id', $this->user_id, ['categoria']);
+        $data = $this->repository->findByColumnWith('user_id', Auth::user()->id, ['categoria']);
         return view('documento.index', compact('data'));
     }
 
     public function create() {
-        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         return view('documento.create', compact('categorias'));
     }
 
     public function store(Request $request) {
         
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
-        $objUser = (new UserRepository())->findById($this->user_id);
+        $objUser = (new UserRepository())->findById(Auth::user()->id);
 
         if($request->hasFile('documento') && isset($objCategoria) && isset($objUser)) {
             // Registra a Solicitação
@@ -62,7 +61,7 @@ class DocumentoController extends Controller {
 
     public function show(string $id)
     {
-        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         $data = $this->repository->findByIdWith(['categoria'], $id);
         $data = $this->repository->mapStatus($data);
         
@@ -80,7 +79,7 @@ class DocumentoController extends Controller {
 
     public function edit(string $id) {
 
-        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         $data = $this->repository->findById($id);
 
         // Permite alteração apenas para status solicitado
@@ -147,7 +146,7 @@ class DocumentoController extends Controller {
 
     public function list() {
 
-        $data = $this->repository->getDocumentsToAssess($this->curso_id);
+        $data = $this->repository->getDocumentsToAssess(Auth::user()->curso_id);
         // return $data;
         return view('documento.list', compact(['data']));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Dompdf\Dompdf;
 use App\Models\Declaracao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\AlunoRepository;
 use App\Repositories\DeclaracaoRepository;
@@ -12,7 +13,6 @@ use App\Repositories\DeclaracaoRepository;
 class RelatorioController extends Controller {
     
     private $dompdf;
-    private $curso_id = 2;  //temporário, até implementar autenticação
     private $meses = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     
     public function __construct() {
@@ -22,7 +22,7 @@ class RelatorioController extends Controller {
 
     public function index() {
 
-        $data = (new AlunoRepository())->selectAllByTurmas($this->curso_id);
+        $data = (new AlunoRepository())->selectAllByTurmas(Auth::user()->curso_id);
         return view('relatorio.index', compact(['data']));
     }
 

@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use App\Models\Comprovante;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\AlunoRepository;
 use App\Repositories\CursoRepository;
 use App\Repositories\TurmaRepository;
@@ -15,15 +16,13 @@ use App\Repositories\ComprovanteRepository;
 class ComprovanteController extends Controller {
 
     protected $repository;
-    private $curso_id = 2;      //temporário, até implementar autenticação
-    private $user_id = 2;       //temporário, até implementar autenticação
-
+    
     public function __construct(){
         $this->repository = new ComprovanteRepository();
     }
 
     public function index() {
-        $data = $this->repository->findByColumnWith('user_id', $this->user_id, ['aluno', 'categoria', 'user']);
+        $data = $this->repository->findByColumnWith('user_id', Auth::user()->id, ['aluno', 'categoria', 'user']);
         return view('comprovante.index', compact('data'));
     }
 
@@ -41,7 +40,7 @@ class ComprovanteController extends Controller {
 
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objAluno = (new AlunoRepository())->findById($request->aluno_id);
-        $objUser = (new UserRepository())->findById($this->user_id);
+        $objUser = (new UserRepository())->findById(Auth::user()->id);
         
         if(isset($objCategoria) && isset($objAluno) && isset($objUser)) {
             $obj = new Comprovante();
@@ -72,7 +71,7 @@ class ComprovanteController extends Controller {
         
         $data = $this->repository->findByIdWith(['aluno'], $id);
         $cursos = (new CursoRepository())->selectAll();
-        $categorias = (new CategoriaRepository())->findByColumn('curso_id', $this->curso_id);
+        $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         return view('comprovante.edit', compact(['data', 'cursos', 'categorias']));
     }
 

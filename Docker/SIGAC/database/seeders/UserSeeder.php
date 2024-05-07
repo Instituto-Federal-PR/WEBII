@@ -32,7 +32,7 @@ class UserSeeder extends Seeder {
                 // PROFESSOR
                 "name" => "ORIOSVALDO NASCIMENTO TORRES", 
                 "email" => "oriosvaldo.torres@ifpr.edu.br", 
-                "password" => Hash::make('123admin123'), 
+                "password" => Hash::make('123torres123'), 
                 "role_id" => 3,
                 "curso_id" => 1,
             ],

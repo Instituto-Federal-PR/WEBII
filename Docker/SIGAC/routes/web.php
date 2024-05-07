@@ -69,6 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@finishValidate')->name('validate.finish');
 });
 
+Route::get('/facade/test', function () {
+    return Permissions::test();
+});
+
 // ========================================================================= //
 // ========================================================================= //
 // ========================================================================= //

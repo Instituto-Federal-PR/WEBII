@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\AlunoRepository;
 use App\Repositories\TurmaRepository;
 use App\Repositories\DocumentoRepository;
 
 class GraficoController extends Controller {
 
-    private $curso_id = 2;      //temporário, até implementar autenticação
-
+    private $curso_id;
+    
     public function graphClass() {
 
-        $turmas = (new TurmaRepository())->findByColumn('curso_id', $this->curso_id);
+        $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         
         $data = array();
         $cont = 0;
@@ -28,7 +29,7 @@ class GraficoController extends Controller {
 
     public function graphHour() {
 
-        $turmas = (new TurmaRepository())->findByColumn('curso_id', $this->curso_id);
+        $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         
         $data = array();
         $cont = 0;
