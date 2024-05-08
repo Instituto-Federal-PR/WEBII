@@ -13,6 +13,7 @@ class EixoController extends Controller {
    
     public function __construct(){
        $this->repository = new EixoRepository();
+       $this->authorizeResource(Eixo::class, 'eixo');  
     }
 
     public function index() {

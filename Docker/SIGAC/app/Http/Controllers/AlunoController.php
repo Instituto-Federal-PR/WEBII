@@ -22,6 +22,7 @@ class AlunoController extends Controller {
 
     public function __construct(){
         $this->repository = new AlunoRepository();
+        $this->authorizeResource(Aluno::class, 'aluno');  
     }
 
     public function index() {
@@ -183,6 +184,7 @@ class AlunoController extends Controller {
 
     public function listStudentHours() {
 
+        $this->authorize('listStudentHours');
         $aluno_id = ((new AlunoRepository())->findFirstByColumn('user_id', Auth::user()->id))->id;
 
         $solicitadas = (new DocumentoRepository())->getTotalHoursByStudent(Auth::user()->id);
@@ -206,14 +208,16 @@ class AlunoController extends Controller {
         return json_encode($data);
     }
 
-    public function listValidate() {
+    public function listNewRegisters() {
+        
+        $this->authorize('listNewRegisters');
         $data = $this->repository->selectAllAdapted(false, Auth::user()->curso_id, ['curso', 'turma']);
-        // return $data;
         return view('aluno.validate', compact('data'));
     }
 
-    public function finishValidate(Request $request, $id) {
+    public function validateNewRegisters(Request $request, $id) {
         
+        $this->authorize('validateNewRegisters');
         $aluno = $this->repository->findById($id);
 
         if(isset($aluno)) {
@@ -221,7 +225,7 @@ class AlunoController extends Controller {
             $response = $request->input('status_'.$id);
             $role_id = Role::getRoleId("ALUNO");
             
-            // Accept - create and bid user
+            // Accept - create and bind user
             if($response == 1) {
                 // Create
                 $user = new User();

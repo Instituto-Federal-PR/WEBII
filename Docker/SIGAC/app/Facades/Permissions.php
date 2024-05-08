@@ -9,13 +9,12 @@ class Permissions {
 
         $arr_permissions = Array();
         $perm = (new PermissionRepository())->findByColumnWith('role_id', $user_role, ['resource']);
-        // $perm = Permission::with('resource')->where('role_id', $user_role)->get();
         
         foreach($perm as $item) {
             $arr_permissions[$item->resource->nome] = (boolean) $item->permission;
         }
 
-        dd($arr_permissions);
+        // dd($arr_permissions);
         session(['user_permissions' => $arr_permissions]);
     }
 

@@ -33,25 +33,31 @@
 									<span class="ms-3">Coordenadores</span> 
 								</a> 
 							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{route('curso.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Cursos</span> 
-								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{route('eixo.index')}}" class="sidebar-link">
-									<span class="ms-3">Eixos</span> 
-								</a> 
-							</li>
-							<li class="sidebar-item"> 
-								<a href="{{route('nivel.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Níveis de Ensino</span> 
-								</a> 
-							</li>  
+							@can('viewAny', Curso::class)
+								<li class="sidebar-item"> 
+									<a href="{{route('curso.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Cursos</span> 
+									</a> 
+								</li> 
+							@endcan
+							@can('viewAny', Eixo::class)
+								<li class="sidebar-item"> 
+									<a href="{{route('eixo.index')}}" class="sidebar-link">
+										<span class="ms-3">Eixos</span> 
+									</a> 
+								</li>
+							@endcan
+							@can('viewAny', Nivel::class)
+								<li class="sidebar-item"> 
+									<a href="{{route('nivel.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Níveis de Ensino</span> 
+									</a> 
+								</li>  
+							@endcan
 						</ul> 
 					</li>
 					<!-- MENU COORDENADOR -->
-					<li class="sidebar-item nav-item mb-1"> 
+					<li class="sidebar-item nav-item mb-1">
 						<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#coord" aria-expanded="false" aria-controls="coord"> 
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-workspace" viewBox="0 0 16 16">
 								<path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
@@ -60,11 +66,13 @@
 							<span class="ms-2">Coordenador</span>
 						</a> 
 						<ul id="coord" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
-							<li class="sidebar-item"> 
-								<a href="{{route('aluno.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Alunos</span> 
-								</a> 
-							</li> 
+							@can('viewAny', Aluno::class)
+								<li class="sidebar-item"> 
+									<a href="{{route('aluno.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Alunos</span> 
+									</a> 
+								</li> 
+							@endcan
 							<li class="sidebar-item"> 
 								<a href="{{ route('assess.list') }}" class="sidebar-link"> 
 									<span class="ms-3">Avaliar Horas</span> 
@@ -99,12 +107,14 @@
 								<a href="{{ route('turma.index') }}" class="sidebar-link"> 
 									<span class="ms-3">Turmas</span> 
 								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{ route('validate.list') }}" class="sidebar-link"> 
-									<span class="ms-3">Validar Cadastro</span> 
-								</a> 
-							</li>  
+							</li>
+							@can('listStudentHours') 
+								<li class="sidebar-item"> 
+									<a href="{{ route('validate.list') }}" class="sidebar-link"> 
+										<span class="ms-3">Validar Cadastro</span> 
+									</a> 
+								</li>  
+							@endcan
 						</ul> 
 					</li>
 					<!-- MENU PROFESSOR -->
