@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="{{asset('css/style.css')}}"/> 
 	</head> 
 	<body> 
-		<div class="container-fluid p-0 d-flex h-100"> 
+		<div class="container-fluid p-0 d-flex h-100">
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-success text-white offcanvas-md offcanvas-start" id="sidebar"> 
 				<a href="#" class="navbar-brand" id="itens">
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#FFF" class="bi bi-folder-symlink-fill" viewBox="0 0 16 16">
@@ -21,110 +21,126 @@
 				<ul class="mynav nav nav-pills flex-column mb-auto"> 
 					<!-- MENU ADMINISTRADOR -->
 					<li class="sidebar-item nav-item mb-1"> 
-						<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#admin" aria-expanded="false" aria-controls="admin"> 
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-vcard-fill" viewBox="0 0 16 16">
-								<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm9 1.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5M9 8a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4A.5.5 0 0 0 9 8m1 2.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5m-1 2C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 0 2 13h6.96q.04-.245.04-.5M7 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0"/>
-							</svg>
-							<span class="ms-2">Administrador</span>
-						</a> 
+						@if(Permissions::isAuthorized('administrador'))
+							<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#admin" aria-expanded="false" aria-controls="admin"> 
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-vcard-fill" viewBox="0 0 16 16">
+									<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm9 1.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5M9 8a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4A.5.5 0 0 0 9 8m1 2.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5m-1 2C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 0 2 13h6.96q.04-.245.04-.5M7 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0"/>
+								</svg>
+								<span class="ms-2">Administrador</span>
+							</a> 
+						@endif
 						<ul id="admin" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
 								<a href="{{ route('users.role', 'COORDENADOR') }}" class="sidebar-link"> 
 									<span class="ms-3">Coordenadores</span> 
 								</a> 
 							</li> 
-							@can('viewAny', Curso::class)
-								<li class="sidebar-item"> 
-									<a href="{{route('curso.index')}}" class="sidebar-link"> 
-										<span class="ms-3">Cursos</span> 
-									</a> 
-								</li> 
-							@endcan
-							@can('viewAny', Eixo::class)
+							<li class="sidebar-item"> 
+								<a href="{{route('curso.index')}}" class="sidebar-link"> 
+									<span class="ms-3">Cursos</span> 
+								</a> 
+							</li> 
+							
 								<li class="sidebar-item"> 
 									<a href="{{route('eixo.index')}}" class="sidebar-link">
 										<span class="ms-3">Eixos</span> 
 									</a> 
 								</li>
-							@endcan
-							@can('viewAny', Nivel::class)
-								<li class="sidebar-item"> 
-									<a href="{{route('nivel.index')}}" class="sidebar-link"> 
-										<span class="ms-3">Níveis de Ensino</span> 
-									</a> 
-								</li>  
-							@endcan
+							
+							<li class="sidebar-item"> 
+								<a href="{{route('nivel.index')}}" class="sidebar-link"> 
+									<span class="ms-3">Níveis de Ensino</span> 
+								</a> 
+							</li>  
 						</ul> 
 					</li>
 					<!-- MENU COORDENADOR -->
 					<li class="sidebar-item nav-item mb-1">
-						<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#coord" aria-expanded="false" aria-controls="coord"> 
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-workspace" viewBox="0 0 16 16">
-								<path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
-								<path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.4 5.4 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2z"/>
-							</svg>
-							<span class="ms-2">Coordenador</span>
-						</a> 
+						@if(Permissions::isAuthorized('coordenador'))
+							<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#coord" aria-expanded="false" aria-controls="coord"> 
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-workspace" viewBox="0 0 16 16">
+									<path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+									<path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.4 5.4 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2z"/>
+								</svg>
+								<span class="ms-2">Coordenador</span>
+							</a>
+						@endif
 						<ul id="coord" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
-							@can('viewAny', Aluno::class)
+							@if(Permissions::isAuthorized('coordenador.alunos'))
 								<li class="sidebar-item"> 
 									<a href="{{route('aluno.index')}}" class="sidebar-link"> 
 										<span class="ms-3">Alunos</span> 
 									</a> 
 								</li> 
-							@endcan
-							<li class="sidebar-item"> 
-								<a href="{{ route('assess.list') }}" class="sidebar-link"> 
-									<span class="ms-3">Avaliar Horas</span> 
-								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{route('categoria.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Categorias</span> 
-								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{route('graph.class')}}" class="sidebar-link"> 
-									<span class="ms-3">Gráfico Alunos</span> 
-								</a> 
-							</li>
-							<li class="sidebar-item"> 
-								<a href="{{route('graph.hour')}}" class="sidebar-link"> 
-									<span class="ms-3">Gráfico Horas</span> 
-								</a> 
-							</li>
-							<li class="sidebar-item"> 
-								<a href="{{ route('users.role', 'PROFESSOR') }}" class="sidebar-link"> 
-									<span class="ms-3">Professores</span> 
-								</a> 
-							</li>
-							<li class="sidebar-item"> 
-								<a href="{{route('report.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Relatório Horas</span> 
-								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{ route('turma.index') }}" class="sidebar-link"> 
-									<span class="ms-3">Turmas</span> 
-								</a> 
-							</li>
-							@can('listStudentHours') 
+							@endif
+							@if(Permissions::isAuthorized('coordenador.avaliar'))
+								<li class="sidebar-item"> 
+									<a href="{{ route('assess.list') }}" class="sidebar-link"> 
+										<span class="ms-3">Avaliar Horas</span> 
+									</a> 
+								</li> 
+							@endif
+							@if(Permissions::isAuthorized('coordenador.categorias'))
+								<li class="sidebar-item"> 
+									<a href="{{route('categoria.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Categorias</span> 
+									</a> 
+								</li> 
+							@endif
+							@if(Permissions::isAuthorized('coordenador.graficos.alunos'))
+								<li class="sidebar-item"> 
+									<a href="{{route('graph.class')}}" class="sidebar-link"> 
+										<span class="ms-3">Gráfico Alunos</span> 
+									</a> 
+								</li>
+							@endif
+							@if(Permissions::isAuthorized('coordenador.graficos.horas'))
+								<li class="sidebar-item"> 
+									<a href="{{route('graph.hour')}}" class="sidebar-link"> 
+										<span class="ms-3">Gráfico Horas</span> 
+									</a> 
+								</li>
+							@endif
+							@if(Permissions::isAuthorized('coordenador.professores'))
+								<li class="sidebar-item"> 
+									<a href="{{ route('users.role', 'PROFESSOR') }}" class="sidebar-link"> 
+										<span class="ms-3">Professores</span> 
+									</a> 
+								</li>
+							@endif
+							@if(Permissions::isAuthorized('coordenador.relatorio'))
+								<li class="sidebar-item"> 
+									<a href="{{route('report.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Relatório Horas</span> 
+									</a> 
+								</li> 
+							@endif
+							@if(Permissions::isAuthorized('coordenador.turmas'))
+								<li class="sidebar-item"> 
+									<a href="{{ route('turma.index') }}" class="sidebar-link"> 
+										<span class="ms-3">Turmas</span> 
+									</a> 
+								</li>
+							@endif
+							@if(Permissions::isAuthorized('coordenador.validar'))
 								<li class="sidebar-item"> 
 									<a href="{{ route('validate.list') }}" class="sidebar-link"> 
 										<span class="ms-3">Validar Cadastro</span> 
 									</a> 
 								</li>  
-							@endcan
+							@endif
 						</ul> 
 					</li>
 					<!-- MENU PROFESSOR -->
 					<li class="sidebar-item nav-item mb-1"> 
-						<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#prof" aria-expanded="false" aria-controls="prof"> 
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-								<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
-							</svg>
-							<span class="ms-2">Professor</span>
-						</a> 
+						@if(Permissions::isAuthorized('professor'))
+							<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#prof" aria-expanded="false" aria-controls="prof"> 
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+									<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
+								</svg>
+								<span class="ms-2">Professor</span>
+							</a> 
+						@endif
 						<ul id="prof" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
 							<li class="sidebar-item"> 
 								<a href="{{ route('comprovante.index') }}" class="sidebar-link"> 
@@ -135,23 +151,29 @@
 					</li>
 					<!-- MENU ALUNO -->
 					<li class="sidebar-item nav-item mb-1"> 
-						<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#aluno" aria-expanded="false" aria-controls="aluno"> 
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-people-fill" viewBox="0 0 16 16">
-								<path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
-							</svg>
-							<span class="ms-2">Aluno</span>
-						</a> 
+						@if(Permissions::isAuthorized('aluno'))
+							<a href="#"	class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#aluno" aria-expanded="false" aria-controls="aluno"> 
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-people-fill" viewBox="0 0 16 16">
+									<path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+								</svg>
+								<span class="ms-2">Aluno</span>
+							</a> 
+						@endif
 						<ul id="aluno" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
-							<li class="sidebar-item"> 
-								<a href="{{route('documento.index')}}" class="sidebar-link"> 
-									<span class="ms-3">Solicitar Horas</span> 
-								</a> 
-							</li> 
-							<li class="sidebar-item"> 
-								<a href="{{route('student.listhours')}}" class="sidebar-link"> 
-									<span class="ms-3">Gerar Declaração</span> 
-								</a> 
-							</li> 
+							@if(Permissions::isAuthorized('aluno.solicitar'))
+								<li class="sidebar-item"> 
+									<a href="{{route('documento.index')}}" class="sidebar-link"> 
+										<span class="ms-3">Solicitar Horas</span> 
+									</a> 
+								</li> 
+							@endif
+							@if(Permissions::isAuthorized('aluno.gerar'))
+								<li class="sidebar-item"> 
+									<a href="{{route('student.listhours')}}" class="sidebar-link"> 
+										<span class="ms-3">Gerar Declaração</span> 
+									</a> 
+								</li> 
+							@endif
 						</ul> 
 					</li>
 					<hr>

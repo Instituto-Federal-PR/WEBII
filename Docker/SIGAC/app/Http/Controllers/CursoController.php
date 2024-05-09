@@ -17,6 +17,8 @@ class CursoController extends Controller {
     }
 
     public function index() {
+
+        $this->authorize('hasFullPermission', Curso::class);
         $data = $this->repository->selectAllWith(['eixo', 'nivel']);
         return view('curso.index', compact('data'));
         return $data;
@@ -24,6 +26,7 @@ class CursoController extends Controller {
 
     public function create() {
 
+        $this->authorize('hasFullPermission', Curso::class);
         $eixos = (new EixoRepository())->selectAll();
         $niveis = (new NivelRepository())->selectAll();
         return view('curso.create', compact(['eixos', 'niveis']));
@@ -31,6 +34,7 @@ class CursoController extends Controller {
 
     public function store(Request $request) {
 
+        $this->authorize('hasFullPermission', Curso::class);
         $objEixo = (new EixoRepository())->findById($request->eixo_id);
         $objNivel = (new NivelRepository())->findById($request->nivel_id);
 
@@ -54,6 +58,8 @@ class CursoController extends Controller {
     }
 
     public function show(string $id) {
+        
+        $this->authorize('hasFullPermission', Curso::class);
         $data = $this->repository->findByIdWith(['eixo', 'nivel'], $id);
         if(isset($data))
             return view('curso.show', compact('data'));
@@ -67,6 +73,8 @@ class CursoController extends Controller {
     }   
 
     public function edit(string $id) {
+
+        $this->authorize('hasFullPermission', Curso::class);
         $data = $this->repository->findById($id);
         if(isset($data)) {
             $eixos = (new EixoRepository())->selectAll();
@@ -84,6 +92,7 @@ class CursoController extends Controller {
 
     public function update(Request $request, string $id) {
         
+        $this->authorize('hasFullPermission', Curso::class);
         $obj = $this->repository->findById($id);
         $objEixo = (new EixoRepository())->findById($request->eixo_id);
         $objNivel = (new NivelRepository())->findById($request->nivel_id);
@@ -107,6 +116,8 @@ class CursoController extends Controller {
     }
 
     public function destroy(string $id) {
+        
+        $this->authorize('hasFullPermission', Curso::class);
         if($this->repository->delete($id))  {
             return redirect()->route('curso.index');
         }

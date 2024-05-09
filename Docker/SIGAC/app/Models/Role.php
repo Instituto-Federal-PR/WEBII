@@ -23,4 +23,8 @@ class Role extends Model {
     public static function getRoleId($name) {
         return self::$roles[$name];
     }
+
+    public static function getIdRole($id) {
+        return array_search($id, self::$roles);
+    }
 }

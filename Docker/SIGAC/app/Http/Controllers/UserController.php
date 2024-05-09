@@ -135,6 +135,7 @@ class UserController extends Controller {
 
     public function getUsersByRole($role) {
 
+        $this->authorize('hasFullPermission', User::class);
         $role = mb_strtoupper($role, 'UTF-8');
         $objRole = (new RoleRepository())->findFirstByColumn("nome", $role);
         $data = $this->repository->findByColumn('role_id', $objRole->id);
@@ -146,8 +147,9 @@ class UserController extends Controller {
 
     public function createUsersByRole($role_id) {
 
-        $cursos = (new CursoRepository())->selectAll();
+        $this->authorize('hasFullPermission', User::class);
         $nome = (new RoleRepository())->findById($role_id)->nome;
+        $cursos = (new CursoRepository())->selectAll();
         $roles = (new RoleRepository())->selectAll();
         return view('user.create', compact(['cursos', 'roles', 'role_id', 'nome']));
     }

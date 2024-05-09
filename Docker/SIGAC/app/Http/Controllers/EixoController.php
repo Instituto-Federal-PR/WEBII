@@ -13,20 +13,25 @@ class EixoController extends Controller {
    
     public function __construct(){
        $this->repository = new EixoRepository();
-       $this->authorizeResource(Eixo::class, 'eixo');  
     }
 
     public function index() {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         $data = $this->repository->selectAllWith(['curso']);
         return view('eixo.index')->with('data', $data);
         return $data;
     }
 
     public function create() {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         return view('eixo.create');
     }
 
     public function store(Request $request) {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         $obj = new Eixo();
         $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
         $this->repository->save($obj);
@@ -34,6 +39,8 @@ class EixoController extends Controller {
     }
 
     public function show(string $id) {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         $data = $this->repository->findByIdWith(['curso'], $id);
         if(isset($data)) 
             return view('eixo.show', compact('data'));
@@ -47,6 +54,8 @@ class EixoController extends Controller {
     }   
 
     public function edit(string $id) {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         $data = $this->repository->findById($id);
         if(isset($data))
             return view('eixo.edit', compact('data'));
@@ -60,6 +69,8 @@ class EixoController extends Controller {
     }
 
     public function update(Request $request, string $id) {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         $obj = $this->repository->findById($id);
         if(isset($obj)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
@@ -76,6 +87,8 @@ class EixoController extends Controller {
     }
 
     public function destroy(string $id) {
+
+        $this->authorize('hasFullPermission', Eixo::class);
         if($this->repository->delete($id))  {
             return redirect()->route('eixo.index');
         }

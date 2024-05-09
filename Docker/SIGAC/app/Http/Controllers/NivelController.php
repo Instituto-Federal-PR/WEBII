@@ -15,16 +15,22 @@ class NivelController extends Controller {
     }
 
     public function index() {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         $data = $this->repository->selectAllWith(['curso']);
         return view('nivel.index', compact('data'));
         // return $data;
     }
 
     public function create() {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         return view('nivel.create');
     }
 
     public function store(Request $request) {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         $obj = new Nivel();
         $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
         $this->repository->save($obj);
@@ -32,6 +38,8 @@ class NivelController extends Controller {
     }
 
     public function show(string $id) {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         $data = $this->repository->findByIdWith(['curso'], $id);
         if(isset($data)) 
             return view('nivel.show', compact('data'));
@@ -47,6 +55,7 @@ class NivelController extends Controller {
 
     public function edit(string $id) {
 
+        $this->authorize('hasFullPermission', Nivel::class);
         $data = $this->repository->findById($id);
         if(isset($data))
             return view('nivel.edit', compact('data'));
@@ -60,6 +69,8 @@ class NivelController extends Controller {
     }
 
     public function update(Request $request, string $id) {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         $obj = $this->repository->findById($id);
         if(isset($obj)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
@@ -76,6 +87,8 @@ class NivelController extends Controller {
     }
 
     public function destroy(string $id) {
+
+        $this->authorize('hasFullPermission', Nivel::class);
         if($this->repository->delete($id))  {
             return redirect()->route('nivel.index');
         }
