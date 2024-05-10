@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Policies;
+
 use App\Models\User;
 use App\Facades\Permissions;
-class NivelPolicy {
 
+class ComprovantePolicy {
+    
     public function __construct() {
         
     }
 
     public function hasFullPermission() {
-        return Permissions::isAuthorized('administrador.niveis');
+        return Permissions::isAuthorized('professor.cadastrar');
     }
 }

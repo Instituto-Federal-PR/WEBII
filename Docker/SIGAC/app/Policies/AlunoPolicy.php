@@ -12,4 +12,16 @@ class AlunoPolicy {
     public function hasFullPermission() {
         return Permissions::isAuthorized('coordenador.alunos');
     }
+
+    public function hasListStudentHoursPermission() {
+        return Permissions::isAuthorized('aluno.gerar');
+    }
+
+    public function hasReportPermission() {
+        return Permissions::isAuthorized('coordenador.relatorio');
+    }
+
+    public function hasValidateRegisterPermission() {
+        return Permissions::isAuthorized('coordenador.validar');
+    }
 }

@@ -22,11 +22,11 @@ class AlunoController extends Controller {
 
     public function __construct(){
         $this->repository = new AlunoRepository();
-        $this->authorizeResource(Aluno::class, 'aluno');  
     }
 
     public function index() {
 
+        $this->authorize('hasFullPermission', Aluno::class);
         $data = $this->repository->selectAllByTurmas(Auth::user()->curso_id);
         return view('aluno.index', compact('data'));
     }
@@ -70,6 +70,8 @@ class AlunoController extends Controller {
     }
 
     public function create() {
+
+        $this->authorize('hasFullPermission', Aluno::class);
         $cursos = (new CursoRepository())->selectAll();
         $turmas = (new TurmaRepository())->selectAll();
         return view('aluno.create', compact(['cursos', 'turmas']));
@@ -77,6 +79,7 @@ class AlunoController extends Controller {
 
     public function store(Request $request) {
 
+        $this->authorize('hasFullPermission', Aluno::class);
         // $this->validateRows($request);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
@@ -113,6 +116,8 @@ class AlunoController extends Controller {
     }
 
     public function show(string $id) {
+
+        $this->authorize('hasFullPermission', Aluno::class);
         $data = $this->repository->findByIdWith(['curso', 'turma'], $id);
 
         if(isset($data)) {
@@ -129,6 +134,8 @@ class AlunoController extends Controller {
     }
 
     public function edit(string $id) {
+
+        $this->authorize('hasFullPermission', Aluno::class);
         $cursos = (new CursoRepository())->selectAll();
         $turmas = (new TurmaRepository())->selectAll();
         $data = $this->repository->findById($id);
@@ -147,6 +154,7 @@ class AlunoController extends Controller {
 
     public function update(Request $request, string $id) {
         
+        $this->authorize('hasFullPermission', Aluno::class);
         $obj = $this->repository->findById($id);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
@@ -170,6 +178,7 @@ class AlunoController extends Controller {
 
     public function destroy(string $id){
         
+        $this->authorize('hasFullPermission', Aluno::class);
         if($this->repository->delete($id))  {
             return redirect()->route('aluno.index');;
         }
@@ -184,7 +193,7 @@ class AlunoController extends Controller {
 
     public function listStudentHours() {
 
-        $this->authorize('listStudentHours');
+        $this->authorize('hasListStudentHoursPermission', Aluno::class);
         $aluno_id = ((new AlunoRepository())->findFirstByColumn('user_id', Auth::user()->id))->id;
 
         $solicitadas = (new DocumentoRepository())->getTotalHoursByStudent(Auth::user()->id);
@@ -210,14 +219,14 @@ class AlunoController extends Controller {
 
     public function listNewRegisters() {
         
-        $this->authorize('listNewRegisters');
+        $this->authorize('hasValidateRegisterPermission', Aluno::class);
         $data = $this->repository->selectAllAdapted(false, Auth::user()->curso_id, ['curso', 'turma']);
         return view('aluno.validate', compact('data'));
     }
 
     public function validateNewRegisters(Request $request, $id) {
         
-        $this->authorize('validateNewRegisters');
+        $this->authorize('hasValidateRegisterPermission', Aluno::class);
         $aluno = $this->repository->findById($id);
 
         if(isset($aluno)) {

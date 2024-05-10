@@ -22,12 +22,15 @@ class ComprovanteController extends Controller {
     }
 
     public function index() {
+
+        $this->authorize('hasFullPermission', Comprovante::class);
         $data = $this->repository->findByColumnWith('user_id', Auth::user()->id, ['aluno', 'categoria', 'user']);
         return view('comprovante.index', compact('data'));
     }
 
     public function create() {
         
+        $this->authorize('hasFullPermission', Comprovante::class);
         $cursos = (new CursoRepository())->selectAll();
         $categorias = [];
         $turmas = [];
@@ -38,6 +41,7 @@ class ComprovanteController extends Controller {
 
     public function store(Request $request) {
 
+        $this->authorize('hasFullPermission', Comprovante::class);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objAluno = (new AlunoRepository())->findById($request->aluno_id);
         $objUser = (new UserRepository())->findById(Auth::user()->id);
@@ -62,6 +66,8 @@ class ComprovanteController extends Controller {
     }
 
     public function show(string $id) {
+
+        $this->authorize('hasFullPermission', Comprovante::class);
         $data = $this->repository->findByIdWith(['aluno', 'categoria', 'user'], $id);
         $curso = (new CursoRepository())->findById($data->aluno->curso_id);
         return view('comprovante.show', compact(['data', 'curso']));
@@ -69,6 +75,7 @@ class ComprovanteController extends Controller {
 
     public function edit(string $id) {
         
+        $this->authorize('hasFullPermission', Comprovante::class);
         $data = $this->repository->findByIdWith(['aluno'], $id);
         $cursos = (new CursoRepository())->selectAll();
         $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
@@ -77,6 +84,7 @@ class ComprovanteController extends Controller {
 
     public function update(Request $request, string $id) {
         
+        $this->authorize('hasFullPermission', Comprovante::class);
         $obj = $this->repository->findById($id);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         
@@ -98,6 +106,7 @@ class ComprovanteController extends Controller {
 
     public function destroy(string $id) {
         
+        $this->authorize('hasFullPermission', Comprovante::class);
         if($this->repository->delete($id))  {
             return redirect()->route('comprovante.index');
         }

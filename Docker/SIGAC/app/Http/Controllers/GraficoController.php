@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Turma;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\AlunoRepository;
@@ -14,6 +15,7 @@ class GraficoController extends Controller {
     
     public function graphClass() {
 
+        $this->authorize('hasClassGraphPermission', Turma::class);
         $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         
         $data = array();
@@ -29,6 +31,7 @@ class GraficoController extends Controller {
 
     public function graphHour() {
 
+        $this->authorize('hasHoursGraphPermission', Turma::class);
         $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         
         $data = array();

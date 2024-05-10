@@ -19,17 +19,22 @@ class DocumentoController extends Controller {
     }
     
     public function index() {
+
+        $this->authorize('hasFullPermission', Documento::class);
         $data = $this->repository->findByColumnWith('user_id', Auth::user()->id, ['categoria']);
         return view('documento.index', compact('data'));
     }
 
     public function create() {
+
+        $this->authorize('hasFullPermission', Documento::class);
         $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         return view('documento.create', compact('categorias'));
     }
 
     public function store(Request $request) {
-        
+     
+        $this->authorize('hasFullPermission', Documento::class);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objUser = (new UserRepository())->findById(Auth::user()->id);
 
@@ -59,8 +64,9 @@ class DocumentoController extends Controller {
             ->with('link', "documento.index");
     }
 
-    public function show(string $id)
-    {
+    public function show(string $id) {
+
+        $this->authorize('hasFullPermission', Documento::class);
         $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         $data = $this->repository->findByIdWith(['categoria'], $id);
         $data = $this->repository->mapStatus($data);
@@ -79,6 +85,7 @@ class DocumentoController extends Controller {
 
     public function edit(string $id) {
 
+        $this->authorize('hasFullPermission', Documento::class);
         $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
         $data = $this->repository->findById($id);
 
@@ -98,6 +105,7 @@ class DocumentoController extends Controller {
 
     public function update(Request $request, string $id) {
         
+        $this->authorize('hasFullPermission', Documento::class);
         $obj = $this->repository->findById($id);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         
@@ -127,6 +135,7 @@ class DocumentoController extends Controller {
 
     public function destroy(string $id) {
         
+        $this->authorize('hasFullPermission', Documento::class);
         $data = $this->repository->findById($id);
 
         // Permite a remoção apenas para status solicitado
@@ -146,14 +155,14 @@ class DocumentoController extends Controller {
 
     public function list() {
 
+        $this->authorize('hasAssessPermission', Documento::class);
         $data = $this->repository->getDocumentsToAssess(Auth::user()->curso_id);
-        // return $data;
         return view('documento.list', compact(['data']));
     }
 
     public function finish(Request $request, string $id) {
 
-        // dd($request);
+        $this->authorize('hasAssessPermission', Documento::class);
         $obj = $this->repository->findById($id);
         $horas_out = $request->input('horas_out_'.$id);
 

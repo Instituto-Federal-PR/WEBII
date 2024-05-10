@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Repositories\TurmaRepository;
-use App\Repositories\CursoRepository;
 use App\Models\Turma;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Repositories\CursoRepository;
+use App\Repositories\TurmaRepository;
 
 class TurmaController extends Controller {
     
@@ -16,18 +17,22 @@ class TurmaController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllAdapted();
+
+        $this->authorize('hasFullPermission', Turma::class);
+        $data = $this->repository->selectAllAdapted(Auth::user()->curso_id);
         return view('turma.index', compact('data'));
-        // return $data;    
     }
 
     public function create() {
+
+        $this->authorize('hasFullPermission', Turma::class);
         $cursos = (new CursoRepository())->selectAll();
         return view('turma.create', compact('cursos'));
     }
 
     public function store(Request $request) {
         
+        $this->authorize('hasFullPermission', Turma::class);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         
         if(isset($objCurso)) {
@@ -48,6 +53,7 @@ class TurmaController extends Controller {
 
     public function show(string $id) {
         
+        $this->authorize('hasFullPermission', Turma::class);
         $data = $this->repository->findById($id);
 
         if(isset($data)) {
@@ -65,6 +71,7 @@ class TurmaController extends Controller {
 
     public function edit(string $id) {
 
+        $this->authorize('hasFullPermission', Turma::class);
         $data = $this->repository->findById($id);
 
         if(isset($data)) {
@@ -82,6 +89,7 @@ class TurmaController extends Controller {
 
     public function update(Request $request, string $id) {
 
+        $this->authorize('hasFullPermission', Turma::class);
         $obj = $this->repository->findById($id);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         
@@ -102,6 +110,7 @@ class TurmaController extends Controller {
 
     public function destroy(string $id) {
 
+        $this->authorize('hasFullPermission', Turma::class);
         if($this->repository->delete($id))  {
             return redirect()->route('turma.index');
         }

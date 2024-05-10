@@ -46,7 +46,7 @@
 
             // Opções de Configuração
             options = {
-                title: 'PERCENTUAL DE ALUNOS QUE JÁ CUMPRIRAM AS HORAS AFINS',
+                title: 'PERCENTUAL DE ALUNOS QUE JÁ CUMPRIRAM OU NÃO AS HORAS AFINS',
                 is3D: true
             };
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
+use App\Models\Aluno;
 use App\Models\Declaracao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +23,14 @@ class RelatorioController extends Controller {
 
     public function index() {
 
+        $this->authorize('hasReportPermission', Aluno::class);
         $data = (new AlunoRepository())->selectAllByTurmas(Auth::user()->curso_id);
         return view('relatorio.index', compact(['data']));
     }
 
     public function reportClass($turma_id) {
         
+        $this->authorize('hasReportPermission', Aluno::class);
         $data = (new AlunoRepository())->selectHoursByClass($turma_id);
         
         // Carrega o HTML da View
@@ -40,6 +43,7 @@ class RelatorioController extends Controller {
 
     public function reportStudent($aluno_id) {
         
+        $this->authorize('hasReportPermission', Aluno::class);
         $data = (new AlunoRepository())->selectHoursByStudent($aluno_id);
 
         // Carrega o HTML da View
@@ -52,6 +56,7 @@ class RelatorioController extends Controller {
 
     public function declaration($aluno_id) {
 
+        $this->authorize('hasListStudentHoursPermission', Aluno::class);
         // Dados do Aluno
         $aluno = (new AlunoRepository())->findByIdWith(['curso', 'user'], $aluno_id);
         

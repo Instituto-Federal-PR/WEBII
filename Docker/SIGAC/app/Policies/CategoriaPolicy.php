@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Policies;
+
 use App\Models\User;
 use App\Facades\Permissions;
-class NivelPolicy {
 
+class CategoriaPolicy {
+    
     public function __construct() {
         
     }
 
     public function hasFullPermission() {
-        return Permissions::isAuthorized('administrador.niveis');
+        return Permissions::isAuthorized('coordenador.categorias');
     }
 }

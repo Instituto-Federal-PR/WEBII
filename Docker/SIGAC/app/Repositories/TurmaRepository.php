@@ -11,9 +11,12 @@ class TurmaRepository extends Repository {
         parent::__construct(new Turma());
     }   
 
-    public function selectAllAdapted() {
+    public function selectAllAdapted($curso_id = 0) {
 
-        $turmas = $this->selectAllWith(['curso']);
+        if($curso_id == 0)
+            $turmas = $this->selectAllWith(['curso']);
+        else 
+            $turmas = $this->findByColumnWith('curso_id', $curso_id, ['curso']);
 
         $data = collect();
         $cont = 0;

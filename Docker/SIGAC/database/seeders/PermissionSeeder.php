@@ -28,6 +28,8 @@ class PermissionSeeder extends Seeder
             ["role_id" => 2, "resource_id" => 13, "permission" => true],
             ["role_id" => 2, "resource_id" => 14, "permission" => true],
             ["role_id" => 2, "resource_id" => 15, "permission" => true],
+            ["role_id" => 2, "resource_id" => 16, "permission" => true],
+            ["role_id" => 2, "resource_id" => 17, "permission" => true],
             // PROFESSOR
             ["role_id" => 3, "resource_id" => 16, "permission" => true],
             ["role_id" => 3, "resource_id" => 17, "permission" => true],

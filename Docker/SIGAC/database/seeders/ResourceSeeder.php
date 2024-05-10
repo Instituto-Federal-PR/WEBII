@@ -30,7 +30,7 @@ class ResourceSeeder extends Seeder
             ["nome" => "coordenador.validar"],              // 15
             // MENU PROFESSOR       -----------------------------
             ["nome" => "professor"],                        // 16
-            ["nome" => "professor.cadastar"],               // 17
+            ["nome" => "professor.cadastrar"],              // 17
             // MENU ALUNO           -----------------------------
             ["nome" => "aluno"],                            // 18
             ["nome" => "aluno.solicitar"],                  // 19
