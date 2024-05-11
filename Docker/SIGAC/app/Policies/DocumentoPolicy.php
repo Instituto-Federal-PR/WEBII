@@ -12,8 +12,7 @@ class DocumentoPolicy {
     }
 
     public function hasFullPermission($user) {
-        return true;
-        //return Permissions::isAuthorized('professor.cadastrar');
+        return  Permissions::isAuthorized('aluno.solicitar');
     }
 
     public function hasAssessPermission() {

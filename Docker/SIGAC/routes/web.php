@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/graph/hour', 'App\Http\Controllers\GraficoController@graphHour')->name('graph.hour');
     Route::get('/graph/test', 'App\Http\Controllers\GraficoController@test')->name('graph.test');
     // Aluno - Gerar Declaração de Cumprimento das Horas Afins
-    Route::get('/student/declaratiGerar Declaraçãoon', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
+    Route::get('/student/declaration', 'App\Http\Controllers\AlunoController@listStudentHours')->name('student.listhours');
     Route::get('/student/declaration/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
     // Validação dos Cadastros de Novos Alunos
     Route::get('/validate', 'App\Http\Controllers\AlunoController@listNewRegisters')->name('validate.list');
