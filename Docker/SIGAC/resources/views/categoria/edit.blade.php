@@ -7,7 +7,7 @@
         @method('PUT')
         <x-textbox name="nome" label="Nome" type="text" :value="$data->nome" disabled="false"/>
         <x-textbox name="maximo_horas" label="Máximo de Horas" type="number" :value="$data->maximo_horas" disabled="false"/>
-        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" :select="$data->curso_id"/>
+        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="true" :select="Auth::user()->curso_id"/>
         <div class="row">
             <div class="col text-start">
                 <x-button label="Voltar" type="link" route="categoria.index" color="secondary"/>

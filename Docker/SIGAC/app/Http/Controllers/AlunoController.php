@@ -273,14 +273,12 @@ class AlunoController extends Controller {
             'senha' => 'required|min:6|max:20',
             'curso' => 'required',
             'turma' => 'required',
-            'confirmacao' => 'required|same:senha'
         ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
             "unique" => "Já existe um endereço cadastrado com esse [:attribute]!",
-            "same" => "O campo [:attribute] deve ter o mesmo conteúdo do campo anterior!"
         ];
         
         $request->validate($regras, $msgs);

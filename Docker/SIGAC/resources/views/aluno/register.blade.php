@@ -9,7 +9,6 @@
         <x-textbox name="cpf" label="CPF" type="number" value="null" disabled="false"/>
         <x-textbox name="email" label="E-mail" type="email" value="null" disabled="false"/>
         <x-textbox name="senha" label="Senha" type="password" value="null" disabled="false"/>
-        <x-textbox name="confirmacao" label="Confirmar" type="password" value="null" disabled="false"/>
         <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" select="-1"/>
         <x-selectbox name="turma_id" label="Turma" color="success" :data="$turmas" field="ano" disabled="true" select="-1"/>
         <div class="d-flex justify-content-end">

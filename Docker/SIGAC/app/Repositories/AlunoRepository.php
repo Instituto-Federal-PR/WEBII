@@ -36,7 +36,7 @@ class AlunoRepository extends Repository {
                 "id" => $turma->id,
                 "turma" => $turma->curso->sigla.$turma->ano,
                 "ano" => $turma->ano,
-                "alunos" => $this->findByColumn('turma_id', $turma->id) 
+                "alunos" => $this->findByColumnAdapted('turma_id', $turma->id) 
             ];
             $cont++;
         }
@@ -51,20 +51,22 @@ class AlunoRepository extends Repository {
         $aux = array();
         $cont = 0;
         foreach($alunos as $item) {
+            // Apenas aluno com cadastro já validado pelo Coordenador
+            if($item->user_id != NULL) {
+                // Solicitados pelo aluno
+                $hours = (new DocumentoRepository())->getTotalHoursByStudent($item->user_id);
+                
+                // Lançados pelos professores
+                $total_entry = (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
 
-            // Solicitados pelo aluno
-            $hours = (new DocumentoRepository())->getTotalHoursByStudent($item->user_id);
-            
-            // Lançados pelos professores
-            $total_entry = (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
-
-            $aux[$cont] = (Object) [
-                "nome" => $item->nome,
-                "solicitado" => $this->convertNullToZero($hours->total_in),
-                "validado" => $this->convertNullToZero($hours->total_out),
-                "lancado" => $this->convertNullToZero($total_entry),
-            ];
-            $cont++;
+                $aux[$cont] = (Object) [
+                    "nome" => $item->nome,
+                    "solicitado" => $this->convertNullToZero($hours->total_in),
+                    "validado" => $this->convertNullToZero($hours->total_out),
+                    "lancado" => $this->convertNullToZero($total_entry),
+                ];
+                $cont++;
+            }
         }
         $data = collect();
         $data["turma"] = $turma->curso->sigla . "-" . $turma->ano;
@@ -128,7 +130,7 @@ class AlunoRepository extends Repository {
                 (new ComprovanteRepository())->getTotalHoursByStudent($aluno->id);
     }
 
-    public function getFulfillStudentsByClass($turma) {
+    public function getTotalStudentsByClass($turma) {
 
         $total_horas_curso = ((new CursoRepository())->findById($turma->curso_id))->total_horas;
         $alunos_turma = $this->selectHoursByClass($turma->id);
@@ -154,4 +156,13 @@ class AlunoRepository extends Repository {
     public function sumHoursStudent($aluno_id) {
         return  (new ComprovanteRepository())->getTotalHoursByStudent($aluno_id);
     }
+
+    // CARREGA APENAS ALUNOS QUE JÁ TIVERAM CADASTRO VALIDADO PELO COORDENADOR
+    public function findByColumnAdapted($column, $value) {
+        return Aluno::whereNotNull('user_id')->where($column, $value)->get();
+    } 
+
+    public function findByColumnWithAdapted($column, $value, $orm) {
+        return Aluno::whereNotNull('user_id')->with($orm)->where($column, $value)->get();
+    } 
 }

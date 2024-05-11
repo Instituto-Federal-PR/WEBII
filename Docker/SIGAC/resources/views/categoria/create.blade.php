@@ -6,7 +6,7 @@
         @csrf
         <x-textbox name="nome" label="Nome" type="text" value="null" disabled="false"/>
         <x-textbox name="maximo_horas" label="Máximo de Horas" type="number" value="null" disabled="false"/>
-        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" select="-1"/>
+        <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="true" :select="Auth::user()->curso_id"/>
         <div class="row">
             <div class="col text-start">
                 <x-button label="Voltar" type="link" route="categoria.index" color="secondary"/>

@@ -37,7 +37,7 @@ class GraficoController extends Controller {
         $data = array();
         $cont = 0;
         foreach($turmas as $turma) {
-            $data[$cont] = (new AlunoRepository())->getFulfillStudentsByClass($turma);
+            $data[$cont] = (new AlunoRepository())->getTotalStudentsByClass($turma);
             $cont++;
         }
         
