@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use App\View\Components\{textbox, button, selectbox, datatable};
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -21,5 +22,6 @@ class AppServiceProvider extends ServiceProvider {
         Blade::component('components.tablist', 'tablist');
         Blade::component('components.requestable', 'requestable');
         Blade::component('components.listitem', 'listitem');
+        Paginator::useBootstrap();
     }
 }

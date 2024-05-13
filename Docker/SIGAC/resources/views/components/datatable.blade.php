@@ -18,6 +18,14 @@
             @endif
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            @if($data instanceof \Illuminate\Pagination\AbstractPaginator )
+                {{ $data->links() }}
+            @endif
+        </div>
+    </div>
     <table class="table align-middle caption-top table-striped">
         <thead>
             <tr>
@@ -33,9 +41,13 @@
             </tr>
         </thead>
         <tbody>
-            @if(!is_array($data)) 
+
+            @if($data instanceof \Illuminate\Pagination\AbstractPaginator)
+                @php $data=$data->items(); @endphp
+            @elseif(!is_array($data)) 
                 @php $data=$data->toArray(); @endphp
             @endif
+
             @foreach ($data as $item)
                 <tr>
                     @php $cont=0; @endphp
@@ -124,4 +136,5 @@
         }
     </script>
 </div>
+
 

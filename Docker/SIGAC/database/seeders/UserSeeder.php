@@ -29,6 +29,22 @@ class UserSeeder extends Seeder {
                 "curso_id" => 1,
             ],
             [
+                // COORDENADOR
+                "name" => "ELVIS CANTERI DE ANDRADE", 
+                "email" => "elvis.andrade@ifpr.edu.br", 
+                "password" => Hash::make('123elvis123'), 
+                "role_id" => 2,
+                "curso_id" => 2,
+            ],
+            [
+                // COORDENADOR
+                "name" => "IZABEL CAROLINA CAVALLET", 
+                "email" => "izabel.cavallet@ifpr.edu.br", 
+                "password" => Hash::make('123izabel123'), 
+                "role_id" => 2,
+                "curso_id" => 3,
+            ],
+            [
                 // PROFESSOR
                 "name" => "ORIOSVALDO NASCIMENTO TORRES", 
                 "email" => "oriosvaldo.torres@ifpr.edu.br", 

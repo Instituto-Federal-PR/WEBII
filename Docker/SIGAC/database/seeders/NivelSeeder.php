@@ -16,6 +16,9 @@ class NivelSeeder extends Seeder
         $data = [
             ["nome" => "ENSINO MÉDIO INTEGRADO"],
             ["nome" => "GRADUAÇÃO"],
+            ["nome" => "ESPECIALIZAÇÃO"],
+            ["nome" => "MESTRADO"],
+            ["nome" => "DOUTORADO"],
         ];
         DB::table('niveis')->insert($data);
     }

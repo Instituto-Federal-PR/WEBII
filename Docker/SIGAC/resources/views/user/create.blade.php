@@ -8,7 +8,7 @@
         <x-textbox name="nome" label="Nome" type="text" value="null" disabled="false"/>
         <x-textbox name="email" label="E-mail" type="email" value="null" disabled="false"/>
         <x-textbox name="senha" label="Senha" type="password" value="null" disabled="false"/>
-        @if($nome == "PROFESSOR")
+        @if(strcmp($nome, "PROFESSOR") == 0)
             <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="true" :select="Auth::user()->curso_id"/>
         @else
             <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" select="-1"/>

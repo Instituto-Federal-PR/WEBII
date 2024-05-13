@@ -6,8 +6,10 @@ use App\Models\Comprovante;
 
 class ComprovanteRepository extends Repository { 
 
+    protected $paginate = false;
+
     public function __construct() {
-        parent::__construct(new Comprovante());
+        parent::__construct(new Comprovante(), $this->paginate);
     }
     
     public function getTotalHoursByStudent($aluno_id) {

@@ -8,16 +8,25 @@ use Illuminate\Support\Facades\DB;
 class Repository {
 
     protected $model;
+    protected $paginate;
+    protected $rows = 2;
 
-    protected function __construct(object $model) {
+    protected function __construct(object $model, $bool) {
         $this->model = $model;
+        $this->paginate = $bool;
     }
 
     public function selectAll() {
+        if($this->paginate) 
+            return $this->model->paginate($this->rows);
+
         return $this->model->all();
     }
 
     public function selectAllWith(array $orm) {
+        if($this->paginate) 
+            return $this->model::with($orm)->paginate($this->rows);
+        
         return $this->model::with($orm)->get();
     }
    
@@ -46,10 +55,16 @@ class Repository {
     }
 
     public function findByColumn($column, $value) {
+        if($this->paginate) 
+            return $this->model->where($column, $value)->paginate($this->rows);
+
         return $this->model->where($column, $value)->get();
     }
 
     public function findByColumnWith($column, $value, $orm) {
+        if($this->paginate) 
+            return $this->model::with($orm)->where($column, $value)->paginate($this->rows);
+        
         return $this->model::with($orm)->where($column, $value)->get();
     }
 

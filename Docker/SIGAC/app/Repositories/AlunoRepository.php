@@ -9,8 +9,10 @@ use App\Repositories\DocumentoRepository;
 
 class AlunoRepository extends Repository { 
 
+    protected $paginate = false;
+
     public function __construct() {
-        parent::__construct(new Aluno());
+        parent::__construct(new Aluno(), $this->paginate);
     }   
 
     public function selectAllAdapted($flag, $curso_id, $orm) {

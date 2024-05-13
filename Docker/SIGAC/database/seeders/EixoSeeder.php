@@ -17,6 +17,9 @@ class EixoSeeder extends Seeder
             ["nome" => "INFORMAÇÃO E COMUNICAÇÃO"],
             ["nome" => "RECURSOS NATURAIS"],
             ["nome" => "CIÊNCIAS HUMANAS"],
+            ["nome" => "FÍSICA"],
+            ["nome" => "MECÂNICA"],
+            ["nome" => "LINGUAGENS"],
         ];
         DB::table('eixos')->insert($data);
     }

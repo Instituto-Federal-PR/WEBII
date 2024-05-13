@@ -6,8 +6,10 @@ use App\Models\Declaracao;
 
 class DeclaracaoRepository extends Repository { 
 
+    protected $paginate = false;
+
     public function __construct() {
-        parent::__construct(new Declaracao());
+        parent::__construct(new Declaracao(), $this->paginate);
     }   
 
     public function isExists($aluno_id) {

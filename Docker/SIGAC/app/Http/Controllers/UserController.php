@@ -150,6 +150,7 @@ class UserController extends Controller {
         $this->authorize('hasFullPermission', User::class);
         $nome = (new RoleRepository())->findById($role_id)->nome;
         $cursos = (new CursoRepository())->selectAll();
+        // dd($cursos);
         $roles = (new RoleRepository())->selectAll();
         return view('user.create', compact(['cursos', 'roles', 'role_id', 'nome']));
     }

@@ -7,10 +7,11 @@ use App\Repositories\CategoriaRepository;
 
 class DocumentoRepository extends Repository { 
 
+    protected $paginate = false;
     private $map = [-1 => 'RECUSADO', 0 => 'SOLICITADO', 1 => 'ACEITO' ];
 
     public function __construct() {
-        parent::__construct(new Documento());
+        parent::__construct(new Documento(), $this->paginate);
     }
     
     public function mapStatus($data) {

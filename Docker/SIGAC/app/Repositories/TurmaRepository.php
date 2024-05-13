@@ -7,8 +7,10 @@ use App\Models\Turma;
 
 class TurmaRepository extends Repository { 
 
+    protected $paginate = false;
+
     public function __construct() {
-        parent::__construct(new Turma());
+        parent::__construct(new Turma(), $this->paginate);
     }   
 
     public function selectAllAdapted($curso_id = 0) {
