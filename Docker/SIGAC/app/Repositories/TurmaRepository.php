@@ -7,7 +7,7 @@ use App\Models\Turma;
 
 class TurmaRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $paginate = true;
 
     public function __construct() {
         parent::__construct(new Turma(), $this->paginate);
@@ -20,19 +20,13 @@ class TurmaRepository extends Repository {
         else 
             $turmas = $this->findByColumnWith('curso_id', $curso_id, ['curso']);
 
-        $data = collect();
         $cont = 0;
         foreach($turmas as $turma) {
-            $data[$cont] = [
-                "id" => $turma->id,
-                "turma" => $turma->curso->sigla.$turma->ano,
-                "ano" => $turma->ano,
-                "curso_id" => $turma->curso_id,
-                "curso" => $turma->curso->nome,
-            ];
+            $turmas[$cont]["turma"] = $turma->curso->sigla.$turma->ano;
+            $turmas[$cont]["curso"] = $turma->curso->nome;
             $cont++;
         }   
 
-        return $data;
+        return $turmas;
     }
 }

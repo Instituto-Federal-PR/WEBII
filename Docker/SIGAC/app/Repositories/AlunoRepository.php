@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Aluno;
+use App\Models\Turma;
 use App\Models\Documento;
 use App\Models\Declaracao;
 use App\Repositories\DocumentoRepository;
@@ -23,13 +24,17 @@ class AlunoRepository extends Repository {
         // ORM
         if(count($orm) > 0) $data->with($orm);        
 
+        if($this->paginate)
+            return $data->where('curso_id', $curso_id)->paginate($this->rows);
+
         return $data->where('curso_id', $curso_id)->get();
     }
 
     public function selectAllByTurmas($curso_id) {
 
-        $turmas = (new TurmaRepository())->findByColumnWith('curso_id', $curso_id, ['curso']);
-        
+        // $turmas = (new TurmaRepository())->findByColumnWith('curso_id', $curso_id, ['curso']);
+        $turmas = Turma::with(['curso'])->where('curso_id', $curso_id)->get();
+
         $data = collect();
         $cont = 0;
 
@@ -48,7 +53,7 @@ class AlunoRepository extends Repository {
     public function selectHoursByClass($turma_id) {
 
         $turma = (new TurmaRepository())->findByIdWith(['curso'], $turma_id);
-        $alunos = $this->findByColumnWith('turma_id', $turma_id, ['turma', 'curso']);
+        $alunos = Aluno::with(['turma', 'curso'])->where('turma_id', $turma_id)->get();
 
         $aux = array();
         $cont = 0;
@@ -82,7 +87,8 @@ class AlunoRepository extends Repository {
         // Aluno
         $aluno = $this->findByIdWith(['curso', 'turma', 'user'], $aluno_id);
         // Horas Solicitadas pelo aluno
-        $horas_solicitadas = (new DocumentoRepository())->findByColumnWith('user_id', $aluno->user->id, ['categoria']);
+        // $horas_solicitadas = (new DocumentoRepository())->findByColumnWith('user_id', $aluno->user->id, ['categoria']);
+        $horas_solicitadas = Documento::with(['categoria'])->where('user_id', $aluno->user->id)->get();
         // Horas Lançadas para o aluno
         $horas_lancadas = (new ComprovanteRepository())->getHoursByStudent($aluno->id);
 

@@ -5,10 +5,12 @@
     <form action="{{ route('usuario.update', $data->id) }}" method="POST">
         @csrf
         @method('PUT')
+        <input type="hidden" name="role_id" value="{{$role_id}}"/>
         <x-textbox name="nome" label="Nome" type="text" :value="$data->name" disabled="false"/>
         <x-textbox name="email" label="E-mail" type="email" :value="$data->email" disabled="false"/>
         @if($nome == "PROFESSOR")
-            <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="true" :select="$data->curso_id"/>
+            <x-selectbox name="curso" label="Curso" color="success" :data="$cursos" field="nome" disabled="true" :select="$data->curso_id"/>
+            <input type="hidden" name="curso_id" value="{{Auth::user()->curso_id}}">
         @else
             <x-selectbox name="curso_id" label="Curso" color="success" :data="$cursos" field="nome" disabled="false" :select="$data->curso_id"/>
         @endif

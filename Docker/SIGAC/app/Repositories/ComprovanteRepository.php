@@ -6,7 +6,7 @@ use App\Models\Comprovante;
 
 class ComprovanteRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $paginate = true;
 
     public function __construct() {
         parent::__construct(new Comprovante(), $this->paginate);

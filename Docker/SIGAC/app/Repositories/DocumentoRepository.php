@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Models\Categoria;
 use App\Models\Documento;
 use App\Repositories\CategoriaRepository;
 
 class DocumentoRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $paginate = true;
     private $map = [-1 => 'RECUSADO', 0 => 'SOLICITADO', 1 => 'ACEITO' ];
 
     public function __construct() {
@@ -28,11 +29,18 @@ class DocumentoRepository extends Repository {
     public function getDocumentsToAssess($curso_id) {
 
         $arr = array();
-        $categorias = ((new CategoriaRepository())->findByColumn('curso_id', $curso_id));
+        // $categorias = ((new CategoriaRepository())->findByColumn('curso_id', $curso_id));
+        $categorias = Categoria::where('curso_id', $curso_id)->get();
         foreach($categorias as $c) array_push($arr, $c->id);
         
-        $data = Documento::with(['categoria', 'user'])->whereIn('categoria_id', $arr)
-            ->where('status', 0)->orderBy('created_at')->get();
+        if($this->paginate) {
+            $data = Documento::with(['categoria', 'user'])->whereIn('categoria_id', $arr)
+                ->where('status', 0)->orderBy('created_at')->paginate($this->rows);
+        }
+        else {
+            $data = Documento::with(['categoria', 'user'])->whereIn('categoria_id', $arr)
+                ->where('status', 0)->orderBy('created_at')->get();
+        }
 
         return $data;
     }

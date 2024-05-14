@@ -1,4 +1,11 @@
 <div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            @if($data instanceof \Illuminate\Pagination\AbstractPaginator )
+                {{ $data->links() }}
+            @endif
+        </div>
+    </div>
     
     <table class="table align-middle table-striped">
         <tbody>
@@ -80,7 +87,7 @@
             @endforeach    
         </tbody>
     </table>
-    
+
     <div class="modal fade" tabindex="-1" id="confirmModal">
         <div class="modal-dialog">
             <div class="modal-content">

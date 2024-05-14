@@ -16,7 +16,7 @@ class GraficoController extends Controller {
     public function graphClass() {
 
         $this->authorize('hasClassGraphPermission', Turma::class);
-        $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
+        $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
         
         $data = array();
         $cont = 0;
@@ -32,7 +32,7 @@ class GraficoController extends Controller {
     public function graphHour() {
 
         $this->authorize('hasHoursGraphPermission', Turma::class);
-        $turmas = (new TurmaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
+        $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
         
         $data = array();
         $cont = 0;

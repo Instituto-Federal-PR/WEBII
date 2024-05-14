@@ -66,7 +66,7 @@ class UserController extends Controller {
             ->with('type', "danger")
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
-            ->with('link', "curso.index");
+            ->with('link', "home");
     }
 
     public function edit(string $id) {
@@ -86,7 +86,7 @@ class UserController extends Controller {
             ->with('type', "danger")
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
-            ->with('link', "curso.index");   
+            ->with('link', "home");   
     }
 
     public function update(Request $request, string $id) {
@@ -111,7 +111,7 @@ class UserController extends Controller {
             ->with('type', "danger")
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
-            ->with('link', "curso.index");
+            ->with('link', "home");
     }
 
     public function destroy(string $id) {
