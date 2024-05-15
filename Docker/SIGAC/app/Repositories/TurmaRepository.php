@@ -7,7 +7,7 @@ use App\Models\Turma;
 
 class TurmaRepository extends Repository { 
 
-    protected $rows = 2;
+    protected $rows = 6;
 
     public function __construct() {
         parent::__construct(new Turma());

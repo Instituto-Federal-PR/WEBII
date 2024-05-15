@@ -3,6 +3,13 @@
 @section('conteudo')
 
     @if(count($data) > 0)
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                @if($data instanceof \Illuminate\Pagination\AbstractPaginator )
+                    {{ $data->links() }}
+                @endif
+            </div>
+        </div>
         <table class="table align-middle table-striped">
             <tbody>
                 @foreach ($data as $item)

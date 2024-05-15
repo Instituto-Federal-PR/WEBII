@@ -38,7 +38,7 @@ class UserController extends Controller {
             $obj = new User();
             $obj->name = mb_strtoupper($request->nome, 'UTF-8');
             $obj->email = mb_strtolower($request->email, 'UTF-8');
-            $obj->password = Hash::make($request->password); 
+            $obj->password = Hash::make($request->senha); 
             $obj->curso()->associate($objCurso);
             $obj->role()->associate($objRole);
             $this->repository->save($obj);

@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/declaration/{aluno_id}', 'App\Http\Controllers\RelatorioController@declaration')->name('student.declaration');
     // Validação dos Cadastros de Novos Alunos
     Route::get('/validate', 'App\Http\Controllers\AlunoController@listNewRegisters')->name('validate.list');
-    Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@finishValidate')->name('validate.finish');
+    Route::post('/validate/{aluno_id}', 'App\Http\Controllers\AlunoController@validateNewRegisters')->name('validate.finish');
 });
 
 Route::get('/facade/test', function () {

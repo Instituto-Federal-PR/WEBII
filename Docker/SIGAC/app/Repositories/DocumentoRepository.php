@@ -8,7 +8,7 @@ use App\Repositories\CategoriaRepository;
 
 class DocumentoRepository extends Repository { 
 
-    protected $rows = 2;
+    protected $rows = 6;
     private $map = [-1 => 'RECUSADO', 0 => 'SOLICITADO', 1 => 'ACEITO' ];
 
     public function __construct() {

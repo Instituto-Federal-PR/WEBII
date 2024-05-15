@@ -193,7 +193,7 @@
 							</svg>
 							<span class="ms-2">{{ Auth::user() ? explode(" ", Auth::user()->name)[0] : 'Anônimo'}}</span>
 						</a> 
-						<ul id="user" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 					
+						<ul id="user" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 		
 							<li class="sidebar-item"> 
 								<form method="POST" action="{{ route('logout') }}">
 									@csrf

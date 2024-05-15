@@ -19,6 +19,20 @@ use App\Repositories\ComprovanteRepository;
 class AlunoController extends Controller {
     
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:10|max:200',
+        'cpf' => 'required|min:11|max:11|unique:alunos',
+        'email' => 'required|min:8|max:200|unique:alunos',
+        'senha' => 'required|min:8|max:20',
+        'curso' => 'required',
+        'turma' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe um usuário cadastrado com esse [:attribute]!",
+    ];
 
     public function __construct(){
         $this->repository = new AlunoRepository();
@@ -40,6 +54,7 @@ class AlunoController extends Controller {
 
     public function storeRegister(Request $request) {
         
+        $request->validate($this->rules, $this->messages);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
         
@@ -48,7 +63,7 @@ class AlunoController extends Controller {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->cpf = $request->cpf;
             $obj->email = mb_strtolower($request->email, 'UTF-8');
-            $obj->password = Hash::make($request->password); 
+            $obj->password = Hash::make($request->senha); 
             $obj->curso()->associate($objCurso);
             $obj->turma()->associate($objTurma);
             $this->repository->save($obj);
@@ -80,7 +95,7 @@ class AlunoController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Aluno::class);
-        // $this->validateRows($request);
+
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
         $objRole = (new RoleRepository())->findFirstByColumn('nome', 'ALUNO');
@@ -89,7 +104,7 @@ class AlunoController extends Controller {
             // Create User
             $objUser = new User();
             $objUser->name = mb_strtoupper($request->nome, 'UTF-8');
-            $objUser->email = mb_strtolower($request->email, 'UTF-8');
+            $objUser->email = $request->email;
             $objUser->password = Hash::make($request->password); 
             $objUser->curso()->associate($objCurso);
             $objUser->role()->associate($objRole);
@@ -98,8 +113,8 @@ class AlunoController extends Controller {
             $obj = new Aluno();
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->cpf = $request->cpf;
-            $obj->email = mb_strtolower($request->email, 'UTF-8');
-            $obj->password = Hash::make($request->password); 
+            $obj->email = $request->email;
+            $obj->password = $objUser->password; 
             $obj->curso()->associate($objCurso);
             $obj->turma()->associate($objTurma);
             $obj->user()->associate($objUser);
@@ -247,8 +262,8 @@ class AlunoController extends Controller {
             if($response == 1) {
                 // Create
                 $user = new User();
-                $user->name = mb_strtoupper($aluno->nome, 'UTF-8');
-                $user->email = mb_strtolower($aluno->email, 'UTF-8');
+                $user->name = $aluno->nome;
+                $user->email = $aluno->email;
                 $user->password = $aluno->password; 
                 $user->curso()->associate((new CursoRepository())->findById($aluno->curso_id));
                 $user->role()->associate((new RoleRepository())->findById($role_id));
@@ -271,25 +286,5 @@ class AlunoController extends Controller {
             ->with('titulo', "OPERAÇÃO INVÁLIDA")
             ->with('message', "Não foi possível efetuar o procedimento!")
             ->with('link', "validate.list");        
-    }
-
-    public function validateRows(Request $request) {
-        
-        $regras = [
-            'nome' => 'required|min:10|max:200',
-            'cpf' => 'required|min:11|max:11|unique:alunos',
-            'email' => 'required|min:8|max:200|unique:alunos',
-            'senha' => 'required|min:6|max:20',
-            'curso' => 'required',
-            'turma' => 'required',
-        ];
-        $msgs = [
-            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
-            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "unique" => "Já existe um endereço cadastrado com esse [:attribute]!",
-        ];
-        
-        $request->validate($regras, $msgs);
     }
 }

@@ -30,7 +30,7 @@ class GraficoController extends Controller {
             $cont++;
         }
         
-        //return $data;
+        // return $data;
         return view('grafico.aluno', compact('data'));
     }
 

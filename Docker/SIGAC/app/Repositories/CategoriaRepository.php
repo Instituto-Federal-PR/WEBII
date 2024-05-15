@@ -6,7 +6,7 @@ use App\Models\Categoria;
 
 class CategoriaRepository extends Repository { 
 
-    protected $rows = 2;
+    protected $rows = 6;
 
     public function __construct() {
         parent::__construct(new Categoria());

@@ -49,7 +49,11 @@ class AlunoRepository extends Repository {
                 "id" => $turma->id,
                 "turma" => $turma->curso->sigla.$turma->ano,
                 "ano" => $turma->ano,
-                "alunos" => $this->findByColumnAdapted('turma_id', $turma->id) 
+                "alunos" => $this->findByColumnAdapted(
+                        'turma_id', 
+                        $turma->id, 
+                        (object) ["use" => true, "rows" => $this->rows]
+                ) 
             ];
             $cont++;
         }
@@ -77,6 +81,8 @@ class AlunoRepository extends Repository {
                 $total_entry = (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
 
                 $aux[$cont] = (Object) [
+                    "id" => $item->id,
+                    "user_id" => $item->user_id,
                     "nome" => $item->nome,
                     "solicitado" => $this->convertNullToZero($hours->total_in),
                     "validado" => $this->convertNullToZero($hours->total_out),
@@ -180,7 +186,10 @@ class AlunoRepository extends Repository {
     }
 
     // CARREGA APENAS ALUNOS QUE JÁ TIVERAM CADASTRO VALIDADO PELO COORDENADOR
-    public function findByColumnAdapted($column, $value) {
+    public function findByColumnAdapted($column, $value, $paginate) {
+        if($paginate->use)
+            return Aluno::whereNotNull('user_id')->where($column, $value)->paginate($paginate->rows);
+
         return Aluno::whereNotNull('user_id')->where($column, $value)->get();
     } 
 

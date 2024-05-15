@@ -6,7 +6,7 @@ use App\Models\Resource;
 
 class ResourceRepository extends Repository { 
 
-    protected $rows = 2;
+    protected $rows = 6;
 
     public function __construct() {
         parent::__construct(new Resource());
