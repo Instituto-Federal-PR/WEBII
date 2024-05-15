@@ -19,7 +19,10 @@ class CursoController extends Controller {
     public function index() {
 
         $this->authorize('hasFullPermission', Curso::class);
-        $data = $this->repository->selectAllWith(['eixo', 'nivel']);
+        $data = $this->repository->selectAllWith(
+            ['eixo', 'nivel'], 
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return view('curso.index', compact('data'));
         return $data;
     }
@@ -27,8 +30,8 @@ class CursoController extends Controller {
     public function create() {
 
         $this->authorize('hasFullPermission', Curso::class);
-        $eixos = (new EixoRepository())->selectAll();
-        $niveis = (new NivelRepository())->selectAll();
+        $eixos = (new EixoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+        $niveis = (new NivelRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('curso.create', compact(['eixos', 'niveis']));
     }
 
@@ -77,8 +80,8 @@ class CursoController extends Controller {
         $this->authorize('hasFullPermission', Curso::class);
         $data = $this->repository->findById($id);
         if(isset($data)) {
-            $eixos = (new EixoRepository())->selectAll();
-            $niveis = (new NivelRepository())->selectAll();
+            $eixos = (new EixoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+            $niveis = (new NivelRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             return view('curso.edit', compact(['data', 'eixos', 'niveis']));
         }
 

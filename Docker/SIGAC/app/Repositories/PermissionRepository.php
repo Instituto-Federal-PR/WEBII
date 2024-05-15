@@ -6,9 +6,11 @@ use App\Models\Permission;
 
 class PermissionRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Permission(), $this->paginate);
+        parent::__construct(new Permission());
     }   
+
+    public function getRows() { return $this->rows; }
 }

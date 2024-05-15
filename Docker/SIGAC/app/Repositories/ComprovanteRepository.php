@@ -6,17 +6,24 @@ use App\Models\Comprovante;
 
 class ComprovanteRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Comprovante(), $this->paginate);
+        parent::__construct(new Comprovante());
     }
+
+    public function getRows() { return $this->rows; }
     
     public function getTotalHoursByStudent($aluno_id) {
         return Comprovante::where('aluno_id', $aluno_id)->sum('horas');
     }
 
     public function getHoursByStudent($aluno_id) {
-        return $this->findByColumnWith('aluno_id', $aluno_id, ['categoria', 'user']);
+        return $this->findByColumnWith(
+            'aluno_id', 
+            $aluno_id, 
+            ['categoria', 'user'],
+            (object) ["use" => true, "rows" => $this->rows]
+        );
     }
 }

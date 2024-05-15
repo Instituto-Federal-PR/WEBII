@@ -17,7 +17,10 @@ class PermissionController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['role', 'resource']);
+        $data = $this->repository->selectAllWith(
+            ['role', 'resource'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return $data;
     }
 

@@ -8,12 +8,14 @@ use App\Repositories\CategoriaRepository;
 
 class DocumentoRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
     private $map = [-1 => 'RECUSADO', 0 => 'SOLICITADO', 1 => 'ACEITO' ];
 
     public function __construct() {
-        parent::__construct(new Documento(), $this->paginate);
+        parent::__construct(new Documento());
     }
+
+    public function getRows() { return $this->rows; }
     
     public function mapStatus($data) {
 
@@ -26,14 +28,18 @@ class DocumentoRepository extends Repository {
         return $data;
     }
 
-    public function getDocumentsToAssess($curso_id) {
+    public function getDocumentsToAssess($curso_id, $paginate) {
 
         $arr = array();
-        // $categorias = ((new CategoriaRepository())->findByColumn('curso_id', $curso_id));
-        $categorias = Categoria::where('curso_id', $curso_id)->get();
+        $categorias = (new CategoriaRepository())->findByColumn(
+            'curso_id', 
+            $curso_id,
+            (object) ["use" => false, "rows" => $this->rows]
+        );
+        // $categorias = Categoria::where('curso_id', $curso_id)->get();
         foreach($categorias as $c) array_push($arr, $c->id);
         
-        if($this->paginate) {
+        if($paginate) {
             $data = Documento::with(['categoria', 'user'])->whereIn('categoria_id', $arr)
                 ->where('status', 0)->orderBy('created_at')->paginate($this->rows);
         }
@@ -47,10 +53,15 @@ class DocumentoRepository extends Repository {
 
     public function getTotalHoursByStudent($user_id) {
 
-        return Documento::Where('user_id', $user_id)
+        return (object) [
+            "total_in" => Documento::where('user_id', $user_id)->sum('horas_in'),
+            "total_out" => Documento::where('user_id', $user_id)->sum('horas_out'),
+        ];
+
+        /*return Documento::where('user_id', $user_id)
                 ->selectRaw("SUM(horas_in) as total_in")
                 ->selectRaw("SUM(horas_out) as total_out")
-                ->first();
+                ->first();*/
     }
 
     public function getMapStatus($status) {

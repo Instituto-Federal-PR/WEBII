@@ -8,7 +8,11 @@ class Permissions {
     public static function loadPermissions($user_role) {
 
         $arr_permissions = Array();
-        $perm = (new PermissionRepository())->findByColumnWith('role_id', $user_role, ['resource']);
+        $perm = (new PermissionRepository())->findByColumnWith(
+            'role_id', $user_role, 
+            ['resource'],
+            (object) ["use" => false, "rows" => 0]
+        );
         
         foreach($perm as $item) {
             $arr_permissions[$item->resource->nome] = (boolean) $item->permission;

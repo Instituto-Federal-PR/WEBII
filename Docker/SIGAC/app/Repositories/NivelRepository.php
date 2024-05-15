@@ -6,9 +6,11 @@ use App\Models\Nivel;
 
 class NivelRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Nivel(), $this->paginate);
+        parent::__construct(new Nivel());
     }   
+
+    public function getRows() { return $this->rows; }
 }

@@ -6,9 +6,11 @@ use App\Models\Role;
 
 class RoleRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Role(), $this->paginate);
+        parent::__construct(new Role());
     }   
+
+    public function getRows() { return $this->rows; }
 }

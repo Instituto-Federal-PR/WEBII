@@ -6,9 +6,11 @@ use App\Models\Categoria;
 
 class CategoriaRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Categoria(), $this->paginate);
+        parent::__construct(new Categoria());
     }   
+
+    public function getRows() { return $this->rows; }
 }

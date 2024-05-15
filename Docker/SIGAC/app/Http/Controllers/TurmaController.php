@@ -26,7 +26,7 @@ class TurmaController extends Controller {
     public function create() {
 
         $this->authorize('hasFullPermission', Turma::class);
-        $cursos = (new CursoRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('turma.create', compact('cursos'));
     }
 
@@ -57,7 +57,7 @@ class TurmaController extends Controller {
         $data = $this->repository->findById($id);
 
         if(isset($data)) {
-            $cursos = (new CursoRepository())->selectAll();
+            $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             return view('turma.show', compact(['data', 'cursos']));
         }
 
@@ -75,7 +75,7 @@ class TurmaController extends Controller {
         $data = $this->repository->findById($id);
 
         if(isset($data)) {
-            $cursos = (new CursoRepository())->selectAll();
+            $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             return view('turma.edit', compact(['data', 'cursos']));
         }
 
@@ -124,7 +124,10 @@ class TurmaController extends Controller {
     }
 
     public function getClassesByCourse($value) {
-        $data = $this->repository->findByColumn('curso_id', $value);
+        $data = $this->repository->findByColumn(
+            'curso_id', $value,
+            (object) ["use" => false, "rows" => 0]
+        );
         return json_encode($data);
     }
 }

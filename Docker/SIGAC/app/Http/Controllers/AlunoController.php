@@ -33,8 +33,8 @@ class AlunoController extends Controller {
 
     public function register() {
         
-        $cursos = (new CursoRepository())->selectAll();
-        $turmas = (new TurmaRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+        $turmas = (new TurmaRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('aluno.register', compact(['cursos', 'turmas']));
     }
 
@@ -72,8 +72,8 @@ class AlunoController extends Controller {
     public function create() {
 
         $this->authorize('hasFullPermission', Aluno::class);
-        $cursos = (new CursoRepository())->selectAll();
-        $turmas = (new TurmaRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+        $turmas = (new TurmaRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('aluno.create', compact(['cursos', 'turmas']));
     }
 
@@ -136,8 +136,8 @@ class AlunoController extends Controller {
     public function edit(string $id) {
 
         $this->authorize('hasFullPermission', Aluno::class);
-        $cursos = (new CursoRepository())->selectAll();
-        $turmas = (new TurmaRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+        $turmas = (new TurmaRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         $data = $this->repository->findById($id);
 
         if(isset($cursos) && isset($turmas) && isset($data)) {
@@ -213,14 +213,23 @@ class AlunoController extends Controller {
     }
 
     public function getStudentsByClass($value) {
-        $data = $this->repository->findByColumn('turma_id', $value);
+        $data = $this->repository->findByColumn(
+            'turma_id', 
+            $value, 
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return json_encode($data);
     }
 
     public function listNewRegisters() {
         
         $this->authorize('hasValidateRegisterPermission', Aluno::class);
-        $data = $this->repository->selectAllAdapted(false, Auth::user()->curso_id, ['curso', 'turma']);
+        $data = $this->repository->selectAllAdapted(
+            false, 
+            Auth::user()->curso_id, 
+            ['curso', 'turma'],
+            true
+        );
         return view('aluno.validate', compact('data'));
     }
 

@@ -6,9 +6,11 @@ use App\Models\User;
 
 class UserRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new User(), $this->paginate);
-    }   
+        parent::__construct(new User());
+    }  
+    
+    public function getRows() { return $this->rows; }
 }

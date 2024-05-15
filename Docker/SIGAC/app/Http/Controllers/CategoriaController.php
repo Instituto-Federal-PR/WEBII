@@ -19,14 +19,19 @@ class CategoriaController extends Controller {
     public function index() {
 
         $this->authorize('hasFullPermission', Categoria::class);
-        $data = $this->repository->findByColumnWith('curso_id', Auth::user()->curso_id, ['curso']);
+        $data = $this->repository->findByColumnWith(
+            'curso_id', 
+            Auth::user()->curso_id, 
+            ['curso'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return view('categoria.index', compact('data'));    
     }
 
     public function create() {
 
         $this->authorize('hasFullPermission', Categoria::class);
-        $cursos = (new CursoRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('categoria.create', compact(['cursos']));
     }
 
@@ -55,7 +60,7 @@ class CategoriaController extends Controller {
     public function show(string $id) {
 
         $this->authorize('hasFullPermission', Categoria::class);
-        $cursos = (new CursoRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         $data = $this->repository->findByIdWith(['curso'], $id);
         if(isset($data))
             return view('categoria.show', compact(['data', 'cursos']));
@@ -73,7 +78,7 @@ class CategoriaController extends Controller {
         $this->authorize('hasFullPermission', Categoria::class);
         $data = $this->repository->findById($id);
         if(isset($data)) {
-            $cursos = (new CursoRepository())->selectAll();
+            $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             return view('categoria.edit', compact(['data', 'cursos']));
         }
 
@@ -123,7 +128,11 @@ class CategoriaController extends Controller {
     }
 
     public function getCategoriesByCourse($value) {
-        $data = $this->repository->findByColumn('curso_id', $value);
+        $data = $this->repository->findByColumn(
+            'curso_id', 
+            $value,
+            (object) ["use" => false, "rows" => 0]
+        );
         return json_encode($data);
     }
 }

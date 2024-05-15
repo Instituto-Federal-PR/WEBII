@@ -17,7 +17,10 @@ class NivelController extends Controller {
     public function index() {
 
         $this->authorize('hasFullPermission', Nivel::class);
-        $data = $this->repository->selectAllWith(['curso']);
+        $data = $this->repository->selectAllWith(
+            ['curso'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return view('nivel.index', compact('data'));
         // return $data;
     }

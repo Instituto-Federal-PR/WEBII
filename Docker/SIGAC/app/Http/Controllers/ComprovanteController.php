@@ -24,14 +24,19 @@ class ComprovanteController extends Controller {
     public function index() {
 
         $this->authorize('hasFullPermission', Comprovante::class);
-        $data = $this->repository->findByColumnWith('user_id', Auth::user()->id, ['aluno', 'categoria', 'user']);
+        $data = $this->repository->findByColumnWith(
+            'user_id', 
+            Auth::user()->id, 
+            ['aluno', 'categoria', 'user'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return view('comprovante.index', compact('data'));
     }
 
     public function create() {
         
         $this->authorize('hasFullPermission', Comprovante::class);
-        $cursos = (new CursoRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         $categorias = [];
         $turmas = [];
         $alunos = [];
@@ -77,8 +82,12 @@ class ComprovanteController extends Controller {
         
         $this->authorize('hasFullPermission', Comprovante::class);
         $data = $this->repository->findByIdWith(['aluno'], $id);
-        $cursos = (new CursoRepository())->selectAll();
-        $categorias = (new CategoriaRepository())->findByColumn('curso_id', Auth::user()->curso_id);
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+        $categorias = (new CategoriaRepository())->findByColumn(
+            'curso_id', 
+            Auth::user()->curso_id,
+            (object) ["use" => false, "rows" => 0]
+        );
         return view('comprovante.edit', compact(['data', 'cursos', 'categorias']));
     }
 

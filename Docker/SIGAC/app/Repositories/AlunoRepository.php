@@ -10,13 +10,15 @@ use App\Repositories\DocumentoRepository;
 
 class AlunoRepository extends Repository { 
 
-    protected $paginate = false;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Aluno(), $this->paginate);
+        parent::__construct(new Aluno());
     }   
 
-    public function selectAllAdapted($flag, $curso_id, $orm) {
+    public function getRows() { return $this->rows; }
+
+    public function selectAllAdapted($flag, $curso_id, $orm, $paginate) {
 
         // user_id -> NULL
         if($flag) $data = Aluno::whereNotNull('user_id');
@@ -24,7 +26,7 @@ class AlunoRepository extends Repository {
         // ORM
         if(count($orm) > 0) $data->with($orm);        
 
-        if($this->paginate)
+        if($paginate)
             return $data->where('curso_id', $curso_id)->paginate($this->rows);
 
         return $data->where('curso_id', $curso_id)->get();
@@ -32,8 +34,12 @@ class AlunoRepository extends Repository {
 
     public function selectAllByTurmas($curso_id) {
 
-        // $turmas = (new TurmaRepository())->findByColumnWith('curso_id', $curso_id, ['curso']);
-        $turmas = Turma::with(['curso'])->where('curso_id', $curso_id)->get();
+        $turmas = (new TurmaRepository())->findByColumnWith(
+            'curso_id', 
+            $curso_id, ['curso'],
+            (object) ["use" => false, "rows" => 0]
+        );
+        // $turmas = Turma::with(['curso'])->where('curso_id', $curso_id)->get();
 
         $data = collect();
         $cont = 0;
@@ -53,7 +59,12 @@ class AlunoRepository extends Repository {
     public function selectHoursByClass($turma_id) {
 
         $turma = (new TurmaRepository())->findByIdWith(['curso'], $turma_id);
-        $alunos = Aluno::with(['turma', 'curso'])->where('turma_id', $turma_id)->get();
+        $alunos = $this->findByColumnWith(
+            'turma_id', 
+            $turma_id, 
+            ['turma', 'curso'], 
+            (object) ["use" => false, "rows" => 0]
+        );
 
         $aux = array();
         $cont = 0;
@@ -62,7 +73,6 @@ class AlunoRepository extends Repository {
             if($item->user_id != NULL) {
                 // Solicitados pelo aluno
                 $hours = (new DocumentoRepository())->getTotalHoursByStudent($item->user_id);
-                
                 // Lançados pelos professores
                 $total_entry = (new ComprovanteRepository())->getTotalHoursByStudent($item->id);
 
@@ -87,8 +97,12 @@ class AlunoRepository extends Repository {
         // Aluno
         $aluno = $this->findByIdWith(['curso', 'turma', 'user'], $aluno_id);
         // Horas Solicitadas pelo aluno
-        // $horas_solicitadas = (new DocumentoRepository())->findByColumnWith('user_id', $aluno->user->id, ['categoria']);
-        $horas_solicitadas = Documento::with(['categoria'])->where('user_id', $aluno->user->id)->get();
+        $horas_solicitadas = (new DocumentoRepository())->findByColumnWith(
+            'user_id', 
+            $aluno->user->id, ['categoria'],
+            (object) ["use" => false, "rows" => 0]
+        );
+        // $horas_solicitadas = Documento::with(['categoria'])->where('user_id', $aluno->user->id)->get();
         // Horas Lançadas para o aluno
         $horas_lancadas = (new ComprovanteRepository())->getHoursByStudent($aluno->id);
 

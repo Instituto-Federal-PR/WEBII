@@ -19,7 +19,10 @@ class DeclaracaoController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['aluno', 'comprovante']);
+        $data = $this->repository->selectAllWith(
+            ['aluno', 'comprovante'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return $data;    
     }
 

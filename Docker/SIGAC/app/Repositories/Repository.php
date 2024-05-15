@@ -8,24 +8,21 @@ use Illuminate\Support\Facades\DB;
 class Repository {
 
     protected $model;
-    protected $paginate;
-    protected $rows = 2;
 
-    protected function __construct(object $model, $bool) {
+    protected function __construct(object $model) {
         $this->model = $model;
-        $this->paginate = $bool;
     }
 
-    public function selectAll() {
-        if($this->paginate) 
-            return $this->model->paginate($this->rows);
+    public function selectAll(object $paginate) {
+        if($paginate->use) 
+            return $this->model->paginate($paginate->rows);
 
         return $this->model->all();
     }
 
-    public function selectAllWith(array $orm) {
-        if($this->paginate) 
-            return $this->model::with($orm)->paginate($this->rows);
+    public function selectAllWith(array $orm, object $paginate) {
+        if($paginate->use) 
+            return $this->model::with($orm)->paginate($paginate->rows);
         
         return $this->model::with($orm)->get();
     }
@@ -54,16 +51,16 @@ class Repository {
         return $this->model->find($id)->first();
     }
 
-    public function findByColumn($column, $value) {
-        if($this->paginate) 
-            return $this->model->where($column, $value)->paginate($this->rows);
+    public function findByColumn($column, $value, object $paginate) {
+        if($paginate->use) 
+            return $this->model->where($column, $value)->paginate($paginate->rows);
 
         return $this->model->where($column, $value)->get();
     }
 
-    public function findByColumnWith($column, $value, $orm) {
-        if($this->paginate) 
-            return $this->model::with($orm)->where($column, $value)->paginate($this->rows);
+    public function findByColumnWith($column, $value, $orm, object $paginate) {
+        if($paginate->use) 
+            return $this->model::with($orm)->where($column, $value)->paginate($paginate->rows);
         
         return $this->model::with($orm)->where($column, $value)->get();
     }

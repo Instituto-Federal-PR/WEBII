@@ -16,7 +16,12 @@ class GraficoController extends Controller {
     public function graphClass() {
 
         $this->authorize('hasClassGraphPermission', Turma::class);
-        $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
+        $turmas = (new TurmaRepository())->findByColumn(
+            'curso_id', 
+            Auth::user()->curso_id,
+            (object) ["use" => false, "rows" => 0]
+        );
+        // $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
         
         $data = array();
         $cont = 0;
@@ -25,14 +30,19 @@ class GraficoController extends Controller {
             $cont++;
         }
         
-        // return $data;
+        //return $data;
         return view('grafico.aluno', compact('data'));
     }
 
     public function graphHour() {
 
         $this->authorize('hasHoursGraphPermission', Turma::class);
-        $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
+        $turmas = (new TurmaRepository())->findByColumn(
+            'curso_id', 
+            Auth::user()->curso_id,
+            (object) ["use" => false, "rows" => 0]
+        );
+        // $turmas = Turma::where('curso_id', Auth::user()->curso_id)->get();
         
         $data = array();
         $cont = 0;

@@ -6,9 +6,11 @@ use App\Models\Eixo;
 
 class EixoRepository extends Repository { 
 
-    protected $paginate = true;
+    protected $rows = 2;
 
     public function __construct() {
-        parent::__construct(new Eixo(), $this->paginate);
+        parent::__construct(new Eixo());
     }   
+
+    public function getRows() { return $this->rows; }
 }

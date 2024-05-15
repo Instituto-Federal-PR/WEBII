@@ -18,7 +18,10 @@ class UserController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['role', 'curso']);
+        $data = $this->repository->selectAllWith(
+            ['role', 'curso'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return $data;
     }
 
@@ -55,8 +58,8 @@ class UserController extends Controller {
         $data = $this->repository->findByIdWith(['curso'], $id);
 
         if(isset($data)) {
-            $cursos = (new CursoRepository())->selectAll();
-            $roles = (new RoleRepository())->selectAll();
+            $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+            $roles = (new RoleRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             $nome = (new RoleRepository())->findById($data->role_id)->nome;
             return view('user.show', compact(['data', 'cursos', 'roles', 'nome']));
         } 
@@ -74,8 +77,8 @@ class UserController extends Controller {
         $data = $this->repository->findByIdWith(['curso'], $id);
 
         if(isset($data)) {
-            $cursos = (new CursoRepository())->selectAll();
-            $roles = (new RoleRepository())->selectAll();
+            $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
+            $roles = (new RoleRepository())->selectAll((object) ["use" => false, "rows" => 0]);
             $nome = (new RoleRepository())->findById($data->role_id)->nome;
             $role_id = $data->role_id;
             return view('user.edit', compact(['data', 'cursos', 'roles', 'nome', 'role_id']));
@@ -138,7 +141,11 @@ class UserController extends Controller {
         $this->authorize('hasFullPermission', User::class);
         $role = mb_strtoupper($role, 'UTF-8');
         $objRole = (new RoleRepository())->findFirstByColumn("nome", $role);
-        $data = $this->repository->findByColumn('role_id', $objRole->id);
+        $data = $this->repository->findByColumn(
+            'role_id', 
+            $objRole->id,
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         $route = "users.role.create";
         $id = $objRole->id;
         // return $data;
@@ -149,9 +156,9 @@ class UserController extends Controller {
 
         $this->authorize('hasFullPermission', User::class);
         $nome = (new RoleRepository())->findById($role_id)->nome;
-        $cursos = (new CursoRepository())->selectAll();
+        $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         // dd($cursos);
-        $roles = (new RoleRepository())->selectAll();
+        $roles = (new RoleRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         return view('user.create', compact(['cursos', 'roles', 'role_id', 'nome']));
     }
 }

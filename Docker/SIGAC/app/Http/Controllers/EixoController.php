@@ -18,7 +18,10 @@ class EixoController extends Controller {
     public function index() {
 
         $this->authorize('hasFullPermission', Eixo::class);
-        $data = $this->repository->selectAllWith(['curso']);
+        $data = $this->repository->selectAllWith(
+            ['curso'],
+            (object) ["use" => true, "rows" => $this->repository->getRows()]
+        );
         return view('eixo.index')->with('data', $data);
         return $data;
     }
