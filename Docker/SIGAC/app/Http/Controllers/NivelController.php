@@ -9,6 +9,15 @@ use App\Models\Nivel;
 class NivelController extends Controller {
 
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:5|max:200|unique:niveis',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe um nível de ensino cadastrado com esse [:attribute]!",
+    ];
    
     public function __construct(){
        $this->repository = new NivelRepository();
@@ -34,6 +43,7 @@ class NivelController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Nivel::class);
+        $request->validate($this->rules, $this->messages);
         $obj = new Nivel();
         $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
         $this->repository->save($obj);

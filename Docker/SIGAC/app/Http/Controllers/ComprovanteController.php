@@ -16,6 +16,16 @@ use App\Repositories\ComprovanteRepository;
 class ComprovanteController extends Controller {
 
     protected $repository;
+    private $rules = [
+        'atividade' => 'required|min:5|max:200',
+        'horas' => 'required',
+        'curso_id' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+    ];
     
     public function __construct(){
         $this->repository = new ComprovanteRepository();
@@ -47,6 +57,7 @@ class ComprovanteController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Comprovante::class);
+        $request->validate($this->rules, $this->messages);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objAluno = (new AlunoRepository())->findById($request->aluno_id);
         $objUser = (new UserRepository())->findById(Auth::user()->id);

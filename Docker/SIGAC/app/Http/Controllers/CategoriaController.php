@@ -11,6 +11,16 @@ use App\Models\Categoria;
 class CategoriaController extends Controller {
 
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:5|max:200|unique:categorias',
+        'maximo_horas' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe uma categoria cadastrada com esse [:attribute]!",
+    ];
 
     public function __construct(){
         $this->repository = new CategoriaRepository();
@@ -38,6 +48,7 @@ class CategoriaController extends Controller {
     public function store(Request $request) {
         
         $this->authorize('hasFullPermission', Categoria::class);
+        $request->validate($this->rules, $this->messages);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         
         if(isset($objCurso)) {

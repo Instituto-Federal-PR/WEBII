@@ -24,8 +24,8 @@ class AlunoController extends Controller {
         'cpf' => 'required|min:11|max:11|unique:alunos',
         'email' => 'required|min:8|max:200|unique:alunos',
         'senha' => 'required|min:8|max:20',
-        'curso' => 'required',
-        'turma' => 'required',
+        'curso_id' => 'required',
+        'turma_id' => 'required',
     ];
     private $messages = [
         "required" => "O preenchimento do campo [:attribute] é obrigatório!",
@@ -95,7 +95,7 @@ class AlunoController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Aluno::class);
-
+        $request->validate($this->rules, $this->messages);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
         $objRole = (new RoleRepository())->findFirstByColumn('nome', 'ALUNO');

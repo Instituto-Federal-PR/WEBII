@@ -13,6 +13,17 @@ class DocumentoController extends Controller {
     
     protected $repository;
     private $path = "documentos/alunos";
+    private $rules = [
+        'descricao' => 'required|min:5|max:200',
+        'horas' => 'required',
+        'categoria_id' => 'required',
+        'documento' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+    ];
     
     public function __construct(){
         $this->repository = new DocumentoRepository();
@@ -44,6 +55,7 @@ class DocumentoController extends Controller {
     public function store(Request $request) {
      
         $this->authorize('hasFullPermission', Documento::class);
+        $request->validate($this->rules, $this->messages);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objUser = (new UserRepository())->findById(Auth::user()->id);
 

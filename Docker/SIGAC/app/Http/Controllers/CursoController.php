@@ -11,6 +11,19 @@ use App\Models\Curso;
 class CursoController extends Controller {
 
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:5|max:200|unique:cursos',
+        'sigla' => 'required|min:2|max:8',
+        'horas' => 'required',
+        'eixo_id' => 'required',
+        'nivel_id' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe um curso cadastrado com esse [:attribute]!",
+    ];
    
     public function __construct(){
        $this->repository = new CursoRepository();
@@ -38,6 +51,7 @@ class CursoController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Curso::class);
+        $request->validate($this->rules, $this->messages);
         $objEixo = (new EixoRepository())->findById($request->eixo_id);
         $objNivel = (new NivelRepository())->findById($request->nivel_id);
 

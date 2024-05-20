@@ -8,10 +8,23 @@ use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\CursoRepository;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
     
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:10|max:200',
+        'email' => 'required|min:8|max:200|unique:users',
+        'senha' => 'required|min:8|max:20',
+        'curso_id' => 'required',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe um usuário cadastrado com esse [:attribute]!",
+    ];
 
     public function __construct(){
         $this->repository = new UserRepository();
@@ -31,6 +44,8 @@ class UserController extends Controller {
 
     public function store(Request $request) {
         
+        $this->authorize('hasFullPermission', Auth::user());
+        $request->validate($this->rules, $this->messages);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objRole = (new RoleRepository())->findById($request->role_id);
         
@@ -55,6 +70,7 @@ class UserController extends Controller {
 
     public function show(string $id){
 
+        $this->authorize('hasFullPermission', Auth::user());
         $data = $this->repository->findByIdWith(['curso'], $id);
 
         if(isset($data)) {
@@ -74,6 +90,7 @@ class UserController extends Controller {
 
     public function edit(string $id) {
         
+        $this->authorize('hasFullPermission', Auth::user());
         $data = $this->repository->findByIdWith(['curso'], $id);
 
         if(isset($data)) {
@@ -94,6 +111,7 @@ class UserController extends Controller {
 
     public function update(Request $request, string $id) {
 
+        $this->authorize('hasFullPermission', Auth::user());
         $nome = (new RoleRepository())->findById($this->repository->findById($id)->role_id)->nome;
         $obj = $this->repository->findById($id);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
@@ -119,6 +137,7 @@ class UserController extends Controller {
 
     public function destroy(string $id) {
 
+        $this->authorize('hasFullPermission', Auth::user());
         $nome = (new RoleRepository())->findById($this->repository->findById($id)->role_id)->nome;
         if($this->repository->delete($id))  {
             return redirect()->route('users.role', $nome);
@@ -154,7 +173,7 @@ class UserController extends Controller {
 
     public function createUsersByRole($role_id) {
 
-        $this->authorize('hasFullPermission', User::class);
+        $this->authorize('hasFullPermission', Auth::user());
         $nome = (new RoleRepository())->findById($role_id)->nome;
         $cursos = (new CursoRepository())->selectAll((object) ["use" => false, "rows" => 0]);
         // dd($cursos);

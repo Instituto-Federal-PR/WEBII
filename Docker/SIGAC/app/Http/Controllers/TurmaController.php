@@ -11,6 +11,13 @@ use App\Repositories\TurmaRepository;
 class TurmaController extends Controller {
     
     protected $repository;
+    private $rules = [
+        'ano' => 'required|unique:turmas',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "unique" => "Já existe uma truam cadastrada com esse [:attribute]!",
+    ];
 
     public function __construct(){
         $this->repository = new TurmaRepository();
@@ -33,6 +40,7 @@ class TurmaController extends Controller {
     public function store(Request $request) {
         
         $this->authorize('hasFullPermission', Turma::class);
+        $request->validate($this->rules, $this->messages);
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         
         if(isset($objCurso)) {

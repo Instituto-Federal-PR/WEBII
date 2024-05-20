@@ -10,6 +10,15 @@ use App\Repositories\CursoRepository;
 class EixoController extends Controller {
     
     protected $repository;
+    private $rules = [
+        'nome' => 'required|min:5|max:200|unique:eixos',
+    ];
+    private $messages = [
+        "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        "unique" => "Já existe um eixo cadastrado com esse [:attribute]!",
+    ];
    
     public function __construct(){
        $this->repository = new EixoRepository();
@@ -35,6 +44,7 @@ class EixoController extends Controller {
     public function store(Request $request) {
 
         $this->authorize('hasFullPermission', Eixo::class);
+        $request->validate($this->rules, $this->messages);
         $obj = new Eixo();
         $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
         $this->repository->save($obj);
