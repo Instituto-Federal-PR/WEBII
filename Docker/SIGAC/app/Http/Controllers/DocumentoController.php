@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\HourRegister;
 use App\Models\Documento;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
@@ -55,6 +56,16 @@ class DocumentoController extends Controller {
     public function store(Request $request) {
      
         $this->authorize('hasFullPermission', Documento::class);
+        // Registra o Evento HourRegister
+        event(
+            new HourRegister(
+                Auth::user(),
+                $request->categoria_id,
+                mb_strtoupper($request->descricao, 'UTF-8'),
+                $request->horas,
+            )
+        );
+        
         $request->validate($this->rules, $this->messages);
         $objCategoria = (new CategoriaRepository())->findById($request->categoria_id);
         $objUser = (new UserRepository())->findById(Auth::user()->id);
