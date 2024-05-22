@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StudentRegister;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Aluno;
@@ -55,6 +56,15 @@ class AlunoController extends Controller {
     public function storeRegister(Request $request) {
         
         $request->validate($this->rules, $this->messages);
+        // Registra o Evento StudentRegister
+        event(
+            new StudentRegister(
+                mb_strtoupper($request->nome, 'UTF-8'),
+                $request->curso_id,
+                $request->turma_id,
+            )
+        );
+
         $objCurso = (new CursoRepository())->findById($request->curso_id);
         $objTurma = (new TurmaRepository())->findById($request->turma_id);
         

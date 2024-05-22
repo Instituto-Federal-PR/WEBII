@@ -13,4 +13,9 @@ class UserRepository extends Repository {
     }  
     
     public function getRows() { return $this->rows; }
+
+    public function findUserByRoleAndCourse($role_id, $curso_id) {
+        return User::with(['curso'])->where('role_id', $role_id)
+                    ->where('curso_id', $curso_id)->first();
+    }
 }
