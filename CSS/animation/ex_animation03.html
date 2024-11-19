@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 100px;
+                height: 100px;
+                background-color: black;
+                position: relative;
+                animation-name: cores;
+                animation-duration: 6s;
+            }
+            @keyframes cores {
+                0%   {background-color: black; left:0px; top:0px;}
+                25%  {background-color: gray; left:200px; top:0px;}
+                50%  {background-color: brown; left:200px; top:200px;}
+                75%  {background-color: burlywood; left:0px; top:200px;}
+                100% {background-color: beige; left:0px; top:0px;}
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Animação CSS</h1>
+            <div></div>
+    </body>
+</html>

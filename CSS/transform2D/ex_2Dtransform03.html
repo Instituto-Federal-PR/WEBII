@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                margin-left: 60px;
+                margin-top: 60px;
+                width: 100px;
+                height: 50px;
+                background-color:lightblue;
+                border: 1px solid black;
+            }
+            div.scale {
+                transform: scale(2, 3);
+            }
+            div.scale01 {
+                margin-top: -20px;
+                transform: scale(0.5, 0.5);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Método: <i>scale()</i></h1>
+        <p>Aumentou 2x a largura e 3x a altura do elemento</p>
+        <div class="scale"></div>
+        <p style="margin-top: 70px;">Reduziu a largura e a altura pela metade</p>
+        <div class="scale01"></div>
+    </body>
+</html>

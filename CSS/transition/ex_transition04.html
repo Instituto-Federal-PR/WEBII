@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 100px;
+                height: 100px;
+                background: red;
+                background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+                transition: width 3s;
+                transition-delay: 1s;
+            }
+
+            div:hover {
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Propriedade <i>transition-delay</i></h1>
+        <p>Passe o mouse para verificar o atraso no início do efeito!</p>
+        <div></div>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 120px;
+                height: 120px;
+                background-color: gainsboro;
+                position: relative;
+                animation: movimento 4s linear 1s infinite alternate;
+                /* 
+                    animation-name: movimento;
+                    animation-duration: 4s;
+                    animation-timing-function: linear;
+                    animation-delay: 10s;
+                    animation-iteration-count: infinite;
+                    animation-direction: alternate;
+                */
+            }
+            @keyframes movimento {
+                from {top: 0px; background-color: orange;}
+                to {top: 200px; background-color: salmon;}
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Animação CSS</h1>
+        <div></div>
+    </body>
+</html>

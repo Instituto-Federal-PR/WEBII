@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 100px;
+                height: 100px;
+                border: 10px solid;
+                border-color: gainsboro;
+                background-color: black;
+                animation-name: cores;
+                animation-duration: 4s;
+            }
+            @keyframes cores {
+                from {
+                    background-color: black;
+                    border-color: gainsboro;
+                }
+
+                to {
+                    background-color: gainsboro;
+                    border-color: black;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Animação CSS</h1>
+            <div></div>
+            <p>Ao final da animação, volta ao estilo original.</p>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            a {
+                background-color: blue;
+                color: white;
+                padding: 14px 25px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+            }
+
+            a:hover{
+                background-color: lightblue;
+            }
+            
+            div {
+            	display: none;
+            	background-color: lightgray;
+            	text-align: center;
+                padding: 20px 14px;
+                margin-top: 2px;
+                border: 1px solid;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h1>Display: none / block</h1>
+        <a id= "link" href="#" onclick="showHide(); return false;">Exibir Painel</a>
+        <div id="painel">
+        	<p>Painel com propriedade <i><b>display</b></i> configurada inicialmente com valor <i><b>none</b></i>.</p>
+        	<p>Se você está vendo este painel, sua propriedade <i><b>display</b></i> foi alterada para o valor <i><b>block</b></i>.</p>
+        </div>
+    </a>
+    </body>
+</html>
+
+<script type="text/javascript">
+	function showHide() {
+		const link = document.querySelector('#link')
+		const painel = document.querySelector('#painel')
+		
+		if(painel.style.getPropertyValue('display') == "none") {
+            painel.style.setProperty('display', 'block')
+			link.innerHTML = "Ocultar Painel";
+		}
+		else {
+            painel.style.setProperty('display', 'none')
+            link.innerHTML = "Exibir Painel";
+		}	
+	}
+</script>

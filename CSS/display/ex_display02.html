@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        a {
+            background-color: blue;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            display: block;
+        }
+        a:hover{
+            background-color: lightblue;
+        }
+    </style>
+    <body>
+        <h1>Display "li": inline</h1>
+        <a id="link" href="#" onclick="change(); return false;">Alterar para Inline</a>
+        <ul>
+        	<li>Carlos</li>
+            <li>Maria</li>
+        </ul>
+    </a>
+    </body>
+</html>
+<script type="text/javascript">
+
+	function change() {
+
+        const link = document.querySelector('#link')
+        const all = document.querySelectorAll('li')
+
+        for (let index=0 ; index < all.length; index++) {
+            if(all[index].style.getPropertyValue('display') == "block") {
+                all[index].style.setProperty('display', 'inline')
+                link.innerHTML = "Alterar para Block";
+            }
+            else {
+                all[index].style.setProperty('display', 'block')
+                link.innerHTML = "Alterar para Inline";
+            }
+            
+        }
+    }
+</script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        div {
+            display: inline;
+        }
+        div.card {
+            display: inline-block;
+            border: 1px solid;
+            padding: 5px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        img {
+            width: 240px;
+            height: 180px;
+        }
+        p.format {
+            color: red;
+            text-decoration: underline;
+        }
+        a {
+            background-color: green;
+            color: white;
+            padding: 10px 14px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+            border-radius: 5px;
+        }
+        a:hover{
+            background-color: lightgreen;
+        }
+        
+    </style>
+    <body>
+        <h1>Propriedades - display: none / visibility: hidden</h1>
+        <div class="main">
+            <div class="card" id="none">
+                <p class="format">display: none</p>
+                <img src="https://gileduardo.com.br/ifpr/dw/img/img01.jpg" />
+                <a href="#" onclick="change(0); return false;">Remover</a>
+            </div>
+            <div class="card" id="hidden">
+                <p class="format">visibility:hidden</p>
+                <img src="https://gileduardo.com.br/ifpr/dw/img/img02.jpg" />
+                <a href="#" onclick="change(1); return false;">Esconder</a>
+            </div>
+            <div class="card">
+                <p>Reset</p>
+                <img src="https://gileduardo.com.br/ifpr/dw/img/img03.jpg" />
+                <a href="#" onclick="change(-1); return false;">Reiniciar</a>
+            </div>
+        </div>
+    </a>
+    </body>
+</html>
+<script type="text/javascript">
+
+    function change(flag) {
+
+        const div_none = document.querySelector('#none')
+        const div_reset = document.querySelector('#hidden')
+
+        // Remove
+        if(flag == 0) div_none.style.setProperty('display', 'none')
+        // Esconde
+        else if(flag == 1) div_reset.style.setProperty('visibility', 'hidden')
+        // Reset
+        else {
+            div_none.style.setProperty('display', 'inline-block')
+            div_reset.style.setProperty('visibility', 'visible')
+        } 
+    }
+</script>

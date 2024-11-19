@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                display: inline-block;
+                width: 120px;
+                height: 80px;
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border: 1px solid black;
+                background-color: white;
+            }
+            div.shadow { 
+                /* Sombra Horizontal e Vertical */
+                box-shadow: 10px 10px;
+            }
+            div.shadow01 { 
+                /* Sombra Horizontal, Vertical e Cor */
+                box-shadow: 10px 10px darkorange;
+            }
+            div.shadow02 { 
+                /* Sombra Horizontal, Vertical, Desfoque e Cor */
+                box-shadow: 10px 10px 7px darkorange;
+            }
+            div.shadow03 { 
+                display: block;
+                margin-top: 25px;
+                /* Sombra Horizontal, Vertical, Desfoque, Raio e Cor */
+                box-shadow: 10px 10px 7px 12px darkorange;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="shadow">Sombra</div>
+        <div class="shadow01">Cor</div>
+        <div class="shadow02">Desfoque</div>
+        <div class="shadow03">Raio</div>
+    </body>
+</html>

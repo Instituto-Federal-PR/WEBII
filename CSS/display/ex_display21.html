@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .div1 {
+                float: left;
+                padding: 10px;
+                border: 3px solid #73AD21;
+            }
+
+            .div2 {
+                padding: 10px;
+                border: 3px solid red;
+                clear: none;
+            }
+            a {
+                background-color: green;
+                color: white;
+                padding: 14px 25px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+            }
+            a:hover{
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 id="title">Clear: none</h2>
+        <a href="#" onclick="change(); return false;">Alterar</a>
+        <div class="div1">Div Float</div>
+        <div id="dc" class="div2">Div Clear</div>
+    </body>
+</html>
+
+<script type="text/javascript">
+
+	function change() {
+
+        const t = document.querySelector('#title')
+        const dc = document.querySelector('#dc')
+        
+        if(dc.style.getPropertyValue('clear') == "left") {
+            dc.style.setProperty('clear', 'right')
+			t.innerHTML = "Clear: right";
+		}
+		else if(dc.style.getPropertyValue('clear') == "right") {
+            dc.style.setProperty('clear', 'none')
+			t.innerHTML = "Clear: none";
+		}
+        else if(dc.style.getPropertyValue('clear') == "both") {
+            dc.style.setProperty('clear', 'left')
+			t.innerHTML = "Clear: left";
+		}
+        else {
+            dc.style.setProperty('clear', 'both')
+			t.innerHTML = "Clear: both";
+        }
+	}
+</script>

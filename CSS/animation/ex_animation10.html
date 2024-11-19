@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 120px;
+                height: 120px;
+                background-color: gainsboro;
+                position: relative;
+                animation: movimento 4s;
+                animation-delay: 1s;
+                animation-fill-mode: forwards;
+                /* animation-fill-mode: backwards; */
+                /* animation-fill-mode: both; */
+            }
+            @keyframes movimento {
+                from {top: 0px; background-color: orange;}
+                to {top: 120px; background-color: salmon;}
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Animação CSS</h1>
+        <div></div>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 80px;
+                height: 40px;
+                background-color: gainsboro;
+                font-weight: bold;
+                position: relative;
+                animation: movimento 4s;
+                animation-fill-mode: forwards; /* será explicada a seguir */
+                margin-bottom: 3px;
+            }
+
+            #div1 {animation-timing-function: linear;}
+            #div2 {animation-timing-function: ease;}
+            #div3 {animation-timing-function: ease-in;}
+            #div4 {animation-timing-function: ease-out;}
+            #div5 {animation-timing-function: ease-in-out;}
+
+            @keyframes movimento {
+                from {left: 0px;}
+                to {left: 300px;}
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Animação CSS</h1>
+        <div id="div1">linear</div>
+        <div id="div2">ease</div>
+        <div id="div3">ease-in</div>
+        <div id="div4">ease-out</div>
+        <div id="div5">ease-in-out</div>
+    </body>
+</html>

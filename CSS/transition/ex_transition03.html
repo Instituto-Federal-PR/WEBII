@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            div {
+                width: 100px;
+                height: 100px;
+                background: red;
+                background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+                transition: width 2s;
+            }
+
+            #div1 {transition-timing-function: linear;}
+            #div2 {transition-timing-function: ease;}
+            #div3 {transition-timing-function: ease-in;}
+            #div4 {transition-timing-function: ease-out;}
+            #div5 {transition-timing-function: ease-in-out;}
+
+            div:hover {
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Propriedade <i>transition-timing-function</i></h1>
+        <p>Passe o mouse para verificar as diferentes velocidades!</p>
+        <div id="div1">linear</div><br>
+        <div id="div2">ease</div><br>
+        <div id="div3">ease-in</div><br>
+        <div id="div4">ease-out</div><br>
+        <div id="div5">ease-in-out</div><br>
+    </body>
+</html>

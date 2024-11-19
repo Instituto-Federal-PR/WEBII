@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            img {
+                float: none;
+                width:170px;
+                height:170px;
+                margin-left:15px;
+            }
+            a {
+                background-color: green;
+                color: white;
+                padding: 14px 25px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+            }
+            a:hover{
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 id="title">Float: none</h2>
+        <input id="text" type="text" value="float: none;" disabled>
+        <p>Neste exemplo a imagem flutuará de acordo com a seleção do usuário.</p>
+        <a href="#" onclick="change(); return false;">Alterar</a>
+        <p>
+            <img id="image" src="https://gileduardo.com.br/ifpr/dw/img/img01.jpg" alt="image-float">
+            TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO TEXTO .
+        </p>
+    </body>
+</html>
+
+<script type="text/javascript">
+
+	function change() {
+
+        const t = document.querySelector('#title')
+        const i = document.querySelector('#image')
+        const txt = document.querySelector('#text')
+
+        if(i.style.getPropertyValue('float') == "left") {
+            i.style.setProperty('float', 'right')
+			t.innerHTML = "Float: right";
+            txt.setAttribute('value', 'float: right;')
+            i.setAttribute('src', 'https://gileduardo.com.br/ifpr/dw/img/img02.jpg')
+		}
+		else if(i.style.getPropertyValue('float') == "right") {
+            i.style.setProperty('float', 'none')
+			t.innerHTML = "Float: none";
+            txt.setAttribute('value', 'float: none;')
+            i.setAttribute('src', 'https://gileduardo.com.br/ifpr/dw/img/img01.jpg')
+		}
+        else {
+            i.style.setProperty('float', 'left')
+			t.innerHTML = "Float: left";
+            txt.setAttribute('value', 'float: left;')
+            i.setAttribute('src', 'https://gileduardo.com.br/ifpr/dw/img/img03.jpg')
+        }
+	}
+</script>
